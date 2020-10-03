@@ -1,3 +1,3 @@
 # Lewis & Clark
 
-Un très bon jeu
+Un très bon jeu (c fo sa pu la merd)
