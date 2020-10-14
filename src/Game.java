@@ -11,8 +11,12 @@ public class Game {
         RESSOURCE = new HashMap<>();
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws RessourceOutOfDisponibleException, RessourceNotExisteException {
+        Game game = new Game();
+        game.init();
+    }
 
+    public void init() throws RessourceOutOfDisponibleException, RessourceNotExisteException {
         int nbJoueur;
         List<Joueur> players = new ArrayList<>();
 
@@ -24,10 +28,9 @@ public class Game {
         }while (nbJoueur<1 || nbJoueur>5);
 
         colorChoose(nbJoueur, players);
-
     }
 
-    private static void colorChoose(int nbJoueur, List<Joueur> players) {
+    private void colorChoose(int nbJoueur, List<Joueur> players) throws RessourceOutOfDisponibleException, RessourceNotExisteException {
         Scanner scan = new Scanner(System.in);
 
         List<String> color = new ArrayList<>() {{
@@ -51,11 +54,15 @@ public class Game {
 
             color.remove(equipe);
 
-            players.add(new Joueur(equipe));
+            Joueur joueur = new Joueur(equipe);
+            //TODO A mettre dans le joueur, ==> Revoir les testes ils seront faux. Enfin bref... C'est la merde
+            joueur.addRessource(this.giveRessource(PieceEnum.INDIEN));
+
+            players.add(joueur);
         }
     }
 
-    void init(){
+    void initRessource(){
         List<PieceEnum> indiensOnPlateau = new ArrayList<PieceEnum>();
 
         //Indiens

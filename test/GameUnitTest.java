@@ -9,7 +9,7 @@ public class GameUnitTest {
     @Test
     public void testInitIndienPlateau(){
         Game game = new Game();
-        game.init();
+        game.initRessource();
         List<PieceEnum> pieceEnumInit = new ArrayList<PieceEnum>();
         for (int i = 0; i < 18; i++)
             pieceEnumInit.add(PieceEnum.INDIEN);
@@ -19,7 +19,7 @@ public class GameUnitTest {
     @Test
     public void testInitRessourcesBois(){
         Game game = new Game();
-        game.init();
+        game.initRessource();
         List<PieceEnum> pieceEnumInit = new ArrayList<PieceEnum>();
         for (int i = 0; i < 20; i++)
             pieceEnumInit.add(PieceEnum.BOIS);
@@ -29,7 +29,7 @@ public class GameUnitTest {
     @Test
     public void testInitRessourcesFourrure(){
         Game game = new Game();
-        game.init();
+        game.initRessource();
         List<PieceEnum> pieceEnumInit = new ArrayList<PieceEnum>();
         for (int i = 0; i < 20; i++)
             pieceEnumInit.add(PieceEnum.FOURRURE);
@@ -39,7 +39,7 @@ public class GameUnitTest {
     @Test
     public void testInitRessourcesNourriture(){
         Game game = new Game();
-        game.init();
+        game.initRessource();
         List<PieceEnum> pieceEnumInit = new ArrayList<PieceEnum>();
         for (int i = 0; i < 15; i++)
             pieceEnumInit.add(PieceEnum.NOURRITURE);
@@ -49,7 +49,7 @@ public class GameUnitTest {
     @Test
     public void testInitRessourcesEquipement(){
         Game game = new Game();
-        game.init();
+        game.initRessource();
         List<PieceEnum> pieceEnumInit = new ArrayList<PieceEnum>();
         for (int i = 0; i < 15; i++)
             pieceEnumInit.add(PieceEnum.EQUIPEMENT);

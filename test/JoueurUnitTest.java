@@ -9,7 +9,7 @@ public class JoueurUnitTest {
     @Test
     public void testInvetaireAddBois() throws Exception {
         Game game = new Game();
-        game.init();
+        game.initRessource();
         Joueur joueur = new Joueur();
         joueur.addRessource(game.giveRessource(PieceEnum.BOIS));
 
@@ -27,7 +27,7 @@ public class JoueurUnitTest {
     @Test
     public void testInvetaireAddFourrure() throws Exception {
         Game game = new Game();
-        game.init();
+        game.initRessource();
         Joueur joueur = new Joueur();
         joueur.addRessource(game.giveRessource(PieceEnum.FOURRURE));
 
@@ -45,7 +45,7 @@ public class JoueurUnitTest {
     @Test
     public void testInvetaireAddNourriture() throws Exception {
         Game game = new Game();
-        game.init();
+        game.initRessource();
         Joueur joueur = new Joueur();
         joueur.addRessource(game.giveRessource(PieceEnum.NOURRITURE));
 
@@ -63,7 +63,7 @@ public class JoueurUnitTest {
     @Test
     public void testInvetaireAddEquipement() throws Exception {
         Game game = new Game();
-        game.init();
+        game.initRessource();
         Joueur joueur = new Joueur();
         joueur.addRessource(game.giveRessource(PieceEnum.EQUIPEMENT));
 
@@ -81,7 +81,7 @@ public class JoueurUnitTest {
     @Test
     public void testInvetaireAddIndien() throws Exception {
         Game game = new Game();
-        game.init();
+        game.initRessource();
         Joueur joueur = new Joueur();
         joueur.addRessource(game.giveRessource(PieceEnum.INDIEN));
 
@@ -99,7 +99,7 @@ public class JoueurUnitTest {
     @Test (expected = RessourceOutOfDisponibleException.class)
     public void testInvetaireExeption() throws RessourceOutOfDisponibleException, RessourceNotExisteException {
         Game game = new Game();
-        game.init();
+        game.initRessource();
         Joueur joueur = new Joueur();
         for (int i = 0; i < 19; i++)
             joueur.addRessource(game.giveRessource(PieceEnum.INDIEN));
