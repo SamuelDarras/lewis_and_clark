@@ -18,13 +18,10 @@ public class Game {
 
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("Entrer nb de joueur(s) entre 1 et 5");
-        nbJoueur = scan.nextInt();
-
-        while (nbJoueur<1 || nbJoueur>5){
+        do{
             System.out.println("Entrer nb de joueur(s) entre 1 et 5");
             nbJoueur = scan.nextInt();
-        }
+        }while (nbJoueur<1 || nbJoueur>5);
 
         colorChoose(nbJoueur, players);
 
