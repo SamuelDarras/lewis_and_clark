@@ -42,19 +42,13 @@ public class Game {
         for (int i=0; i< nbJoueur; i++){
             String equipe ="";
 
-            System.out.println("Entrer couleur parmi :");
-            for (String name : color){
-                System.out.print(name+" ");
-            }
-            equipe = scan.nextLine();
-
-            while (!color.contains(equipe)){
+            do{
                 System.out.println("Entrer couleur parmi :");
                 for (String name : color){
                     System.out.print(name+" ");
                 }
                 equipe = scan.nextLine();
-            }
+            }while (!color.contains(equipe));
 
             color.remove(equipe);
 
