@@ -6,6 +6,12 @@ import java.util.Scanner;
 
 public class Game {
 
+    private List<PionEnum> indiensOnPlateau;
+
+    public Game() {
+        this.indiensOnPlateau = new ArrayList<>();
+    }
+
     public static void main(String[] args) {
 
         int nbJoueur;
@@ -58,5 +64,19 @@ public class Game {
 
             players.add(new Joueur(equipe));
         }
+    }
+
+    void init(){
+        //Indiens
+        for (int i = 0; i < 18; i++)
+            indiensOnPlateau.add(PionEnum.INDIEN);
+    }
+
+    public List<PionEnum> getIndiensOnPlateau() {
+        return indiensOnPlateau;
+    }
+
+    public void setIndiensOnPlateau(List<PionEnum> indiensOnPlateau) {
+        this.indiensOnPlateau = indiensOnPlateau;
     }
 }
