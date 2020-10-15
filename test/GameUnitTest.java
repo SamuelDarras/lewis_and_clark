@@ -56,5 +56,4 @@ public class GameUnitTest {
         Assert.assertEquals(pieceEnumInit, Ressource.getEquipementOnPlateau());
     }
 
-
 }
