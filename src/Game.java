@@ -12,7 +12,7 @@ public class Game {
         currentPlayer = players.get(1+rd.nextInt(nbJoueur-1));
     }
 
-    public void init() throws RessourceOutOfDisponibleException, RessourceNotExisteException {
+    public void init() throws Exception{
         Scanner scan = new Scanner(System.in);
 
         do{
