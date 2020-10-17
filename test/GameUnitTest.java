@@ -6,6 +6,7 @@ import java.util.List;
 
 public class GameUnitTest {
 
+
     @Test
     public void testInitIndienPlateau(){
         Game game = new Game();
