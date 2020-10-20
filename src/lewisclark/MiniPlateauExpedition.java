@@ -1,3 +1,5 @@
+package lewisclark;
+
 import java.util.ArrayList;
 import java.util.List;
 import Error.*;

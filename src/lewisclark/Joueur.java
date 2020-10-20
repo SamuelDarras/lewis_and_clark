@@ -1,20 +1,20 @@
+package lewisclark;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-import Error.*;
 
 public class Joueur {
 
     String couleur;
     public MiniPlateauExpedition miniPlateau;
 
-
     public Joueur(){
 
     }
 
-    public Joueur(String equipe) {
-        this.couleur = equipe;
+    public Joueur(String couleur) {
+        this.couleur = couleur;
     }
 
     public static void initJoueur(int nbJoueur, List<Joueur> players) throws Exception{
@@ -42,7 +42,7 @@ public class Joueur {
             color.remove(equipe);
 
             Joueur joueur = new Joueur(equipe);
-            joueur.addMiniPlateauExpedition();
+            joueur.miniPlateau = new MiniPlateauExpedition();
             joueur.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.INDIEN));
             joueur.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.FOURRURE));
             joueur.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.NOURRITURE));
@@ -58,11 +58,6 @@ public class Joueur {
             miniPlateau.addRessourceDansBateau(numBateau, p);
 
     }
-
-    private void addMiniPlateauExpedition() {
-        miniPlateau = new MiniPlateauExpedition();
-    }
-
 
     public void getCouleur(){
         System.out.println(this.couleur);
