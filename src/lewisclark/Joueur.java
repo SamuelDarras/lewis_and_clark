@@ -10,12 +10,16 @@ public class Joueur {
     public MiniPlateauExpedition miniPlateau;
 
     public Joueur() throws Exception {
-        miniPlateau = new MiniPlateauExpedition();
-        miniPlateau.addRessourceDansBateau(0,Ressource.giveRessource(PieceEnum.EQUIPEMENT));
+        this("rouge");
     }
 
-    public Joueur(String couleur) {
+    public Joueur(String couleur) throws Exception {
         this.couleur = couleur;
+        this.miniPlateau = new MiniPlateauExpedition();
+        this.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.INDIEN));
+        this.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.FOURRURE));
+        this.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.NOURRITURE));
+        this.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.EQUIPEMENT));
     }
 
     public static void initJoueur(int nbJoueur, List<Joueur> players) throws Exception{
@@ -43,11 +47,7 @@ public class Joueur {
             color.remove(equipe);
 
             Joueur joueur = new Joueur(equipe);
-            joueur.miniPlateau = new MiniPlateauExpedition();
-            joueur.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.INDIEN));
-            joueur.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.FOURRURE));
-            joueur.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.NOURRITURE));
-            joueur.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.EQUIPEMENT));
+
             players.add(joueur);
         }
     }

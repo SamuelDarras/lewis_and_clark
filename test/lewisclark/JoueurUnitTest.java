@@ -20,7 +20,7 @@ public class JoueurUnitTest {
         Game game = new Game(random);
         Ressource.initRessource();
         Joueur joueur = new Joueur();
-                                                   //joueur.addRessource(Ressource.giveRessource(PieceEnum.BOIS));
+        joueur.miniPlateau.addRessourceDansBateau(1,Ressource.giveRessource(PieceEnum.BOIS));
 
         List<PieceEnum> pieceEnumInit = new ArrayList<PieceEnum>();
         for (int i = 0; i < 19; i++)
@@ -29,8 +29,8 @@ public class JoueurUnitTest {
         List<PieceEnum> inventaire = new ArrayList<>();
         inventaire.add(PieceEnum.BOIS);
 
-        Assert.assertEquals(pieceEnumInit, Ressource.getBoisOnPlateau());
-        //Assert.assertEquals(inventaire, joueur.inventaireJoueur);
+        //Assert.assertEquals(pieceEnumInit, Ressource.getBoisOnPlateau());
+        Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.BOIS));
     }
 
     @Test
@@ -47,8 +47,8 @@ public class JoueurUnitTest {
         List<PieceEnum> inventaire = new ArrayList<>();
         inventaire.add(PieceEnum.FOURRURE);
 
-        Assert.assertEquals(pieceEnumInit, Ressource.getFourrureOnPlateau());
-        //Assert.assertEquals(inventaire, joueur.inventaireJoueur);
+        //Assert.assertEquals(pieceEnumInit, Ressource.getFourrureOnPlateau());
+        Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
     }
 
     @Test
@@ -65,8 +65,8 @@ public class JoueurUnitTest {
         List<PieceEnum> inventaire = new ArrayList<>();
         inventaire.add(PieceEnum.NOURRITURE);
 
-        Assert.assertEquals(pieceEnumInit, Ressource.getNourritureOnPlateau());
-        //Assert.assertEquals(inventaire, joueur.inventaireJoueur);
+        //Assert.assertEquals(pieceEnumInit, Ressource.getNourritureOnPlateau());
+        Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.NOURRITURE));
     }
 
     @Test
@@ -101,8 +101,8 @@ public class JoueurUnitTest {
         List<PieceEnum> inventaire = new ArrayList<>();
         inventaire.add(PieceEnum.INDIEN);
 
-        Assert.assertEquals(pieceEnumInit, Ressource.getIndiensOnPlateau());
-        //Assert.assertEquals(inventaire, joueur.inventaireJoueur);
+        //Assert.assertEquals(pieceEnumInit, Ressource.getIndiensOnPlateau());
+        Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.INDIEN));
     }
 
     @Test (expected = RessourceOutOfDisponibleException.class)

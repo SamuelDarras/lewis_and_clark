@@ -67,7 +67,7 @@ public class GameUnitTest {
     }
     
     @Test
-    public void testLesJoueursJouentAuTourParTourDansLeSensHoraire() {
+    public void testLesJoueursJouentAuTourParTourDansLeSensHoraire() throws Exception {
         Random random = Mockito.mock(Random.class);
         Mockito.when(random.nextInt(Mockito.anyInt())).thenReturn(0);
 
