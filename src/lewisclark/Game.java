@@ -11,7 +11,7 @@ public class Game {
 
     public Game(Random random) {
         players = new ArrayList<>();
-        rd = new Random();
+        rd = random;
     }
 
     public void start() {

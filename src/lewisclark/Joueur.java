@@ -9,8 +9,9 @@ public class Joueur {
     String couleur;
     public MiniPlateauExpedition miniPlateau;
 
-    public Joueur(){
-
+    public Joueur() throws Exception {
+        miniPlateau = new MiniPlateauExpedition();
+        miniPlateau.addRessourceDansBateau(0,Ressource.giveRessource(PieceEnum.EQUIPEMENT));
     }
 
     public Joueur(String couleur) {

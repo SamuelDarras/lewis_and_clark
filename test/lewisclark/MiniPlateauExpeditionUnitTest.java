@@ -49,4 +49,11 @@ public class MiniPlateauExpeditionUnitTest {
         mpe.addRessourceDansBateau(1,PieceEnum.EQUIPEMENT);
         mpe.deplacerRessourceMiniPlateau(1,0,0);
     }
+    
+    @Test
+    public void testCountRessource() throws Exception {
+        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
+        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
+        Assert.assertEquals(2,mpe.countNbRessource(PieceEnum.BOIS));
+    }
 }

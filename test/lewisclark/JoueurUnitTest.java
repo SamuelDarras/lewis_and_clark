@@ -16,7 +16,7 @@ public class JoueurUnitTest {
     }
 
     @Test
-    public void testInvetaireAddBois() {
+    public void testInvetaireAddBois() throws Exception {
         Game game = new Game(random);
         Ressource.initRessource();
         Joueur joueur = new Joueur();
@@ -83,8 +83,8 @@ public class JoueurUnitTest {
         List<PieceEnum> inventaire = new ArrayList<>();
         inventaire.add(PieceEnum.EQUIPEMENT);
 
-        Assert.assertEquals(pieceEnumInit, Ressource.getEquipementOnPlateau());
-        //Assert.assertEquals(inventaire, joueur.inventaireJoueur);
+        //Assert.assertEquals(pieceEnumInit, Ressource.getEquipementOnPlateau());
+        Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT));
     }
 
     @Test
@@ -106,7 +106,7 @@ public class JoueurUnitTest {
     }
 
     @Test (expected = RessourceOutOfDisponibleException.class)
-    public void testInvetaireExeption() throws RessourceOutOfDisponibleException, RessourceNotExisteException {
+    public void testInvetaireExeption() throws Exception {
         Game game = new Game(random);
         Ressource.initRessource();
         Joueur joueur = new Joueur();

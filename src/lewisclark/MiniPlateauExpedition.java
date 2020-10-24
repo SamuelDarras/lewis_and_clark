@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Error.*;
 import jdk.jshell.spi.ExecutionControlProvider;
+import org.jetbrains.annotations.NotNull;
 
 public class MiniPlateauExpedition {
     public static int[] MAX_BATEAU_RES={3,3,5};
@@ -55,5 +56,23 @@ public class MiniPlateauExpedition {
         }
         else
             throw new BateauFullException();
+    }
+
+    /**
+     * La methode retourne le nombre d'une ressource en particulier
+     * @return number = le nombre de ressources
+     */
+    public int countNbRessource(@NotNull PieceEnum pieceEnum){
+        int number = 0;
+        if (pieceEnum == PieceEnum.INDIEN) {
+            for (List<PieceEnum> ressource : bateauInd)
+                for (PieceEnum piece : ressource)
+                    if (piece == pieceEnum) number++;
+        }else {
+            for (List<PieceEnum> ressource : bateauRes)
+                for (PieceEnum piece : ressource)
+                    if (piece == pieceEnum) number++;
+        }
+        return number;
     }
 }
