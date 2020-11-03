@@ -12,6 +12,9 @@ public class Game {
     public Game(Random random) {
         players = new ArrayList<>();
         rd = random;
+        nbJoueur=0;
+        curr_player_idx=0;
+        currentPlayer=null;
     }
 
     public void start() {
@@ -34,6 +37,6 @@ public class Game {
     }
 
     public int getNbJoueur(){
-        return  this.nbJoueur;
+        return this.nbJoueur;
     }
 }
