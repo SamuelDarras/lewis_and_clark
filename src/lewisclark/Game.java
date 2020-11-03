@@ -28,4 +28,12 @@ public class Game {
     public void addPlayer(String couleur) throws Exception {
         players.add(new Joueur(couleur));
     }
+
+    public void setNbJoueur(int nb) {
+        this.nbJoueur = nb;
+    }
+
+    public int getNbJoueur(){
+        return  this.nbJoueur;
+    }
 }
