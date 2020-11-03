@@ -19,28 +19,13 @@ public class Game {
         currentPlayer = players.get(curr_player_idx);
     }
 
-    public void init() throws Exception{
-        Scanner scan = new Scanner(System.in);
-
-        do{
-            System.out.println("Entrer nb de joueur(s) entre 1 et 5");
-            nbJoueur = scan.nextInt();
-        }while (nbJoueur<1 || nbJoueur>5);
-
-        Joueur.initJoueur(nbJoueur, players);
+    public void initGame(String couleur) throws Exception {
+        for (int i = 0; i < nbJoueur; i++){
+            addPlayer(couleur);
+        }
     }
 
-    public void addPlayer(Joueur new_joueur) {
-        players.add(new_joueur);
-    }
-
-    public Joueur getCurrentPlayer(){
-        return currentPlayer;
-    }
-
-    public void nextTurn() {
-        curr_player_idx += 1;
-        curr_player_idx %= players.size();
-        currentPlayer = players.get(curr_player_idx);
+    public void addPlayer(String couleur) throws Exception {
+        players.add(new Joueur(couleur));
     }
 }

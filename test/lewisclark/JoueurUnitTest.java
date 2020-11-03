@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 public class JoueurUnitTest {
-    Random random;
+    /*Random random;
     @Before
     public void setup() {
         random = new Random();
@@ -49,5 +49,5 @@ public class JoueurUnitTest {
         Ressource.initRessource();
         Joueur joueur = new Joueur();
         Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.INDIEN));
-    }
+    }*/
 }
