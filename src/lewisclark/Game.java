@@ -8,6 +8,8 @@ public class Game {
     Joueur currentPlayer;
     Random rd;
     int curr_player_idx;
+    Plateau plateau = new Plateau();
+    Ressource src = new Ressource();
 
     public Game(Random random) {
         players = new ArrayList<>();
@@ -33,10 +35,17 @@ public class Game {
     }
 
     public void setNbJoueur(int nb) {
+
         this.nbJoueur = nb;
     }
 
     public int getNbJoueur(){
         return this.nbJoueur;
+    }
+
+    public void afficheJoueur(){
+        for(Joueur j : players){
+            j.getCouleur();
+        }
     }
 }

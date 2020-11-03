@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class GameUnitTest {
     Random random;
-    @Before
+    /*@Before
     public void setup() {
         random = new Random();
     }
@@ -75,7 +75,7 @@ public class GameUnitTest {
         Joueur j1 = new Joueur("rouge");
         Joueur j2 = new Joueur("bleu");
         Joueur j3 = new Joueur("jaune");
-        /*game.addPlayer(j1);
+        game.addPlayer(j1);
         game.addPlayer(j2);
         game.addPlayer(j3);
 
@@ -84,7 +84,7 @@ public class GameUnitTest {
         game.nextTurn();
         Assert.assertEquals(game.getCurrentPlayer(), j2);
         game.nextTurn();
-        Assert.assertEquals(game.getCurrentPlayer(), j3);*/
-    }
+        Assert.assertEquals(game.getCurrentPlayer(), j3);
+    }*/
 
 }

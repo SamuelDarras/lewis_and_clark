@@ -1,9 +1,5 @@
 package lewisclark;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 public class Joueur {
 
     String couleur;
@@ -27,5 +23,9 @@ public class Joueur {
 
     public void getCouleur(){
         System.out.println(this.couleur);
+    }
+
+    public void print(){
+        System.out.println(couleur);
     }
 }
