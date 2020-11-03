@@ -1,21 +1,43 @@
 package lewisclark;
 
+import Error.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Plateau {
+    Map<PieceEnum, List<Ressource>> ressources = new HashMap<>();
 
-    Ressource ressource = new Ressource();
+    public Plateau() {
+        ressources.put(PieceEnum.INDIEN    , new ArrayList<>());
+        ressources.put(PieceEnum.BOIS      , new ArrayList<>());
+        ressources.put(PieceEnum.FOURRURE  , new ArrayList<>());
+        ressources.put(PieceEnum.EQUIPEMENT, new ArrayList<>());
+        ressources.put(PieceEnum.NOURRITURE, new ArrayList<>());
 
-    public PieceEnum giveRessource(PieceEnum ressource) throws RessourceOutOfDisponibleException, RessourceNotExisteException {
-        PieceEnum tampon = null;
+        for (int i = 0; i < 18; i++) {
+            ressources.get(PieceEnum.INDIEN).add(new Ressource(PieceEnum.INDIEN));
+        }
+        for (int i = 0; i < 20; i++) {
+            ressources.get(PieceEnum.BOIS).add(new Ressource(PieceEnum.BOIS));
+        }
+        for (int i = 0; i < 20; i++) {
+            ressources.get(PieceEnum.FOURRURE).add(new Ressource(PieceEnum.FOURRURE));
+        }
+        for (int i = 0; i < 15; i++) {
+            ressources.get(PieceEnum.NOURRITURE).add(new Ressource(PieceEnum.NOURRITURE));
+        }
+        for (int i = 0; i < 15; i++) {
+            ressources.get(PieceEnum.EQUIPEMENT).add(new Ressource(PieceEnum.EQUIPEMENT));
+        }
+    }
+
+    public Ressource giveRessource(PieceEnum ressource) throws RessourceOutOfDisponibleException {
+        Ressource tampon;
         try{
-            switch (ressource){
-                case BOIS -> tampon = RESSOURCE.get("Bois").remove(0);
-                case INDIEN -> tampon = RESSOURCE.get("Indiens").remove(0);
-                case FOURRURE -> tampon = RESSOURCE.get("Fourrure").remove(0);
-                case EQUIPEMENT -> tampon = RESSOURCE.get("Equipement").remove(0);
-                case NOURRITURE -> tampon = RESSOURCE.get("Nourriture").remove(0);
-                default -> throw new RessourceNotExisteException();
-            }
-
+                tampon = ressources.get(ressource).remove(0);
         }catch (Exception e){
             throw new RessourceOutOfDisponibleException();
         }
