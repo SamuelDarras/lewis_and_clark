@@ -27,7 +27,7 @@ public class MiniPlateauExpeditionUnitTest {
     @Rule
     public ExpectedException ecouteur = ExpectedException.none();
     @Test
-    public void testBateauFullAddRessource() throws Exception{
+    public void testBateauFullAddRessource() throws Exception {
         mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
         mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
         mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));

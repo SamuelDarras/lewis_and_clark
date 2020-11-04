@@ -30,7 +30,7 @@ public class Vue extends Application{
         StackPane root = new StackPane();
 
         Label nbJoueur = new Label("Entrer nombre joueur :");
-        ComboBox<Integer> comboBoxNbJoueur = new ComboBox();
+        ComboBox<Integer> comboBoxNbJoueur = new ComboBox<>();
         comboBoxNbJoueur.getItems().setAll(1,2,3,4,5);
         comboBoxNbJoueur.setValue(1);
         HBox hbNbJoueur = new HBox();
@@ -61,7 +61,7 @@ public class Vue extends Application{
     }
 
     private void setCouleur(Stage stage) {
-        ComboBox<String> comboBoxColor = new ComboBox();
+        ComboBox<String> comboBoxColor = new ComboBox<>();
         comboBoxColor.getItems().setAll("rouge","jaune","bleu","vert","violet");
         comboBoxColor.setValue(comboBoxColor.getItems().get(0));
         StackPane root = new StackPane();
@@ -150,7 +150,8 @@ public class Vue extends Application{
     }
 
     private void couleurJoueur(String text) throws Exception {
-        this.game.addPlayer(text);
+        Joueur joueur = new Joueur(text, game.getPlateau());
+        this.game.addPlayer(joueur);
     }
 
 

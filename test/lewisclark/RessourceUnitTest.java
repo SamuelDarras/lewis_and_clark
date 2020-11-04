@@ -16,7 +16,7 @@ public class RessourceUnitTest {
     @Test
     public void testGiveRessources() throws Exception {
         Plateau plateau = new Plateau();
-        Joueur joueur = new Joueur("rouge");
+        Joueur joueur = new Joueur("rouge", plateau);
 
         for (var e : joueur.miniPlateau.bateauRes.get(0)) {
             System.out.println(e.type);

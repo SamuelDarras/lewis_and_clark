@@ -23,7 +23,7 @@ public class MiniPlateauExpedition {
     public void addRessourceDansBateau(int numBateau,Ressource p) throws Exception{
         if (p.type != PieceEnum.INDIEN){
             System.out.println(bateauRes.get(numBateau).size() + " " + MAX_BATEAU_RES[numBateau]);
-            if(bateauRes.get(numBateau).size()<=MAX_BATEAU_RES[numBateau]){
+            if(bateauRes.get(numBateau).size()<MAX_BATEAU_RES[numBateau]){
                 bateauRes.get(numBateau).add(p);
             }
             else
@@ -76,11 +76,11 @@ public class MiniPlateauExpedition {
         return number;
     }
 
-    public void addBasicRessource() throws Exception {
-        this.addRessourceDansBateau(0, new Ressource(PieceEnum.FOURRURE));
-        this.addRessourceDansBateau(0, new Ressource(PieceEnum.NOURRITURE));
-        this.addRessourceDansBateau(0, new Ressource(PieceEnum.EQUIPEMENT));
-        this.addIndienDansBateau(0, new Ressource(PieceEnum.INDIEN));
+    public void addBasicRessource(Plateau plateau) throws Exception {
+        this.addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.FOURRURE));
+        this.addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.NOURRITURE));
+        this.addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.EQUIPEMENT));
+        this.addIndienDansBateau   (0, plateau.giveRessource(PieceEnum.INDIEN));
     }
 
     public String getRessourceFourrure(){

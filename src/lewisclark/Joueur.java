@@ -9,11 +9,14 @@ public class Joueur {
     public MiniPlateauExpedition miniPlateau;
     public List<Card> cards;
 
-    public Joueur(String couleur) throws Exception {
+    Plateau plateau;
+
+    public Joueur(String couleur, Plateau plateau) throws Exception {
         this.couleur     = couleur;
+        this.plateau     = plateau;
         this.miniPlateau = new MiniPlateauExpedition();
         this.cards       = new ArrayList<>();
-        this.miniPlateau.addBasicRessource();
+        this.miniPlateau.addBasicRessource(this.plateau);
     }
 
     public void addRessourceToMiniPlateauExpedition(int numBateau, Ressource p) throws Exception {

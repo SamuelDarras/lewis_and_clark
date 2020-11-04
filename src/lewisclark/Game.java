@@ -28,9 +28,9 @@ public class Game {
 
 
 
-    public void addPlayer(String couleur) throws Exception {
-        players.add(new Joueur(couleur));
-        giveStartCardsToColor(couleur);
+    public void addPlayer(Joueur joueur) {
+        players.add(joueur);
+        giveStartCardsToColor(joueur.couleur);
     }
     public void giveStartCardsToColor(String couleur){
         List<StartCharCard> cards = startCharDeck.getStartCharByColor(couleur);
@@ -48,9 +48,21 @@ public class Game {
         return this.nbJoueur;
     }
 
+    public Joueur getCurrentPlayer() { return currentPlayer; }
+
     public void afficheJoueur(){
         for(Joueur j : players){
-            j.getCouleur();
+            System.out.println(j.getCouleur());
         }
+    }
+
+    public void nextTurn() {
+        curr_player_idx += 1;
+        curr_player_idx %= players.size();
+        currentPlayer = players.get(curr_player_idx);
+    }
+
+    public Plateau getPlateau() {
+        return plateau;
     }
 }
