@@ -7,7 +7,7 @@ public class Game {
     List<Joueur> players;
     public Joueur currentPlayer;
     StartCharDeck startCharDeck;
-    Plateau plateau;
+    public Plateau plateau;
     Random rd;
     int curr_player_idx;
 

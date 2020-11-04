@@ -1,5 +1,9 @@
 package graphics;
 
+import javafx.geometry.Insets;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import lewisclark.Card;
@@ -16,6 +20,8 @@ import javafx.stage.Stage;
 import lewisclark.Game;
 import lewisclark.PieceEnum;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -93,13 +99,17 @@ public class Vue extends Application{
             comboBoxColor.setValue(comboBoxColor.getItems().get(0));
             count.getAndIncrement();
             if(count.get()==game.getNbJoueur()){
-                play(stage);
+                try {
+                    play(stage);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
             }
 
         });
 
     }
-    private void play(Stage stage){
+    private void play(Stage stage) throws FileNotFoundException {
         game.start();
 
         StackPane root = new StackPane();
@@ -107,10 +117,10 @@ public class Vue extends Application{
         String msg = game.currentPlayer.getCouleur()+" joue";
 
         Label currPlayer = new Label(msg);
-
-        currPlayer.setAlignment(Pos.BASELINE_CENTER);
+        currPlayer.setStyle("-fx-font: normal bold 50px 'serif'");
 
         Label title = new Label("Inventaire : ");
+        title.setStyle("-fx-font: normal bold 20px 'serif'");
 
         String nbfourrure = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
         Label fourrure = new Label("Fourrure : "+nbfourrure);
@@ -127,12 +137,14 @@ public class Vue extends Application{
         VBox vbMiniPlateau = new VBox();
         vbMiniPlateau.getChildren().addAll(title, fourrure, equipement,nourriture,indien);
         vbMiniPlateau.setSpacing(10);
-        vbMiniPlateau.setAlignment(Pos.CENTER_RIGHT);
+        vbMiniPlateau.setAlignment(Pos.CENTER_LEFT);
+        vbMiniPlateau.setPadding(new Insets(20));
 
         Label card = new Label("Inventaire carte :");
+        card.setStyle("-fx-font: normal bold 20px 'serif'");
 
         VBox deck = new VBox();
-        deck.getChildren().add(card);
+        deck.getChildren().addAll(currPlayer, card);
 
         for (Card c : game.currentPlayer.cards){
             Label tmp = new Label(c.getCardName());
@@ -140,11 +152,42 @@ public class Vue extends Application{
         }
 
         deck.setSpacing(10);
-        deck.setAlignment(Pos.CENTER_LEFT);
+        deck.setAlignment(Pos.TOP_LEFT);
+        deck.setPadding(new Insets(20));
 
-        root.getChildren().addAll(currPlayer, vbMiniPlateau, deck);
+        FileInputStream filePlateau = new FileInputStream("src/image/Plateau.png");
+        Image plateau = new Image(filePlateau,800,700,false,false);
+        ImageView plateauView = new ImageView(plateau);
 
-        Scene scene = new Scene(root, 500, 300);
+        Label srcPlateau = new Label("Inventaire plateau :");
+        srcPlateau.setStyle("-fx-font: normal bold 20px 'serif'");
+
+        VBox inventairePlateau = new VBox();
+        inventairePlateau.getChildren().add(srcPlateau);
+
+        String nbIndienOP = String.valueOf(game.plateau.getNbressource(PieceEnum.INDIEN));
+        Label nbIndienView = new Label("Indien : "+nbIndienOP);
+
+        String nbBoisOP = String.valueOf(game.plateau.getNbressource(PieceEnum.BOIS));
+        Label nbBoisView = new Label("Bois : "+nbBoisOP);
+
+        String nbFourrureOP = String.valueOf(game.plateau.getNbressource(PieceEnum.FOURRURE));
+        Label nbFourrureView = new Label("Fourrure : "+nbFourrureOP);
+
+        String nbNourritureOP = String.valueOf(game.plateau.getNbressource(PieceEnum.NOURRITURE));
+        Label nbNourritureView = new Label("Nourriture : "+nbNourritureOP);
+
+        String nbEquipementOP = String.valueOf(game.plateau.getNbressource(PieceEnum.EQUIPEMENT));
+        Label nbEquipementView = new Label("Equipement : "+nbEquipementOP);
+
+        inventairePlateau.getChildren().addAll(nbIndienView,nbBoisView,nbFourrureView,nbNourritureView,nbEquipementView);
+        inventairePlateau.setSpacing(10);
+        inventairePlateau.setAlignment(Pos.TOP_RIGHT);
+        inventairePlateau.setPadding(new Insets(0,10,0,0));
+
+        root.getChildren().addAll(plateauView, vbMiniPlateau, deck, inventairePlateau);
+
+        Scene scene = new Scene(root, 1500, 800);
 
         stage.setScene(scene);
 

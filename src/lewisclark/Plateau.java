@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Plateau {
-    Map<PieceEnum, List<Ressource>> ressources = new HashMap<>();
+    public Map<PieceEnum, List<Ressource>> ressources = new HashMap<>();
 
     public Plateau() {
         ressources.put(PieceEnum.INDIEN    , new ArrayList<>());
@@ -46,5 +46,9 @@ public class Plateau {
 
     public List<Ressource> getTypeRessourceList(PieceEnum type) {
         return ressources.get(type);
+    }
+
+    public int getNbressource(PieceEnum pieceEnum){
+        return  ressources.get(pieceEnum).size();
     }
 }
