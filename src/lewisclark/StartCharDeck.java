@@ -19,7 +19,7 @@ public class StartCharDeck {
         String[] lumberjacksName = new String[]{"Hugh McNeal","John B. Thompson","Thomas P. Howard","Patrick Gass ","Hugh Hall"};
         String[] huntersName = new String[]{"Seaman","York","Silas Goodrich","John Colter","William Werner"};
         String[] blacksmithsName = new String[]{"Alexander H. Willard","Joseph Whitehouse","John Shields","William Bratton","John Potts"};
-        String[] furTradersName = new String[]{"Richard Windsor","oseph & Ruben Field","George Shannon","Peter Weiser","John Collins"};
+        String[] furTradersName = new String[]{"Richard Windsor","Joseph & Ruben Field","George Shannon","Peter Weiser","John Collins"};
         String[] colors = new String[]{"rouge","jaune","bleu","vert","violet"};
 
         for(int i = 0 ; i < colors.length;i++){

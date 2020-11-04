@@ -7,7 +7,7 @@ public class Joueur {
 
     String couleur;
     public MiniPlateauExpedition miniPlateau;
-    List<Card> cards;
+    public List<Card> cards;
 
     public Joueur(String couleur) throws Exception {
         this.couleur     = couleur;

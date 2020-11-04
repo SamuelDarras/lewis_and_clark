@@ -29,4 +29,8 @@ public class Card {
                 ", description='" + description + '\'' +
                 '}';
     }
+
+    public String getCardName(){
+        return this.cardName;
+    }
 }

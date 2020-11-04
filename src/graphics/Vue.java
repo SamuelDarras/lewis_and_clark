@@ -2,6 +2,7 @@ package graphics;
 
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import lewisclark.Card;
 import lewisclark.Joueur;
 
 import javafx.application.Application;
@@ -107,6 +108,8 @@ public class Vue extends Application{
 
         Label currPlayer = new Label(msg);
 
+        currPlayer.setAlignment(Pos.BASELINE_CENTER);
+
         String nbfourrure = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
         Label fourrure = new Label("Fourrure : "+nbfourrure);
 
@@ -120,11 +123,24 @@ public class Vue extends Application{
         Label indien = new Label("Indien : "+nbIndien);
 
         VBox vbMiniPlateau = new VBox();
-        vbMiniPlateau.getChildren().addAll(currPlayer, fourrure, equipement,nourriture,indien);
+        vbMiniPlateau.getChildren().addAll(fourrure, equipement,nourriture,indien);
         vbMiniPlateau.setSpacing(10);
-        vbMiniPlateau.setAlignment(Pos.CENTER);
+        vbMiniPlateau.setAlignment(Pos.CENTER_RIGHT);
 
-        root.getChildren().addAll(vbMiniPlateau);
+        Label card = new Label("Inventaire : ");
+
+        VBox deck = new VBox();
+        deck.getChildren().add(card);
+
+        for (Card c : game.currentPlayer.cards){
+            Label tmp = new Label(c.getCardName());
+            deck.getChildren().add(tmp);
+        }
+
+        deck.setSpacing(10);
+        deck.setAlignment(Pos.CENTER_LEFT);
+
+        root.getChildren().addAll(currPlayer, vbMiniPlateau, deck);
 
         Scene scene = new Scene(root, 500, 300);
 
