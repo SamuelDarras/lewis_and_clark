@@ -1,6 +1,11 @@
 package graphics;
 
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import lewisclark.Joueur;
+
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -8,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import lewisclark.Game;
+import lewisclark.PieceEnum;
 
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -32,6 +38,7 @@ public class Vue extends Application{
 
         hbNbJoueur.getChildren().addAll(nbJoueur, comboBoxNbJoueur, submit);
         hbNbJoueur.setSpacing(10);
+        hbNbJoueur.setAlignment(Pos.CENTER);
 
         root.getChildren().addAll(hbNbJoueur);
 
@@ -42,6 +49,7 @@ public class Vue extends Application{
         primaryStage.show();
 
         game = new Game(new Random());
+
 
         submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> nbJoueur(comboBoxNbJoueur.getValue(), primaryStage));
     }
@@ -66,6 +74,7 @@ public class Vue extends Application{
 
         hbCouleurJoueur.getChildren().addAll(couleurJoueur, comboBoxColor, submit);
         hbCouleurJoueur.setSpacing(10);
+        hbCouleurJoueur.setAlignment(Pos.CENTER);
 
         root.getChildren().addAll(hbCouleurJoueur);
 
@@ -74,6 +83,11 @@ public class Vue extends Application{
         stage.setScene(scene);
         stage.show();
         submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            try {
+                couleurJoueur(comboBoxColor.getValue());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             comboBoxColor.getItems().remove(comboBoxColor.getValue());
             comboBoxColor.setValue(comboBoxColor.getItems().get(0));
             count.getAndIncrement();
@@ -85,11 +99,37 @@ public class Vue extends Application{
 
     }
     private void play(Stage stage){
+        game.start();
+
         StackPane root = new StackPane();
-        Label label = new Label("bien joué");
-        root.getChildren().addAll(label);
+
+        String msg = game.currentPlayer.getCouleur()+" joue";
+
+        Label currPlayer = new Label(msg);
+
+        String nbfourrure = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
+        Label fourrure = new Label("Fourrure : "+nbfourrure);
+
+        String nbEquipement = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT));
+        Label equipement = new Label("Equipement : "+nbEquipement);
+
+        String nbNourriture = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.NOURRITURE));
+        Label nourriture = new Label("Nourriture : "+nbNourriture);
+
+        String nbIndien = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN));
+        Label indien = new Label("Indien : "+nbIndien);
+
+        VBox vbMiniPlateau = new VBox();
+        vbMiniPlateau.getChildren().addAll(currPlayer, fourrure, equipement,nourriture,indien);
+        vbMiniPlateau.setSpacing(10);
+        vbMiniPlateau.setAlignment(Pos.CENTER);
+
+        root.getChildren().addAll(vbMiniPlateau);
+
         Scene scene = new Scene(root, 500, 300);
+
         stage.setScene(scene);
+
         stage.show();
     }
 

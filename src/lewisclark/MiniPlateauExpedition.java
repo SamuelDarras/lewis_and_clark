@@ -9,6 +9,7 @@ public class MiniPlateauExpedition {
     public static int[] MAX_BATEAU_IND={1,100};
     List<List<Ressource>> bateauRes;
     List<List<Ressource>> bateauInd;
+
     public MiniPlateauExpedition(){
         bateauRes = new ArrayList<>();
         bateauRes.add(new ArrayList<>());
@@ -73,4 +74,35 @@ public class MiniPlateauExpedition {
         }
         return number;
     }
+
+    public void addBasicRessource() throws Exception {
+        this.addRessourceDansBateau(0, new Ressource(PieceEnum.FOURRURE));
+        this.addRessourceDansBateau(0, new Ressource(PieceEnum.NOURRITURE));
+        this.addRessourceDansBateau(0, new Ressource(PieceEnum.EQUIPEMENT));
+        this.addIndienDansBateau(0, new Ressource(PieceEnum.INDIEN));
+    }
+
+    public String getRessourceFourrure(){
+        int c = 0;
+
+        for (int i = 0; i < bateauRes.size()-1; i++){
+            for (int j = 0; j <= 2; j++){
+                if (bateauRes.get(0).get(0).equals(new Ressource(PieceEnum.FOURRURE)))
+                    c++;
+            }
+        }
+        return String.valueOf(c);
+    }
+
+    /*public String getRessourceNourriture(){
+
+    }
+
+    public String getRessourceEquipement(){
+
+    }
+
+    public String getRessourceIndien(){
+
+    }*/
 }

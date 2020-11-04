@@ -5,12 +5,10 @@ import java.util.*;
 public class Game {
     int nbJoueur;
     List<Joueur> players;
-    Joueur currentPlayer;
+    public Joueur currentPlayer;
     Plateau plateau;
     Random rd;
     int curr_player_idx;
-    Plateau plateau = new Plateau();
-    Ressource src = new Ressource();
 
     public Game(Random random) {
         players = new ArrayList<>();
@@ -22,7 +20,7 @@ public class Game {
     }
 
     public void start() {
-        curr_player_idx = rd.nextInt(players.size()-1);
+        curr_player_idx = rd.nextInt(players.size());
         currentPlayer = players.get(curr_player_idx);
     }
 
@@ -33,11 +31,6 @@ public class Game {
     }
 
     public void addPlayer(String couleur) throws Exception {
-        Joueur player = new Joueur(couleur);
-        player.miniPlateau.addIndienDansBateau(0, plateau.giveRessource(PieceEnum.INDIEN));
-        player.miniPlateau.addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.FOURRURE));
-        player.miniPlateau.addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.NOURRITURE));
-        player.miniPlateau.addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.EQUIPEMENT));
         players.add(new Joueur(couleur));
     }
 
