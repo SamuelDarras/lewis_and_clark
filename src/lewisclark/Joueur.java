@@ -1,9 +1,5 @@
 package lewisclark;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
 public class Joueur {
 
     String couleur;
@@ -12,20 +8,18 @@ public class Joueur {
     public Joueur(String couleur) throws Exception {
         this.couleur = couleur;
         this.miniPlateau = new MiniPlateauExpedition();
-        this.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.INDIEN));
-        this.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.FOURRURE));
-        this.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.NOURRITURE));
-        this.addRessourceToMiniPlateauExpedition(0,Ressource.giveRessource(PieceEnum.EQUIPEMENT));
+        this.miniPlateau.addBasicRessource();
     }
 
-    private void addRessourceToMiniPlateauExpedition(int numBateau,PieceEnum p) throws Exception {
-        if(p == PieceEnum.INDIEN)
-            miniPlateau.addIndienDansBateau(numBateau,p);
-        else
-            miniPlateau.addRessourceDansBateau(numBateau, p);
+    private void addRessourceToMiniPlateauExpedition(int numBateau, Ressource p) throws Exception {
+        miniPlateau.addRessourceDansBateau(numBateau, p);
     }
 
-    public void getCouleur(){
-        System.out.println(this.couleur);
+    public String getCouleur(){
+        return this.couleur;
+    }
+
+    public void print(){
+        System.out.println(couleur);
     }
 }

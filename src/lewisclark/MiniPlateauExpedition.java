@@ -3,14 +3,13 @@ package lewisclark;
 import java.util.ArrayList;
 import java.util.List;
 import Error.*;
-import jdk.jshell.spi.ExecutionControlProvider;
-import org.jetbrains.annotations.NotNull;
 
 public class MiniPlateauExpedition {
     public static int[] MAX_BATEAU_RES={3,3,5};
     public static int[] MAX_BATEAU_IND={1,100};
-    List<List<PieceEnum>> bateauRes;
-    List<List<PieceEnum>> bateauInd;
+    List<List<Ressource>> bateauRes;
+    List<List<Ressource>> bateauInd;
+
     public MiniPlateauExpedition(){
         bateauRes = new ArrayList<>();
         bateauRes.add(new ArrayList<>());
@@ -21,8 +20,8 @@ public class MiniPlateauExpedition {
         bateauInd.add(new ArrayList<>());
         bateauInd.add(new ArrayList<>());
     }
-    public void addRessourceDansBateau(int numBateau,PieceEnum p) throws Exception{
-        if (p != PieceEnum.INDIEN){
+    public void addRessourceDansBateau(int numBateau,Ressource p) throws Exception{
+        if (p.type != PieceEnum.INDIEN){
             if(bateauRes.get(numBateau).size()<MAX_BATEAU_RES[numBateau]){
                 bateauRes.get(numBateau).add(p);
             }
@@ -32,8 +31,8 @@ public class MiniPlateauExpedition {
         else
             throw new IncompatiblePieceException();
     }
-    public void addIndienDansBateau(int numBateau,PieceEnum p) throws Exception{
-        if (p == PieceEnum.INDIEN){
+    public void addIndienDansBateau(int numBateau,Ressource p) throws Exception{
+        if (p.type == PieceEnum.INDIEN){
             if(bateauInd.get(numBateau).size()<MAX_BATEAU_IND[numBateau]){
                 bateauInd.get(numBateau).add(p);
             }
@@ -62,17 +61,48 @@ public class MiniPlateauExpedition {
      * La methode retourne le nombre d'une ressource en particulier
      * @return number = le nombre de ressources
      */
-    public int countNbRessource(@NotNull PieceEnum pieceEnum){
+    public int countNbRessource(PieceEnum pieceEnum){
         int number = 0;
         if (pieceEnum == PieceEnum.INDIEN) {
-            for (List<PieceEnum> ressource : bateauInd)
-                for (PieceEnum piece : ressource)
-                    if (piece == pieceEnum) number++;
+            for (List<Ressource> ressource : bateauInd)
+                for (Ressource piece : ressource)
+                    if (piece.type == pieceEnum) number++;
         }else {
-            for (List<PieceEnum> ressource : bateauRes)
-                for (PieceEnum piece : ressource)
-                    if (piece == pieceEnum) number++;
+            for (List<Ressource> ressource : bateauRes)
+                for (Ressource piece : ressource)
+                    if (piece.type == pieceEnum) number++;
         }
         return number;
     }
+
+    public void addBasicRessource() throws Exception {
+        this.addRessourceDansBateau(0, new Ressource(PieceEnum.FOURRURE));
+        this.addRessourceDansBateau(0, new Ressource(PieceEnum.NOURRITURE));
+        this.addRessourceDansBateau(0, new Ressource(PieceEnum.EQUIPEMENT));
+        this.addIndienDansBateau(0, new Ressource(PieceEnum.INDIEN));
+    }
+
+    public String getRessourceFourrure(){
+        int c = 0;
+
+        for (int i = 0; i < bateauRes.size()-1; i++){
+            for (int j = 0; j <= 2; j++){
+                if (bateauRes.get(0).get(0).equals(new Ressource(PieceEnum.FOURRURE)))
+                    c++;
+            }
+        }
+        return String.valueOf(c);
+    }
+
+    /*public String getRessourceNourriture(){
+
+    }
+
+    public String getRessourceEquipement(){
+
+    }
+
+    public String getRessourceIndien(){
+
+    }*/
 }
