@@ -18,10 +18,20 @@ public class JoueurUnitTest {
     }
 
     @Test
-    public void testInvetaireAddBois() throws Exception {
+    public void testAddInventaire() throws Exception {
         Joueur joueur = new Joueur("rouge", game.getPlateau());
         joueur.addRessourceToMiniPlateauExpedition(1,new Ressource(PieceEnum.BOIS));
 
         Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.BOIS));
+    }
+
+    @Test
+    public void testAddCard() throws Exception {
+        Joueur joueur = new Joueur("rouge", game.getPlateau());
+        Card card = new Card();
+
+        joueur.addCard(card);
+
+        Assert.assertEquals(card, joueur.cards.get(0));
     }
 }

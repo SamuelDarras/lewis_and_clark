@@ -26,8 +26,6 @@ public class Game {
         currentPlayer = players.get(curr_player_idx);
     }
 
-
-
     public void addPlayer(Joueur joueur) {
         players.add(joueur);
         giveStartCardsToColor(joueur.couleur);

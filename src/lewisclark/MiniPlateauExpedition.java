@@ -22,7 +22,6 @@ public class MiniPlateauExpedition {
     }
     public void addRessourceDansBateau(int numBateau,Ressource p) throws Exception{
         if (p.type != PieceEnum.INDIEN){
-            System.out.println(bateauRes.get(numBateau).size() + " " + MAX_BATEAU_RES[numBateau]);
             if(bateauRes.get(numBateau).size()<MAX_BATEAU_RES[numBateau]){
                 bateauRes.get(numBateau).add(p);
             }
@@ -94,16 +93,4 @@ public class MiniPlateauExpedition {
         }
         return String.valueOf(c);
     }
-
-    /*public String getRessourceNourriture(){
-
-    }
-
-    public String getRessourceEquipement(){
-
-    }
-
-    public String getRessourceIndien(){
-
-    }*/
 }

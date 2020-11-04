@@ -110,6 +110,8 @@ public class Vue extends Application{
 
         currPlayer.setAlignment(Pos.BASELINE_CENTER);
 
+        Label title = new Label("Inventaire : ");
+
         String nbfourrure = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
         Label fourrure = new Label("Fourrure : "+nbfourrure);
 
@@ -123,11 +125,11 @@ public class Vue extends Application{
         Label indien = new Label("Indien : "+nbIndien);
 
         VBox vbMiniPlateau = new VBox();
-        vbMiniPlateau.getChildren().addAll(fourrure, equipement,nourriture,indien);
+        vbMiniPlateau.getChildren().addAll(title, fourrure, equipement,nourriture,indien);
         vbMiniPlateau.setSpacing(10);
         vbMiniPlateau.setAlignment(Pos.CENTER_RIGHT);
 
-        Label card = new Label("Inventaire : ");
+        Label card = new Label("Inventaire carte :");
 
         VBox deck = new VBox();
         deck.getChildren().add(card);
