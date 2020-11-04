@@ -16,44 +16,46 @@ public class MiniPlateauExpeditionUnitTest {
     }
     @Test
     public void testAddRessource() throws Exception {
-
-        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
-        Assert.assertEquals(PieceEnum.BOIS,mpe.bateauRes.get(0).get(0));
+        Ressource r = new Ressource(PieceEnum.BOIS);
+        mpe.addRessourceDansBateau(0,r);
+        Assert.assertEquals(r,mpe.bateauRes.get(0).get(0));
     }
     @Test (expected = IncompatiblePieceException.class)
     public void testIncompatibleAddRessource() throws Exception{
-        mpe.addRessourceDansBateau(0,PieceEnum.INDIEN);
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.INDIEN));
     }
     @Rule
     public ExpectedException ecouteur = ExpectedException.none();
     @Test
     public void testBateauFullAddRessource() throws Exception{
-        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
-        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
-        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
         ecouteur.expect(BateauFullException.class);
-        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
     }
     @Test
     public void testDeplacerRessource() throws Exception{
-        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
-        mpe.addRessourceDansBateau(1,PieceEnum.EQUIPEMENT);
+        Ressource r = new Ressource(PieceEnum.EQUIPEMENT);
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(1,r);
         mpe.deplacerRessourceMiniPlateau(1,0,0);
-        Assert.assertEquals(PieceEnum.EQUIPEMENT,mpe.bateauRes.get(0).get(1));
+        Assert.assertEquals(r,mpe.bateauRes.get(0).get(1));
     }
     @Test (expected = BateauFullException.class)
     public void testFullBateauExceptionOnDeplacerRessource() throws Exception{
-        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
-        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
-        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
-        mpe.addRessourceDansBateau(1,PieceEnum.EQUIPEMENT);
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(1,new Ressource(PieceEnum.EQUIPEMENT));
         mpe.deplacerRessourceMiniPlateau(1,0,0);
     }
     
     @Test
     public void testCountRessource() throws Exception {
-        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
-        mpe.addRessourceDansBateau(0,PieceEnum.BOIS);
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
         Assert.assertEquals(2,mpe.countNbRessource(PieceEnum.BOIS));
     }
 }
+

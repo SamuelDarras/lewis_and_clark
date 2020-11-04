@@ -20,4 +20,13 @@ public class Card {
     public String getDescription() {
         return description;
     }
+
+    public String toString() {
+        return "Card{" +
+                "cardName='" + cardName + '\'' +
+                ", indianCost=" + indianCost +
+                ", used=" + used +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
