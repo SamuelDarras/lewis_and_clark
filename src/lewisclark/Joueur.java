@@ -16,7 +16,7 @@ public class Joueur {
         this.miniPlateau.addBasicRessource();
     }
 
-    private void addRessourceToMiniPlateauExpedition(int numBateau, Ressource p) throws Exception {
+    public void addRessourceToMiniPlateauExpedition(int numBateau, Ressource p) throws Exception {
         miniPlateau.addRessourceDansBateau(numBateau, p);
     }
 
