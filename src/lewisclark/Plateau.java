@@ -43,4 +43,8 @@ public class Plateau {
         }
         return tampon;
     }
+
+    public List<Ressource> getTypeRessourceList(PieceEnum type) {
+        return ressources.get(type);
+    }
 }
