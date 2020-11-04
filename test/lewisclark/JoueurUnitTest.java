@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 public class JoueurUnitTest {
-    /*Random random;
+    Random random;
     @Before
     public void setup() {
         random = new Random();
@@ -17,34 +17,34 @@ public class JoueurUnitTest {
 
     @Test
     public void testInvetaireAddBois() throws Exception {
-        Ressource.initRessource();
-        Joueur joueur = new Joueur();
-        joueur.miniPlateau.addRessourceDansBateau(1,Ressource.giveRessource(PieceEnum.BOIS));
-        Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.BOIS));
+        Joueur joueur = new Joueur("rouge");
+        joueur.addRessourceToMiniPlateauExpedition(1,new Ressource(PieceEnum.BOIS));
+
+        Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.BOIS));
     }
 
-    @Test
+    /*@Test
     public void testInvetaireAddFourrure() throws Exception {
         Ressource.initRessource();
         Joueur joueur = new Joueur();
         Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testInvetaireAddNourriture() throws Exception {
         Ressource.initRessource();
         Joueur joueur = new Joueur();
         Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.NOURRITURE));
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testInvetaireAddEquipement() throws Exception {
         Ressource.initRessource();
         Joueur joueur = new Joueur();
         Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT));
-    }
+    }*/
 
-    @Test
+    /*@Test
     public void testInvetaireAddIndien() throws Exception {
         Ressource.initRessource();
         Joueur joueur = new Joueur();
