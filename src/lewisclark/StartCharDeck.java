@@ -24,12 +24,12 @@ public class StartCharDeck {
 
         for(int i = 0 ; i < colors.length;i++){
             List<StartCharCard> cards = new ArrayList<>();
-            cards.add(new StartCharCard(commandersName[i],1,"Move your Scout forward by paying Food, Canoe or Horse.","The Commander"));
-            cards.add(new StartCharCard(interpretersName[i],2,"Take indians from the Village and add them to your Expedition.","The Interpreter"));
-            cards.add(new StartCharCard(lumberjacksName[i],1,"Collect Wood.","The Lumberjack"));
-            cards.add(new StartCharCard(huntersName[i],1,"Collect Food.","The Hunter"));
-            cards.add(new StartCharCard(blacksmithsName[i],1,"Collect Equipment.","The Blacksmith"));
-            cards.add(new StartCharCard(furTradersName[i],1,"Collect Fur.","The Fur Trader"));
+            cards.add(new StartCharCard(commandersName[i],1,"Avancez votre Éclaireur en défaussant Nourriture, Pirogues ou Chevaux.","Chef d'expédition","Fourrure"));
+            cards.add(new StartCharCard(interpretersName[i],2,"Prenez des Indiens sur le plateau et ajoutez-les à votre Expédition.","Interprète","Bois"));
+            cards.add(new StartCharCard(lumberjacksName[i],1,"Collectez du Bois.","Bûcherons","Bois"));
+            cards.add(new StartCharCard(huntersName[i],1,"Collectez de la Nourriture.","chasseur","Nourriture"));
+            cards.add(new StartCharCard(blacksmithsName[i],1,"Collectez des Équipements.","Forgeron","Equipement"));
+            cards.add(new StartCharCard(furTradersName[i],1,"Collectez de la Fourrure.","Trappeur","Fourrure"));
             startCards.put(colors[i], cards);
         }
     }

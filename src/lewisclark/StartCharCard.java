@@ -7,8 +7,8 @@ public class StartCharCard extends Card{
         super();
         type = "default";
     }
-    public StartCharCard(String cardName, int indianCost,String description,String type){
-        super(cardName, indianCost, description);
+    public StartCharCard(String cardName, int indianCost,String actionDescription,String type,String badge){
+        super(cardName, indianCost, actionDescription,badge);
         this.type = type;
     }
 

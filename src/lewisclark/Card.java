@@ -2,31 +2,35 @@ package lewisclark;
 
 public class Card {
     private String cardName;
-    private int indianCost;
+    private int strength;
     private boolean used;
-    private String description;
+    private String actionDescription;
+    private String badge;
 
     public Card(){
-        this("defaultName",0,"defaulfDescription");
+        this("defaultName",0,"defaulfActionDescription","nothing");
     }
 
-    public Card(String cardName, int indianCost,String description){
-        this.cardName    = cardName;
-        this.indianCost  = indianCost;
-        this.description = description;
-        this.used        = false;
+    public Card(String cardName, int strength,String actionDescription,String badge){
+        this.cardName          = cardName;
+        this.strength          = strength;
+        this.actionDescription = actionDescription;
+        this.badge             = badge;
+        this.used              = false;
     }
 
-    public String getDescription() {
-        return description;
+    public String getActionDescription() {
+        return actionDescription;
     }
 
+    @Override
     public String toString() {
         return "Card{" +
                 "cardName='" + cardName + '\'' +
-                ", indianCost=" + indianCost +
+                ", strength=" + strength +
                 ", used=" + used +
-                ", description='" + description + '\'' +
+                ", actionDescription='" + actionDescription + '\'' +
+                ", badges='" + badge + '\'' +
                 '}';
     }
 
