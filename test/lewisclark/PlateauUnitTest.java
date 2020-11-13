@@ -95,4 +95,13 @@ public class PlateauUnitTest {
 
         Assert.assertEquals(21,plateau.ressources.get(PieceEnum.FOURRURE).size());
     }
+
+    @Test
+    public void testDefausse() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("Rouge", plateau);
+        Assert.assertEquals(19,plateau.getNbressource(PieceEnum.FOURRURE));
+        plateau.defausser(joueur,PieceEnum.FOURRURE);
+        Assert.assertEquals(20, plateau.getNbressource(PieceEnum.FOURRURE));
+    }
 }

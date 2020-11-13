@@ -36,10 +36,8 @@ public class Joueur {
         if (card.getCoute() != null)
             if (this.miniPlateau.countNbRessource(card.getCoute().type) == 0)
                 throw new RessourceOutOfDisponibleException();
-            else {
-                this.miniPlateau.deleteRessource(card.getCoute().type);
-                this.plateau.dropRessource(card.getCoute().type);
-            }
+            else
+                this.plateau.defausser(this,card);
         int positionBatteau = this.miniPlateau.getValideBateau();
         if (positionBatteau == -1) throw new BateauFullException();
         this.miniPlateau.addRessourceDansBateau(positionBatteau,card.getPossede());
