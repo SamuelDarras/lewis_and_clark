@@ -32,15 +32,35 @@ public class Joueur {
         return this.couleur;
     }
 
-    public void jouer(Card card) throws Exception {
+    public void jouer(Card card) throws Exception, NotActionChooseException {
+        if (card.getNombreChoixPossible() == 1){
+            if (card.getCoute() != null)
+                if (this.miniPlateau.countNbRessource(card.getCoute()[0].type) == 0)
+                    throw new RessourceOutOfDisponibleException();
+                else
+                    this.plateau.defausser(this,card);
+            int positionBatteau = this.miniPlateau.getValideBateau();
+            if (positionBatteau == -1) throw new BateauFullException();
+            this.miniPlateau.addRessourceDansBateau(positionBatteau,card.getPossede()[0]);
+        }else throw new NotActionChooseException();
+    }
+
+    /**
+     * Joue une carte
+     * @param card la dite carte
+     * @param index premiere action = 1, seconde = 2 etc...
+     * @throws Exception Si il n'y a pas assez de ressource ou demande plus que normalement
+     */
+    public void jouer(Card card, int index) throws Exception {
+        if (card.getNombreChoixPossible() > card.getNombreChoixPossible()) throw new OutOfActionPossibleException();
         if (card.getCoute() != null)
-            if (this.miniPlateau.countNbRessource(card.getCoute().type) == 0)
+            if (this.miniPlateau.countNbRessource(card.getCoute()[index - 1].type) == 0)
                 throw new RessourceOutOfDisponibleException();
             else
-                this.plateau.defausser(this,card);
+                this.plateau.defausser(this,card, index);
         int positionBatteau = this.miniPlateau.getValideBateau();
         if (positionBatteau == -1) throw new BateauFullException();
-        this.miniPlateau.addRessourceDansBateau(positionBatteau,card.getPossede());
+        this.miniPlateau.addRessourceDansBateau(positionBatteau,card.getPossede()[index - 1]);
     }
 
     public void print(){

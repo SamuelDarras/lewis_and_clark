@@ -60,4 +60,19 @@ public class JoueurUnitTest {
         ecouteur.expect(RessourceOutOfDisponibleException.class);
         joueur.jouer(card);
     }
+
+    @Test
+    public void testJouerMultiChoise() throws Exception {
+        Joueur joueur = new Joueur("Rouge", game.getPlateau());
+        Card card = new Card(new Ressource[]{new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE)},
+                new Ressource[]{new Ressource(PieceEnum.NOURRITURE), new Ressource(PieceEnum.FOURRURE)});
+
+        joueur.jouer(card,1);
+        Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
+        Assert.assertEquals(0, joueur.miniPlateau.countNbRessource(PieceEnum.NOURRITURE));
+
+        joueur.jouer(card,2);
+        Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
+        Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.NOURRITURE));
+    }
 }

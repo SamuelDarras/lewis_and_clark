@@ -1,16 +1,17 @@
 package lewisclark;
 
 public class Card {
-    private String cardName;
-    private int strength;
-    private boolean used;
-    private String actionDescription;
-    private String badge;
-    private Ressource possede;
-    private Ressource coute;
+    private final String cardName;
+    private final int strength;
+    private final boolean used;
+    private final String actionDescription;
+    private final String badge;
+    private final Ressource[] possede;
+    private final Ressource[] coute;
+    private final int nombreChoixPossible;
 
     public Card(){
-        this( null, null);
+        this((Ressource) null, null);
     }
 
     public Card(Ressource ressource){
@@ -21,25 +22,39 @@ public class Card {
     }
 
     public Card(String cardName, int strength,String actionDescription,String badge, Ressource possede, Ressource coute){
+        this(cardName,strength,actionDescription,badge,new Ressource[]{possede},new Ressource[]{coute});
+    }
+
+    public Card(String cardName, int strength,String actionDescription,String badge, Ressource[] possede, Ressource[] coute){
         this.cardName          = cardName;
         this.strength          = strength;
         this.actionDescription = actionDescription;
         this.badge             = badge;
         this.used              = false;
+        assert possede.length == coute.length : "Doit être de la meme taille";
         this.possede           = possede;
         this.coute             = coute;
+        this.nombreChoixPossible = coute.length;
     }
 
     public Card(String cardName, int indianCost, String actionDescription, String badge) {
-        this(cardName,indianCost,actionDescription,badge,null,null);
+        this(cardName,indianCost,actionDescription,badge, (Ressource) null,null);
     }
 
-    public Ressource getPossede() {
+    public Card(Ressource[] possede, Ressource[] coute) {
+        this("defaultName",0,"defaulfActionDescription","nothing", possede, coute);
+    }
+
+    public Ressource[] getPossede() {
         return possede;
     }
 
-    public Ressource getCoute() {
+    public Ressource[] getCoute() {
         return coute;
+    }
+
+    public int getNombreChoixPossible() {
+        return nombreChoixPossible;
     }
 
     public String getActionDescription() {

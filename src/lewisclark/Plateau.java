@@ -40,7 +40,7 @@ public class Plateau {
 
     public void achatCarte(Joueur joueur, int index) throws RessourceOutOfDisponibleException {
         if (joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE) >= index+1 && joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT)
-        >= 1){
+                >= 1){
             for (int i = 0; i < index + 1; i++)
                 this.defausser(joueur, PieceEnum.FOURRURE);
             this.defausser(joueur, PieceEnum.EQUIPEMENT);
@@ -52,8 +52,22 @@ public class Plateau {
             throw new RessourceOutOfDisponibleException();
     }
 
-    public void defausser(Joueur joueur, Card card){
-        defausser(joueur, card.getCoute().type);
+    public void defausser(Joueur joueur, Card card) throws NotActionChooseException {
+        if (card.getNombreChoixPossible() == 1)
+            defausser(joueur, card.getCoute()[0].type);
+        else throw new NotActionChooseException();
+    }
+
+    /**
+     *
+     * @param joueur
+     * @param card
+     * @param index premiere action = 1, seconde = 2 etc...
+     * @throws Exception
+     */
+    public void defausser(Joueur joueur, Card card, int index) throws Exception {
+        if (index > card.getNombreChoixPossible()) throw new OutOfActionPossibleException();
+        defausser(joueur, card.getCoute()[index - 1].type);
     }
 
     public void defausser(Joueur joueur, PieceEnum pieceEnum){
