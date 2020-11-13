@@ -2,6 +2,7 @@ package lewisclark;
 
 import java.util.ArrayList;
 import java.util.List;
+import Error.*;
 
 public class Joueur {
 
@@ -29,6 +30,19 @@ public class Joueur {
 
     public String getCouleur(){
         return this.couleur;
+    }
+
+    public void jouer(Card card) throws Exception {
+        if (card.getCoute() != null)
+            if (this.miniPlateau.countNbRessource(card.getCoute().type) == 0)
+                throw new RessourceOutOfDisponibleException();
+            else {
+                this.miniPlateau.deleteRessource(card.getCoute().type);
+                this.plateau.dropRessource(card.getCoute().type);
+            }
+        int positionBatteau = this.miniPlateau.getValideBateau();
+        if (positionBatteau == -1) throw new BateauFullException();
+        this.miniPlateau.addRessourceDansBateau(positionBatteau,card.getPossede());
     }
 
     public void print(){

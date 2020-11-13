@@ -44,6 +44,14 @@ public class Plateau {
         return tampon;
     }
 
+    public void dropRessource(PieceEnum ressource){
+        ressources.get(ressource).add(new Ressource(ressource));
+    }
+
+    public void dropRessource(Ressource ressource){
+        ressources.get(ressource.type).add(ressource);
+    }
+
     public List<Ressource> getTypeRessourceList(PieceEnum type) {
         return ressources.get(type);
     }

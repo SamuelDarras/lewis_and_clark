@@ -57,5 +57,10 @@ public class MiniPlateauExpeditionUnitTest {
         mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
         Assert.assertEquals(2,mpe.countNbRessource(PieceEnum.BOIS));
     }
+
+    @Test
+    public void testFindBatteau(){
+        //TODO A faire le test
+    }
 }
 

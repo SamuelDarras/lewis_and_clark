@@ -2,8 +2,11 @@ package lewisclark;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import Error.*;
+import org.junit.rules.ExpectedException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -33,5 +36,28 @@ public class JoueurUnitTest {
         joueur.addCard(card);
 
         Assert.assertEquals(card, joueur.cards.get(0));
+    }
+
+    @Test
+    public void testJouer() throws Exception {
+        Joueur joueur = new Joueur("Rouge", game.getPlateau());
+        Card card = new Card(new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE));
+
+        joueur.jouer(card);
+
+        Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
+        Assert.assertEquals(0, joueur.miniPlateau.countNbRessource(PieceEnum.NOURRITURE));
+    }
+
+    @Rule
+    public ExpectedException ecouteur = ExpectedException.none();
+    @Test
+    public void testJouerFail() throws Exception {
+        Joueur joueur = new Joueur("Rouge", game.getPlateau());
+        Card card = new Card(new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE));
+
+        joueur.jouer(card);
+        ecouteur.expect(RessourceOutOfDisponibleException.class);
+        joueur.jouer(card);
     }
 }

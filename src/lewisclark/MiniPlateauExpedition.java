@@ -20,6 +20,7 @@ public class MiniPlateauExpedition {
         bateauInd.add(new ArrayList<>());
         bateauInd.add(new ArrayList<>());
     }
+
     public void addRessourceDansBateau(int numBateau,Ressource p) throws Exception{
         if (p.type != PieceEnum.INDIEN){
             if(bateauRes.get(numBateau).size()<MAX_BATEAU_RES[numBateau]){
@@ -31,6 +32,7 @@ public class MiniPlateauExpedition {
         else
             throw new IncompatiblePieceException();
     }
+
     public void addIndienDansBateau(int numBateau,Ressource p) throws Exception{
         if (p.type == PieceEnum.INDIEN){
             if(bateauInd.get(numBateau).size()<MAX_BATEAU_IND[numBateau]){
@@ -42,6 +44,7 @@ public class MiniPlateauExpedition {
         else
             throw new IncompatiblePieceException();
     }
+
     public void deplacerRessourceMiniPlateau(int bateauS,int bateauD,int indexRes) throws Exception {
         if(bateauRes.get(bateauD).size()<MAX_BATEAU_RES[bateauD]){
             bateauRes.get(bateauD).add(bateauRes.get(bateauS).remove(indexRes));
@@ -49,6 +52,7 @@ public class MiniPlateauExpedition {
         else
             throw new BateauFullException();
     }
+
     public void deplacerIndienMiniPlateau(int bateauS,int bateauD,int indexRes) throws Exception {
         if(bateauInd.get(bateauD).size()<MAX_BATEAU_IND[bateauD]){
             bateauInd.get(bateauD).add(bateauInd.get(bateauS).remove(indexRes));
@@ -73,6 +77,31 @@ public class MiniPlateauExpedition {
                     if (piece.type == pieceEnum) number++;
         }
         return number;
+    }
+
+    /**
+     * Supprime une piece dans la reseve du joueur
+     * @param pieceEnum est la ressouce a delete
+     */
+    public void deleteRessource(PieceEnum pieceEnum){
+        for (List<Ressource> bateauRe : bateauRes) {
+            for (int j = 0; j < bateauRe.size(); j++)
+                if (bateauRe.get(j).type.equals(pieceEnum)) {
+                    bateauRe.remove(j);
+                    break;
+                }
+        }
+    }
+
+    /**
+     * Permet d'avoir le numero de bateau ou on peux mettre les ressources
+     * @return -1 si il n'y a pas de possibiliter sinon le numéro du batteau
+     */
+    public int getValideBateau(){
+        for (int i = 0; i < this.bateauRes.size(); i++)
+            if(bateauRes.get(i).size()<MAX_BATEAU_RES[i])
+                return i;
+        return -1;
     }
 
     public void addBasicRessource(Plateau plateau) throws Exception {

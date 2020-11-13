@@ -86,4 +86,13 @@ public class PlateauUnitTest {
         plateau.giveRessource(PieceEnum.INDIEN);
 
     }
+
+    @Test
+    public void testDropRessource(){
+        Plateau plateau = new Plateau();
+        Ressource ressource = new Ressource(PieceEnum.FOURRURE);
+        plateau.dropRessource(ressource);
+
+        Assert.assertEquals(21,plateau.ressources.get(PieceEnum.FOURRURE).size());
+    }
 }
