@@ -32,7 +32,7 @@ public class Joueur {
         return this.couleur;
     }
 
-    public void jouer(Card card) throws Exception, NotActionChooseException {
+    public void jouer(Card card) throws Exception {
         if (card.getNombreChoixPossible() == 1){
             if (card.getCoute() != null)
                 if (this.miniPlateau.countNbRessource(card.getCoute()[0].type) == 0)
@@ -52,7 +52,7 @@ public class Joueur {
      * @throws Exception Si il n'y a pas assez de ressource ou demande plus que normalement
      */
     public void jouer(Card card, int index) throws Exception {
-        if (card.getNombreChoixPossible() > card.getNombreChoixPossible()) throw new OutOfActionPossibleException();
+        if (index > card.getNombreChoixPossible() || index <= 0) throw new OutOfActionPossibleException();
         if (card.getCoute() != null)
             if (this.miniPlateau.countNbRessource(card.getCoute()[index - 1].type) == 0)
                 throw new RessourceOutOfDisponibleException();

@@ -61,6 +61,33 @@ public class JoueurUnitTest {
         joueur.jouer(card);
     }
 
+    @Test (expected = NotActionChooseException.class)
+    public void testJouerNoChoiseMade() throws Exception {
+        Joueur joueur = new Joueur("Rouge", game.getPlateau());
+        Card card = new Card(new Ressource[]{new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE)},
+                new Ressource[]{new Ressource(PieceEnum.NOURRITURE), new Ressource(PieceEnum.FOURRURE)});
+
+        joueur.jouer(card);
+    }
+
+    @Test (expected = OutOfActionPossibleException.class)
+    public void testJouerOutOfChoix() throws Exception {
+        Joueur joueur = new Joueur("Rouge", game.getPlateau());
+        Card card = new Card(new Ressource[]{new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE)},
+                new Ressource[]{new Ressource(PieceEnum.NOURRITURE), new Ressource(PieceEnum.FOURRURE)});
+
+        joueur.jouer(card,3);
+    }
+
+    @Test (expected = OutOfActionPossibleException.class)
+    public void testJouerOutOfChoix2() throws Exception {
+        Joueur joueur = new Joueur("Rouge", game.getPlateau());
+        Card card = new Card(new Ressource[]{new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE)},
+                new Ressource[]{new Ressource(PieceEnum.NOURRITURE), new Ressource(PieceEnum.FOURRURE)});
+
+        joueur.jouer(card,0);
+    }
+
     @Test
     public void testJouerMultiChoise() throws Exception {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());

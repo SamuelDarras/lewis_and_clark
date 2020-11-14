@@ -59,8 +59,30 @@ public class MiniPlateauExpeditionUnitTest {
     }
 
     @Test
-    public void testFindBatteau(){
-        //TODO A faire le test
+    public void testFindBateau1() throws Exception {
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+
+        Assert.assertEquals(1,mpe.getValideBateau());
+    }
+
+    @Test
+    public void testFindBateau2() throws Exception {
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
+
+        mpe.addRessourceDansBateau(1,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(1,new Ressource(PieceEnum.BOIS));
+        mpe.addRessourceDansBateau(1,new Ressource(PieceEnum.BOIS));
+
+        Assert.assertEquals(2,mpe.getValideBateau());
+    }
+
+    @Test
+    public void testFindBateau0() {
+        Assert.assertEquals(0,mpe.getValideBateau());
     }
 }
 
