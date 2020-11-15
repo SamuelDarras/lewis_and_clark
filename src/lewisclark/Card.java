@@ -1,6 +1,6 @@
 package lewisclark;
 
-public class Card {
+public class Card implements Comparable<Card>{
     private final String cardName;
     private final int strength;
     private final boolean used;
@@ -53,6 +53,8 @@ public class Card {
         return coute;
     }
 
+    public int getStrength() { return  strength; }
+
     public int getNombreChoixPossible() {
         return nombreChoixPossible;
     }
@@ -74,5 +76,11 @@ public class Card {
 
     public String getCardName(){
         return this.cardName;
+    }
+
+    public int compareTo(Card c){
+        if (this.getStrength() < c.getStrength()) return -1;
+        if (this.getStrength() == c.getStrength()) return 0;
+        else return 1;
     }
 }

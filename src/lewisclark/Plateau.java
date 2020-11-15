@@ -2,14 +2,12 @@ package lewisclark;
 
 import Error.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Plateau {
     public Map<PieceEnum, List<Ressource>> ressources = new HashMap<>();
     private final List<Card> carteAchat = new ArrayList<>();
+    public BuyCardDeck deck;
 
     public Plateau() {
         ressources.put(PieceEnum.INDIEN    , new ArrayList<>());
@@ -34,22 +32,30 @@ public class Plateau {
             ressources.get(PieceEnum.EQUIPEMENT).add(new Ressource(PieceEnum.EQUIPEMENT));
         }
 
-        //TODO Mettre les cartes possible a acheter
+        deck = new BuyCardDeck();
+
         //carteAchat.add();
     }
 
-    public void achatCarte(Joueur joueur, int index) throws RessourceOutOfDisponibleException {
-        if (joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE) >= index+1 && joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT)
-                >= 1){
-            for (int i = 0; i < index + 1; i++)
-                this.defausser(joueur, PieceEnum.FOURRURE);
-            this.defausser(joueur, PieceEnum.EQUIPEMENT);
-            joueur.addCard(this.carteAchat.get(index));
-            //TODO il faut add une carte possible a Acheter
-            //this.carteAchat.add();
+    public void achatCarte(Joueur joueur, int index) throws RessourceOutOfDisponibleException, JournalVideException{
+        //TODO : tests
+        if (carteAchat.isEmpty()) { throw new JournalVideException(); }
+        if ((joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE) <= index+1) || (joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT) <= carteAchat.get(index).getStrength())){
+            throw new  RessourceOutOfDisponibleException();
         }
-        else
-            throw new RessourceOutOfDisponibleException();
+        for (int i = 0; i < index+1; i++) {
+            defausser(joueur,PieceEnum.FOURRURE);
+        }
+        for (int i = 0; i < carteAchat.get(index).getStrength(); i++) {
+            defausser(joueur, PieceEnum.EQUIPEMENT);
+        }
+        joueur.addCard(carteAchat.remove(index));
+        ajouterCarteAchat(deck.cards.remove(0));
+        this.trierCarteAchat();
+    }
+
+    public void trierCarteAchat() {
+        Collections.sort(carteAchat);
     }
 
     public void defausser(Joueur joueur, Card card) throws Exception {
@@ -100,4 +106,9 @@ public class Plateau {
     public int getNbressource(PieceEnum pieceEnum){
         return  ressources.get(pieceEnum).size();
     }
+
+    public List<Card> getCarteAchat(){ return carteAchat; }
+
+    public void ajouterCarteAchat(Card carte){ carteAchat.add(carte); }
+
 }

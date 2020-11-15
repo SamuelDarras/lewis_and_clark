@@ -24,6 +24,10 @@ public class Game {
     public void start() {
         curr_player_idx = rd.nextInt(players.size());
         currentPlayer = players.get(curr_player_idx);
+        for (int i = 0; i < 5; i++) {
+            plateau.ajouterCarteAchat(plateau.deck.cards.remove(0));
+        }
+        plateau.trierCarteAchat();
     }
 
     public void addPlayer(Joueur joueur) {
