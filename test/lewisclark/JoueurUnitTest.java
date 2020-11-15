@@ -102,4 +102,13 @@ public class JoueurUnitTest {
         Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
         Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.NOURRITURE));
     }
+
+    @Test
+    public void testJouerOnlyBenefi() throws Exception {
+        Joueur joueur = new Joueur("Rouge", game.getPlateau());
+        Card card = new Card(new Ressource(PieceEnum.FOURRURE));
+
+        joueur.jouer(card);
+        Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
+    }
 }

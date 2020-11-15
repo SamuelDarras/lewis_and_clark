@@ -46,7 +46,7 @@ public class Joueur {
      */
     public void jouer(Card card, int index) throws Exception {
         if (index > card.getNombreChoixPossible() || index <= 0) throw new OutOfActionPossibleException();
-        if (card.getCoute() != null)
+        if (card.getCoute()[index - 1] != null)
             if (this.miniPlateau.countNbRessource(card.getCoute()[index - 1].type) == 0)
                 throw new RessourceOutOfDisponibleException();
             else
