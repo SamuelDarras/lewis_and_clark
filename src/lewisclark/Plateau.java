@@ -52,9 +52,9 @@ public class Plateau {
             throw new RessourceOutOfDisponibleException();
     }
 
-    public void defausser(Joueur joueur, Card card) throws NotActionChooseException {
+    public void defausser(Joueur joueur, Card card) throws Exception {
         if (card.getNombreChoixPossible() == 1)
-            defausser(joueur, card.getCoute()[0].type);
+            defausser(joueur, card,1);
         else throw new NotActionChooseException();
     }
 
@@ -66,7 +66,7 @@ public class Plateau {
      * @throws Exception
      */
     public void defausser(Joueur joueur, Card card, int index) throws Exception {
-        if (index > card.getNombreChoixPossible()) throw new OutOfActionPossibleException();
+        if (index > card.getNombreChoixPossible() || index <= 0) throw new OutOfActionPossibleException();
         defausser(joueur, card.getCoute()[index - 1].type);
     }
 

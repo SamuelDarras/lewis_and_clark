@@ -34,14 +34,7 @@ public class Joueur {
 
     public void jouer(Card card) throws Exception {
         if (card.getNombreChoixPossible() == 1){
-            if (card.getCoute() != null)
-                if (this.miniPlateau.countNbRessource(card.getCoute()[0].type) == 0)
-                    throw new RessourceOutOfDisponibleException();
-                else
-                    this.plateau.defausser(this,card);
-            int positionBatteau = this.miniPlateau.getValideBateau();
-            if (positionBatteau == -1) throw new BateauFullException();
-            this.miniPlateau.addRessourceDansBateau(positionBatteau,card.getPossede()[0]);
+            jouer(card, 1);
         }else throw new NotActionChooseException();
     }
 
