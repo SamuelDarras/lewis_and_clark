@@ -38,8 +38,8 @@ public class Plateau {
     }
 
     public void achatCarte(Joueur joueur, int index) throws RessourceOutOfDisponibleException, JournalVideException{
-        //TODO : tests
         if (carteAchat.isEmpty()) { throw new JournalVideException(); }
+        if ((index < 0) || (index >= carteAchat.size())) throw new IndexOutOfBoundsException();
         if ((joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE) <= index+1) || (joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT) <= carteAchat.get(index).getStrength())){
             throw new  RessourceOutOfDisponibleException();
         }
@@ -51,7 +51,6 @@ public class Plateau {
         }
         joueur.addCard(carteAchat.remove(index));
         ajouterCarteAchat(deck.cards.remove(0));
-        this.trierCarteAchat();
     }
 
     public void trierCarteAchat() {
