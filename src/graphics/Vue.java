@@ -26,6 +26,7 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static javafx.application.Application.launch;
+import Error.*;
 
 public class Vue extends Application{
 
@@ -100,8 +101,9 @@ public class Vue extends Application{
             count.getAndIncrement();
             if(count.get()==game.getNbJoueur()){
                 try {
+                    game.start();
                     play(stage);
-                } catch (FileNotFoundException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -109,8 +111,7 @@ public class Vue extends Application{
         });
 
     }
-    private void play(Stage stage) throws FileNotFoundException {
-        game.start();
+    private void play(Stage stage) throws Exception {
 
         StackPane root = new StackPane();
 
@@ -185,7 +186,59 @@ public class Vue extends Application{
         inventairePlateau.setAlignment(Pos.TOP_RIGHT);
         inventairePlateau.setPadding(new Insets(0,10,0,0));
 
-        root.getChildren().addAll(plateauView, vbMiniPlateau, deck, inventairePlateau);
+        Button carte1 = new Button(game.plateau.getCarteAchat().get(0).getCardName());
+        carte1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            try {
+                game.plateau.achatCarte(game.getCurrentPlayer(), 0);
+            } catch (RessourceOutOfDisponibleException | JournalVideException e) {
+                e.printStackTrace();
+            }
+        });
+
+        Button carte2 = new Button(game.plateau.getCarteAchat().get(1).getCardName());
+        carte2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            try {
+                game.plateau.achatCarte(game.getCurrentPlayer(), 1);
+            } catch (RessourceOutOfDisponibleException | JournalVideException e) {
+                e.printStackTrace();
+            }
+        });
+
+        Button carte3 = new Button(game.plateau.getCarteAchat().get(2).getCardName());
+        carte3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            try {
+                game.plateau.achatCarte(game.getCurrentPlayer(), 2);
+            } catch (RessourceOutOfDisponibleException | JournalVideException e) {
+                e.printStackTrace();
+            }
+        });
+
+        Button carte4 = new Button(game.plateau.getCarteAchat().get(3).getCardName());
+        carte4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            try {
+                game.plateau.achatCarte(game.getCurrentPlayer(), 3);
+            } catch (RessourceOutOfDisponibleException | JournalVideException e) {
+                e.printStackTrace();
+            }
+        });
+
+        Button carte5 = new Button(game.plateau.getCarteAchat().get(4).getCardName());
+        carte5.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            try {
+                game.plateau.achatCarte(game.getCurrentPlayer(), 4);
+            } catch (RessourceOutOfDisponibleException | JournalVideException e) {
+                e.printStackTrace();
+            }
+        });
+
+        VBox test = new VBox();
+        test.getChildren().addAll(carte5,carte4,carte3,carte2,carte1);
+
+        test.setAlignment(Pos.CENTER);
+        test.setPadding(new Insets(130,0,0,650));
+        test.setSpacing(85);
+
+        root.getChildren().addAll(plateauView, vbMiniPlateau, deck, inventairePlateau, test);
 
         Scene scene = new Scene(root, 1500, 800);
 
