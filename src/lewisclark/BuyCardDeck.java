@@ -6,6 +6,12 @@ import java.util.List;
 
 public class BuyCardDeck {
     List<Card> cards;
+    final PieceEnum bois = PieceEnum.BOIS;
+    final PieceEnum fourrure = PieceEnum.FOURRURE;
+    final PieceEnum nourriture = PieceEnum.NOURRITURE;
+    final PieceEnum equipement = PieceEnum.EQUIPEMENT;
+
+    
 
     public BuyCardDeck(){
         cards = new ArrayList<>();
@@ -84,13 +90,13 @@ public class BuyCardDeck {
                 3,3,3,3,3,3,3,3,3,3,
                 3,3,3,3
         };
-        String[] cardsBadge = new String[]{
-                "Bois","Bois","Equipement","Fourrure","Fourrure","Fourrure","Fourrure","Bois","Fourrure","Nourriture",
-                "Bois","Equipement","Equipement","Fourrure","Bois","Nourriture","Bois","Nourriture","Fourrure","Equipement",
-                "Nourriture","Fourrure","Bois","Fourrure","Bois","Fourrure","Bois","Bois","Bois","Equipement",
-                "Fourrure","Nourriture","Fourrure","Equipement","Nourriture","Nourriture","Equipement","Nourriture","Bois","Bois",
-                "Fourrure","Nourriture","Equipement","Equipement","Fourrure","Bois","Fourrure","Fourrure","Equipement","Bois",
-                "Bois","Nourriture","Bois","Fourrure"
+        PieceEnum[] cardsBadge = new PieceEnum[]{
+                bois,bois,equipement,fourrure,fourrure,fourrure,fourrure,bois,fourrure,nourriture,
+                bois,equipement,equipement,fourrure,bois,nourriture,bois,nourriture,fourrure,equipement,
+                nourriture,fourrure,bois,fourrure,bois,fourrure,bois,bois,bois,equipement,
+                fourrure,nourriture,fourrure,equipement,nourriture,nourriture,equipement,nourriture,bois,bois,
+                fourrure,nourriture,equipement,equipement,fourrure,bois,fourrure,fourrure,equipement,bois,
+                bois,nourriture,bois,fourrure
         };
         for(int i = 0 ; i < cardsBadge.length ; i++){
             cards.add(new Card(cardsName[i],cardsStrength[i],cardsActionDescription[i],cardsBadge[i]));

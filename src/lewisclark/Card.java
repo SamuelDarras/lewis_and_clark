@@ -5,7 +5,7 @@ public class Card implements Comparable<Card>{
     private final int strength;
     private final boolean used;
     private final String actionDescription;
-    private final String badge;
+    private final PieceEnum badge;
     private final Ressource[] possede;
     private final Ressource[] coute;
     private final int nombreChoixPossible;
@@ -18,14 +18,14 @@ public class Card implements Comparable<Card>{
         this(ressource, null);
     }
     public Card(Ressource ressource, Ressource coute){
-        this("defaultName",0,"defaulfActionDescription","nothing", ressource, coute);
+        this("defaultName",0,"defaulfActionDescription",null, ressource, coute);
     }
 
-    public Card(String cardName, int strength,String actionDescription,String badge, Ressource possede, Ressource coute){
+    public Card(String cardName, int strength,String actionDescription,PieceEnum badge, Ressource possede, Ressource coute){
         this(cardName,strength,actionDescription,badge,new Ressource[]{possede},new Ressource[]{coute});
     }
 
-    public Card(String cardName, int strength,String actionDescription,String badge, Ressource[] possede, Ressource[] coute){
+    public Card(String cardName, int strength,String actionDescription,PieceEnum badge, Ressource[] possede, Ressource[] coute){
         this.cardName          = cardName;
         this.strength          = strength;
         this.actionDescription = actionDescription;
@@ -37,12 +37,12 @@ public class Card implements Comparable<Card>{
         this.nombreChoixPossible = coute.length;
     }
 
-    public Card(String cardName, int indianCost, String actionDescription, String badge) {
+    public Card(String cardName, int indianCost, String actionDescription, PieceEnum badge) {
         this(cardName,indianCost,actionDescription,badge, (Ressource) null,null);
     }
 
     public Card(Ressource[] possede, Ressource[] coute) {
-        this("defaultName",0,"defaulfActionDescription","nothing", possede, coute);
+        this("defaultName",0,"defaulfActionDescription",null, possede, coute);
     }
 
     public Ressource[] getPossede() {
