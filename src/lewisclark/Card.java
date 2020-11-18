@@ -25,6 +25,10 @@ public class Card implements Comparable<Card>{
         this(cardName,strength,actionDescription,badge,new Ressource[]{possede},new Ressource[]{coute});
     }
 
+    public Card(String cardName,String actionDescription,int strength,PieceEnum badge){
+        this(cardName,strength,actionDescription,badge,(Ressource) null, null);
+    }
+
     public Card(String cardName, int strength,String actionDescription,PieceEnum badge, Ressource[] possede, Ressource[] coute){
         this.cardName          = cardName;
         this.strength          = strength;
@@ -44,6 +48,7 @@ public class Card implements Comparable<Card>{
     public Card(Ressource[] possede, Ressource[] coute) {
         this("defaultName",0,"defaulfActionDescription",null, possede, coute);
     }
+
 
     public Ressource[] getPossede() {
         return possede;
