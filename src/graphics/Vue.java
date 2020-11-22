@@ -116,7 +116,7 @@ public class Vue extends Application{
         StackPane root = new StackPane();
 
         /*
-           ? affichage des informations du joueur actif
+           ? affichage des informations pour le joueur actif
         */
 
         /*
@@ -206,8 +206,35 @@ public class Vue extends Application{
         inventairePlateau.setPadding(new Insets(0,10,0,0));
 
         /*
+           * inventaire autres joueurs
+        */
+
+        VBox test = new VBox();
+
+        Label inventaireOther = new Label("Inventaire des autres : ");
+        inventaireOther.setStyle("-fx-font: normal bold 20px 'serif'");
+
+        test.getChildren().add(inventaireOther);
+
+        for (int i = 0; i < game.getNbJoueur(); i++){
+            if (!game.players.get(i).getCouleur().equals(game.currentPlayer.getCouleur())){
+                Label lab = new Label(
+                        game.players.get(i).getCouleur() +
+                        " | Four. : " + game.players.get(i).miniPlateau.countNbRessource(PieceEnum.FOURRURE) +
+                                " | Equi. : " + game.players.get(i).miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT) +
+                                " | Nourr. : " + game.players.get(i).miniPlateau.countNbRessource(PieceEnum.NOURRITURE) +
+                                " | Indien : " + game.players.get(i).miniPlateau.countNbRessource(PieceEnum.INDIEN) + "  "
+
+                );
+                test.getChildren().add(lab);
+            }
+        }
+
+        test.setAlignment(Pos.CENTER_RIGHT);
+
+        /*
            * carte pour achat
-         */
+        */
 
         Button carte1 = new Button(game.plateau.getCarteAchat().get(0).getCardName());
         carte1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -279,7 +306,11 @@ public class Vue extends Application{
         action.getChildren().addAll(nextTurn);
         action.setAlignment(Pos.BOTTOM_RIGHT);
 
-        root.getChildren().addAll(plateauView, vbMiniPlateau, deck, inventairePlateau, pileAchat, action);
+        /*
+            ! laisser action en dernier sinon les boutons ne marchent plus
+         */
+
+        root.getChildren().addAll(plateauView, vbMiniPlateau, deck, inventairePlateau, pileAchat, test, action);
 
         Scene scene = new Scene(root, 1500, 800);
 

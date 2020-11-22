@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Game {
     int nbJoueur;
-    List<Joueur> players;
+    public List<Joueur> players;
     public Joueur currentPlayer;
     StartCharDeck startCharDeck;
     public Plateau plateau;
