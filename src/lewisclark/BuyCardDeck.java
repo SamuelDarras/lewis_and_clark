@@ -18,7 +18,7 @@ public class BuyCardDeck {
         initDeck();
     }
     public void initDeck(){
-       
+
                cards.add(new Card(
                        "Hay",
                        "Prenez autant de ressources primaires différentesque de Personnages actifs sur votre plan de jeu (Hay inclus) (jusqu’à un maximum de 4 ressources donc). Ne comptez que les cartes Personnage actifs (et non les cartes retournées sous les Personnages actifs). L’effet de cette Action ne peut pas s’appliquer plusieurs fois. Activer cette carte avec une Force supérieure à 1 est donc inutile (mais pas interdit).",

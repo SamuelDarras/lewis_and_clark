@@ -24,12 +24,6 @@ public class Game {
     public void start() throws Exception {
         curr_player_idx = rd.nextInt(players.size());
         currentPlayer = players.get(curr_player_idx);
-        currentPlayer.addRessourceToMiniPlateauExpedition(1, new Ressource(PieceEnum.FOURRURE));
-        currentPlayer.addRessourceToMiniPlateauExpedition(1, new Ressource(PieceEnum.FOURRURE));
-        currentPlayer.addRessourceToMiniPlateauExpedition(1, new Ressource(PieceEnum.FOURRURE));
-        currentPlayer.addRessourceToMiniPlateauExpedition(2, new Ressource(PieceEnum.EQUIPEMENT));
-        currentPlayer.addRessourceToMiniPlateauExpedition(2, new Ressource(PieceEnum.EQUIPEMENT));
-        currentPlayer.addRessourceToMiniPlateauExpedition(2, new Ressource(PieceEnum.EQUIPEMENT));
 
         for (int i = 0; i < 5; i++) {
             plateau.ajouterCarteAchat(plateau.deck.cards.remove(0));

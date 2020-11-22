@@ -115,6 +115,13 @@ public class Vue extends Application{
 
         StackPane root = new StackPane();
 
+        /*
+           ? affichage des informations du joueur actif
+        */
+
+        /*
+          * inventaire
+        */
         String msg = game.currentPlayer.getCouleur()+" joue";
 
         Label currPlayer = new Label(msg);
@@ -141,6 +148,10 @@ public class Vue extends Application{
         vbMiniPlateau.setAlignment(Pos.CENTER_LEFT);
         vbMiniPlateau.setPadding(new Insets(20));
 
+        /*
+           * inventaire carte
+         */
+
         Label card = new Label("Inventaire carte :");
         card.setStyle("-fx-font: normal bold 20px 'serif'");
 
@@ -156,9 +167,17 @@ public class Vue extends Application{
         deck.setAlignment(Pos.TOP_LEFT);
         deck.setPadding(new Insets(20));
 
+        /*
+           ? Plateau
+         */
+
         FileInputStream filePlateau = new FileInputStream("src/image/Plateau.png");
         Image plateau = new Image(filePlateau,800,700,false,false);
         ImageView plateauView = new ImageView(plateau);
+
+        /*
+           * inventaire plateau
+         */
 
         Label srcPlateau = new Label("Inventaire plateau :");
         srcPlateau.setStyle("-fx-font: normal bold 20px 'serif'");
@@ -185,6 +204,10 @@ public class Vue extends Application{
         inventairePlateau.setSpacing(10);
         inventairePlateau.setAlignment(Pos.TOP_RIGHT);
         inventairePlateau.setPadding(new Insets(0,10,0,0));
+
+        /*
+           * carte pour achat
+         */
 
         Button carte1 = new Button(game.plateau.getCarteAchat().get(0).getCardName());
         carte1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
@@ -231,14 +254,32 @@ public class Vue extends Application{
             }
         });
 
-        VBox test = new VBox();
-        test.getChildren().addAll(carte5,carte4,carte3,carte2,carte1);
+        VBox pileAchat = new VBox();
+        pileAchat.getChildren().addAll(carte5,carte4,carte3,carte2,carte1);
 
-        test.setAlignment(Pos.CENTER);
-        test.setPadding(new Insets(130,0,0,650));
-        test.setSpacing(85);
+        pileAchat.setAlignment(Pos.CENTER);
+        pileAchat.setPadding(new Insets(130,0,0,650));
+        pileAchat.setSpacing(85);
 
-        root.getChildren().addAll(plateauView, vbMiniPlateau, deck, inventairePlateau, test);
+        /*
+           ? actions
+         */
+
+        Button nextTurn = new Button("next turn");
+        nextTurn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            game.nextTurn();
+            try {
+                play(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        VBox action = new VBox();
+        action.getChildren().addAll(nextTurn);
+        action.setAlignment(Pos.BOTTOM_RIGHT);
+
+        root.getChildren().addAll(plateauView, vbMiniPlateau, deck, inventairePlateau, pileAchat, action);
 
         Scene scene = new Scene(root, 1500, 800);
 
