@@ -31,7 +31,7 @@ public class JoueurUnitTest {
     @Test
     public void testAddCard() throws Exception {
         Joueur joueur = new Joueur("rouge", game.getPlateau());
-        Card card = new Card();
+        Card card = Card.nouvelleCard();
 
         joueur.addCard(card);
 
@@ -41,7 +41,7 @@ public class JoueurUnitTest {
     @Test
     public void testJouer() throws Exception {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());
-        Card card = new Card(new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE));
+        Card card = Card.nouvelleCard(new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE));
 
         joueur.jouer(card);
 
@@ -54,7 +54,7 @@ public class JoueurUnitTest {
     @Test
     public void testJouerFail() throws Exception {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());
-        Card card = new Card(new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE));
+        Card card = Card.nouvelleCard(new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE));
 
         joueur.jouer(card);
         ecouteur.expect(RessourceOutOfDisponibleException.class);
@@ -64,8 +64,13 @@ public class JoueurUnitTest {
     @Test (expected = NotActionChooseException.class)
     public void testJouerNoChoiseMade() throws Exception {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());
-        Card card = new Card(new Ressource[]{new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE)},
-                new Ressource[]{new Ressource(PieceEnum.NOURRITURE), new Ressource(PieceEnum.FOURRURE)});
+        List<Ressource> gain = new ArrayList<>();
+        List<Ressource> cout = new ArrayList<>();
+        gain.add(new Ressource(PieceEnum.FOURRURE));
+        gain.add(new Ressource(PieceEnum.NOURRITURE));
+        cout.add(new Ressource(PieceEnum.NOURRITURE));
+        cout.add(new Ressource(PieceEnum.FOURRURE));
+        Card card = Card.nouvelleCard(gain, cout);
 
         joueur.jouer(card);
     }
@@ -73,8 +78,13 @@ public class JoueurUnitTest {
     @Test (expected = OutOfActionPossibleException.class)
     public void testJouerOutOfChoix() throws Exception {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());
-        Card card = new Card(new Ressource[]{new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE)},
-                new Ressource[]{new Ressource(PieceEnum.NOURRITURE), new Ressource(PieceEnum.FOURRURE)});
+        List<Ressource> gain = new ArrayList<>();
+        List<Ressource> cout = new ArrayList<>();
+        gain.add(new Ressource(PieceEnum.FOURRURE));
+        gain.add(new Ressource(PieceEnum.NOURRITURE));
+        cout.add(new Ressource(PieceEnum.NOURRITURE));
+        cout.add(new Ressource(PieceEnum.FOURRURE));
+        Card card = Card.nouvelleCard(gain, cout);
 
         joueur.jouer(card,3);
     }
@@ -82,8 +92,13 @@ public class JoueurUnitTest {
     @Test (expected = OutOfActionPossibleException.class)
     public void testJouerOutOfChoix2() throws Exception {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());
-        Card card = new Card(new Ressource[]{new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE)},
-                new Ressource[]{new Ressource(PieceEnum.NOURRITURE), new Ressource(PieceEnum.FOURRURE)});
+        List<Ressource> gain = new ArrayList<>();
+        List<Ressource> cout = new ArrayList<>();
+        gain.add(new Ressource(PieceEnum.FOURRURE));
+        gain.add(new Ressource(PieceEnum.NOURRITURE));
+        cout.add(new Ressource(PieceEnum.NOURRITURE));
+        cout.add(new Ressource(PieceEnum.FOURRURE));
+        Card card = Card.nouvelleCard(gain, cout);
 
         joueur.jouer(card,0);
     }
@@ -91,8 +106,26 @@ public class JoueurUnitTest {
     @Test
     public void testJouerMultiChoise() throws Exception {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());
-        Card card = new Card(new Ressource[]{new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE)},
-                new Ressource[]{new Ressource(PieceEnum.NOURRITURE), new Ressource(PieceEnum.FOURRURE)});
+        List<List<Ressource>> gainList = new ArrayList<>();
+        List<List<Ressource>> coutList = new ArrayList<>();
+        List<Ressource> gain = new ArrayList<>();
+        List<Ressource> cout = new ArrayList<>();
+
+        List<Ressource> gain2 = new ArrayList<>();
+        List<Ressource> cout2 = new ArrayList<>();
+
+        gain.add(new Ressource(PieceEnum.FOURRURE));
+        gain2.add(new Ressource(PieceEnum.NOURRITURE));
+        cout.add(new Ressource(PieceEnum.NOURRITURE));
+        cout2.add(new Ressource(PieceEnum.FOURRURE));
+
+        gainList.add(gain);
+        gainList.add(gain2);
+
+        coutList.add(cout);
+        coutList.add(cout2);
+
+        Card card = new Card(gainList, coutList);
 
         joueur.jouer(card,1);
         Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
@@ -106,7 +139,7 @@ public class JoueurUnitTest {
     @Test
     public void testJouerOnlyBenefi() throws Exception {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());
-        Card card = new Card(new Ressource(PieceEnum.FOURRURE));
+        Card card = Card.nouvelleCard(new Ressource(PieceEnum.FOURRURE));
 
         joueur.jouer(card);
         Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));

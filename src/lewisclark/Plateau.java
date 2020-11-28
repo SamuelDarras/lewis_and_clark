@@ -72,7 +72,8 @@ public class Plateau {
      */
     public void defausser(Joueur joueur, Card card, int index) throws Exception {
         if (index > card.getNombreChoixPossible() || index <= 0) throw new OutOfActionPossibleException();
-        defausser(joueur, card.getCoute()[index - 1].type);
+        for (Ressource ressource : card.getCoute().get(index - 1))
+            defausser(joueur, ressource.type);
     }
 
     public void defausser(Joueur joueur, PieceEnum pieceEnum){

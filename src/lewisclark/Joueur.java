@@ -46,14 +46,16 @@ public class Joueur {
      */
     public void jouer(Card card, int index) throws Exception {
         if (index > card.getNombreChoixPossible() || index <= 0) throw new OutOfActionPossibleException();
-        if (card.getCoute()[index - 1] != null)
-            if (this.miniPlateau.countNbRessource(card.getCoute()[index - 1].type) == 0)
-                throw new RessourceOutOfDisponibleException();
-            else
-                this.plateau.defausser(this,card, index);
+        if (card.getCoute().get(index - 1).get(0) != null)
+            for (Ressource ressource : card.getCoute().get(index - 1))
+                if (this.miniPlateau.countNbRessource(ressource.type) == 0)
+                    throw new RessourceOutOfDisponibleException();
+                else
+                    this.plateau.defausser(this,card, index);
         int positionBatteau = this.miniPlateau.getValideBateau();
         if (positionBatteau == -1) throw new BateauFullException();
-        this.miniPlateau.addRessourceDansBateau(positionBatteau,card.getPossede()[index - 1]);
+        for (Ressource ressource : card.getPossede().get(index - 1))
+            this.miniPlateau.addRessourceDansBateau(positionBatteau,ressource);
     }
 
     public void print(){

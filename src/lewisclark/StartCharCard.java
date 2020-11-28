@@ -4,15 +4,17 @@ public class StartCharCard extends Card{
     private final String type;
 
     public StartCharCard(){
-        super();
+        super(Card.nouvelleCard());
         type = "default";
     }
+
     public StartCharCard(String cardName, int indianCost,String actionDescription,String type,PieceEnum badge){
         super(cardName, indianCost, actionDescription,badge);
         this.type = type;
     }
+
     public StartCharCard(String cardName, int indianCost,String actionDescription,String type,PieceEnum badge, Ressource[] possede,Ressource[] coute){
-        super(cardName, indianCost, actionDescription,badge,possede,coute);
+        super(Card.nouvelleCard(cardName, indianCost, actionDescription, badge, possede, coute));
         this.type = type;
     }
 
