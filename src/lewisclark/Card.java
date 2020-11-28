@@ -94,7 +94,7 @@ public class Card implements Comparable<Card>{
         List<List<Ressource>> ressouce = new ArrayList<>();
         ressouce.add(possede);
         List<List<Ressource>> ressouceCoute = new ArrayList<>();
-        ressouceCoute.add(possede);
+        ressouceCoute.add(coute);
 
         return new Card("defaultName",0,"defaulfActionDescription",null, ressouce, ressouceCoute);
     }

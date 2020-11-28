@@ -144,4 +144,45 @@ public class JoueurUnitTest {
         joueur.jouer(card);
         Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
     }
+
+    @Test
+    public void testJoueurMultiGain() throws Exception {
+        Joueur joueur = new Joueur("Rouge",new Plateau());
+        List<Ressource> gain = new ArrayList<>();
+
+        gain.add(new Ressource(PieceEnum.FOURRURE));
+        gain.add(new Ressource(PieceEnum.FOURRURE));
+        gain.add(new Ressource(PieceEnum.FOURRURE));
+
+        Card card = Card.nouvelleCard(gain);
+
+        joueur.jouer(card);
+
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE), 4);
+    }
+
+    @Test
+    public void testJoueurMultiCout() throws Exception {
+        Joueur joueur = new Joueur("Rouge",new Plateau());
+        List<Ressource> gain = new ArrayList<>();
+        List<Ressource> cout = new ArrayList<>();
+
+        gain.add(new Ressource(PieceEnum.FOURRURE));
+        gain.add(new Ressource(PieceEnum.FOURRURE));
+        gain.add(new Ressource(PieceEnum.FOURRURE));
+
+        Card card = Card.nouvelleCard(gain);
+
+        joueur.jouer(card);
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE), 4);
+
+        cout.add(new Ressource(PieceEnum.FOURRURE));
+        cout.add(new Ressource(PieceEnum.FOURRURE));
+        cout.add(new Ressource(PieceEnum.FOURRURE));
+
+        card = Card.nouvelleCard(null, cout);
+
+        joueur.jouer(card);
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE), 1);
+    }
 }
