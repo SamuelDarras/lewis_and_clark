@@ -64,15 +64,49 @@ public class JoueurUnitTest {
     @Test (expected = NotActionChooseException.class)
     public void testJouerNoChoiseMade() throws Exception {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());
+        List<List<Ressource>> gainFinal = new ArrayList<>();
+        List<List<Ressource>> coutFinal = new ArrayList<>();
+
         List<Ressource> gain = new ArrayList<>();
+        List<Ressource> gain2 = new ArrayList<>();
         List<Ressource> cout = new ArrayList<>();
+
         gain.add(new Ressource(PieceEnum.FOURRURE));
         gain.add(new Ressource(PieceEnum.NOURRITURE));
         cout.add(new Ressource(PieceEnum.NOURRITURE));
         cout.add(new Ressource(PieceEnum.FOURRURE));
-        Card card = Card.nouvelleCard(gain, cout);
+
+        gainFinal.add(gain);
+        gainFinal.add(gain2);
+        coutFinal.add(cout);
+
+        Card card = new Card(gainFinal, coutFinal);
 
         joueur.jouer(card);
+    }
+
+    @Test (expected = OutOfActionPossibleException.class)
+    public void testJouerChoiseWrongMade() throws Exception {
+        Joueur joueur = new Joueur("Rouge", game.getPlateau());
+        List<List<Ressource>> gainFinal = new ArrayList<>();
+        List<List<Ressource>> coutFinal = new ArrayList<>();
+
+        List<Ressource> gain = new ArrayList<>();
+        List<Ressource> gain2 = new ArrayList<>();
+        List<Ressource> cout = new ArrayList<>();
+
+        gain.add(new Ressource(PieceEnum.FOURRURE));
+        gain.add(new Ressource(PieceEnum.NOURRITURE));
+        cout.add(new Ressource(PieceEnum.NOURRITURE));
+        cout.add(new Ressource(PieceEnum.FOURRURE));
+
+        gainFinal.add(gain);
+        gainFinal.add(gain2);
+        coutFinal.add(cout);
+
+        Card card = new Card(gainFinal, coutFinal);
+
+        joueur.jouer(card,2);
     }
 
     @Test (expected = OutOfActionPossibleException.class)

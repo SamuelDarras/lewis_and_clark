@@ -46,16 +46,26 @@ public class Joueur {
      */
     public void jouer(Card card, int index) throws Exception {
         if (index > card.getNombreChoixPossible() || index <= 0) throw new OutOfActionPossibleException();
-        if (card.getCoute().get(index - 1) != null)
-            for (Ressource ressource : card.getCoute().get(index - 1))
-                if (this.miniPlateau.countNbRessource(ressource.type) == 0)
+        //Regarder si on peut supprimer les ressources
+        index--;
+        boolean boolCout = card.getCoute().get(index) != null && card.getCoute().get(index).get(0) != null;
+        boolean boolGain = card.getPossede().get(index) != null && card.getPossede().get(index).get(0) != null;
+
+        if (boolCout)
+            for (Ressource ressource : card.getCoute().get(index))
+                if (this.miniPlateau.countNbRessource(ressource.type) <= 0)
                     throw new RessourceOutOfDisponibleException();
-                else
-                    this.plateau.defausser(this,card, index);
-        int positionBatteau = this.miniPlateau.getValideBateau();
-        if (positionBatteau == -1) throw new BateauFullException();
-        for (Ressource ressource : card.getPossede().get(index - 1))
-            this.miniPlateau.addRessourceDansBateau(positionBatteau,ressource);
+        //Regarder les batteaux si ils peuvent stocker des ressources et combien
+        if (boolGain)
+            if (!this.miniPlateau.isEnoughPlace(card.getPossede().get(index).size()))
+                throw new BateauFullException();
+        //Traitement
+        if (boolCout)
+            for (Ressource ressource : card.getCoute().get(index))
+                this.plateau.defausser(this,ressource.type);
+        if (boolGain)
+            for (Ressource ressource : card.getPossede().get(index))
+                this.miniPlateau.addRessourceDansBateau(this.miniPlateau.getValideBateau(), ressource);
     }
 
     public void print(){

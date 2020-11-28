@@ -3,7 +3,6 @@ package lewisclark;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -77,13 +76,16 @@ public class Card implements Comparable<Card>{
         this.actionDescription = actionDescription;
         this.badge             = badge;
         this.used              = false;
-        //assert possede.length == coute.length : "Doit être de la meme taille";
         this.possede           = possede;
         this.coute             = coute;
-        if (coute == null)
+        if (coute == null || possede == null)
             this.nombreChoixPossible = 0;
-        else
-            this.nombreChoixPossible = coute.size();
+        else{
+            if (coute.size() != possede.size())
+                this.nombreChoixPossible = -1;
+            else
+                this.nombreChoixPossible = possede.size();
+        }
     }
 
     public Card(String cardName, int indianCost, String actionDescription, PieceEnum badge) {

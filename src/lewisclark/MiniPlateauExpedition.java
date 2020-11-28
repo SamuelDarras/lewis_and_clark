@@ -84,12 +84,16 @@ public class MiniPlateauExpedition {
      * @param pieceEnum est la ressouce a delete
      */
     public void deleteRessource(PieceEnum pieceEnum){
+        boolean isOk = false;
         for (List<Ressource> bateauRe : bateauRes) {
             for (int j = 0; j < bateauRe.size(); j++)
                 if (bateauRe.get(j).type.equals(pieceEnum)) {
                     bateauRe.remove(j);
+                    isOk = true;
                     break;
                 }
+            if (isOk)
+                break;
         }
     }
 
@@ -102,6 +106,18 @@ public class MiniPlateauExpedition {
             if(bateauRes.get(i).size()<MAX_BATEAU_RES[i])
                 return i;
         return -1;
+    }
+
+    public boolean isEnoughPlace(int place){
+        int count = 0;
+        for (int i = 0; i < this.bateauRes.size(); i++){
+            if(bateauRes.get(i).size()<MAX_BATEAU_RES[i]){
+                count += MAX_BATEAU_RES[i];
+                if (count >= place)
+                    return true;
+            }
+        }
+        return false;
     }
 
     public void addBasicRessource(Plateau plateau) throws Exception {
