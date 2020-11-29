@@ -112,7 +112,7 @@ public class MiniPlateauExpedition {
         int count = 0;
         for (int i = 0; i < this.bateauRes.size(); i++){
             if(bateauRes.get(i).size()<MAX_BATEAU_RES[i]){
-                count += MAX_BATEAU_RES[i];
+                count += MAX_BATEAU_RES[i] - bateauRes.get(i).size();
                 if (count >= place)
                     return true;
             }

@@ -8,6 +8,7 @@ public class Plateau {
     public Map<PieceEnum, List<Ressource>> ressources = new HashMap<>();
     private final List<Card> carteAchat = new ArrayList<>();
     public BuyCardDeck deck;
+    private final Map<PositionEmplacementVillage, Integer>  emplacementIndienOnVillage;
 
     public Plateau() {
         ressources.put(PieceEnum.INDIEN    , new ArrayList<>());
@@ -33,7 +34,7 @@ public class Plateau {
         }
 
         deck = new BuyCardDeck();
-
+        emplacementIndienOnVillage = new HashMap<>();
         //carteAchat.add();
     }
 
@@ -89,6 +90,35 @@ public class Plateau {
             throw new RessourceOutOfDisponibleException();
         }
         return tampon;
+    }
+
+    public int getNbIndienOnPosition(PositionEmplacementVillage positionEmplacementVillage){
+        int nombreIndient = 0;
+        switch (positionEmplacementVillage){
+            case MelangeCarte, IndienReserve, EquipementBois,
+                    NouritureFourrure, DeffauseTroisCarte,
+                    DoubleRessourceCondition -> nombreIndient = 1;
+            case JeSaisPasCeQueCest -> nombreIndient = 2;
+            case Kayak, Cheval -> nombreIndient = 3;
+            case Powo -> nombreIndient = 1000;
+        }
+        return nombreIndient;
+    }
+
+    public int lastPlaceForIndienOnPosition(PositionEmplacementVillage positionEmplacementVillage){
+        return getNbIndienOnPosition(positionEmplacementVillage) - emplacementIndienOnVillage.get(positionEmplacementVillage);
+    }
+
+    /**
+     * Regarde si on peut placer un indient (juste si son position est possible)
+     * @return true si le possitionement est possible
+     */
+    public boolean addOneIndientOnPossition(PositionEmplacementVillage positionEmplacementVillage) {
+        return lastPlaceForIndienOnPosition(positionEmplacementVillage) > 0;
+    }
+
+    public Map<PositionEmplacementVillage, Integer> getEmplacementIndienOnVillage() {
+        return emplacementIndienOnVillage;
     }
 
     public void dropRessource(PieceEnum ressource){
