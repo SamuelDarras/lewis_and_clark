@@ -9,7 +9,7 @@ public class Joueur {
     String couleur;
     public MiniPlateauExpedition miniPlateau;
     public List<Card> cards;
-
+    private boolean dejaAcheter = false;
     Plateau plateau;
 
     public Joueur(String couleur, Plateau plateau) throws Exception {
@@ -72,5 +72,13 @@ public class Joueur {
         for (Card c : cards)
             System.out.println(c.toString());
         System.out.println(couleur);
+    }
+
+    public boolean isDejaAcheter() {
+        return dejaAcheter;
+    }
+
+    public void setDejaAcheter(boolean dejaAcheter) {
+        this.dejaAcheter = dejaAcheter;
     }
 }

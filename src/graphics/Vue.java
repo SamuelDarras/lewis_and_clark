@@ -240,7 +240,7 @@ public class Vue extends Application{
         carte1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 game.plateau.achatCarte(game.getCurrentPlayer(), 0);
-            } catch (RessourceOutOfDisponibleException | JournalVideException e) {
+            } catch (RessourceOutOfDisponibleException | JournalVideException | DejaAchatException e) {
                 e.printStackTrace();
             }
         });
@@ -249,7 +249,7 @@ public class Vue extends Application{
         carte2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 game.plateau.achatCarte(game.getCurrentPlayer(), 1);
-            } catch (RessourceOutOfDisponibleException | JournalVideException e) {
+            } catch (RessourceOutOfDisponibleException | JournalVideException | DejaAchatException e) {
                 e.printStackTrace();
             }
         });
@@ -258,7 +258,7 @@ public class Vue extends Application{
         carte3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 game.plateau.achatCarte(game.getCurrentPlayer(), 2);
-            } catch (RessourceOutOfDisponibleException | JournalVideException e) {
+            } catch (RessourceOutOfDisponibleException | JournalVideException | DejaAchatException e) {
                 e.printStackTrace();
             }
         });
@@ -267,7 +267,7 @@ public class Vue extends Application{
         carte4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 game.plateau.achatCarte(game.getCurrentPlayer(), 3);
-            } catch (RessourceOutOfDisponibleException | JournalVideException e) {
+            } catch (RessourceOutOfDisponibleException | JournalVideException | DejaAchatException e) {
                 e.printStackTrace();
             }
         });
@@ -276,7 +276,7 @@ public class Vue extends Application{
         carte5.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 game.plateau.achatCarte(game.getCurrentPlayer(), 4);
-            } catch (RessourceOutOfDisponibleException | JournalVideException e) {
+            } catch (RessourceOutOfDisponibleException | JournalVideException | DejaAchatException e) {
                 e.printStackTrace();
             }
         });

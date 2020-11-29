@@ -52,7 +52,8 @@ public class Plateau {
         emplacementIndienOnVillage.put(PositionEmplacementVillage.Powo, 0);
     }
 
-    public void achatCarte(Joueur joueur, int index) throws RessourceOutOfDisponibleException, JournalVideException{
+    public void achatCarte(Joueur joueur, int index) throws RessourceOutOfDisponibleException, JournalVideException, DejaAchatException {
+        if (joueur.isDejaAcheter()) throw new DejaAchatException();
         if (carteAchat.isEmpty()) { throw new JournalVideException(); }
         if ((index < 0) || (index >= carteAchat.size())) throw new IndexOutOfBoundsException();
         if ((joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE) <= index+1) || (joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT) <= carteAchat.get(index).getStrength())){
@@ -66,6 +67,7 @@ public class Plateau {
         }
         joueur.addCard(carteAchat.remove(index));
         ajouterCarteAchat(deck.cards.remove(0));
+        joueur.setDejaAcheter(true);
     }
 
     public void trierCarteAchat() {
@@ -79,7 +81,6 @@ public class Plateau {
     }
 
     /**
-     *
      * @param joueur
      * @param card
      * @param index premiere action = 1, seconde = 2 etc...

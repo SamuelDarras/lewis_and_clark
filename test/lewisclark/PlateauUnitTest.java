@@ -121,4 +121,12 @@ public class PlateauUnitTest {
         plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte);
         Assert.assertFalse(plateau.addOneIndientOnPossition(PositionEmplacementVillage.DeffauseTroisCarte));
     }
+
+    @Test (expected = DejaAchatException.class)
+    public void testAchatCarte() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red",plateau);
+        plateau.achatCarte(joueur,1);
+        plateau.achatCarte(joueur,1);
+    }
 }
