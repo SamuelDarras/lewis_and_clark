@@ -34,8 +34,22 @@ public class Plateau {
         }
 
         deck = new BuyCardDeck();
-        emplacementIndienOnVillage = new HashMap<>();
+        this.emplacementIndienOnVillage = new HashMap<>();
+        initEmplacement();
         //carteAchat.add();
+    }
+
+    private void initEmplacement(){
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.EquipementBois, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.Cheval, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.DeffauseTroisCarte, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.DoubleRessourceCondition, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.IndienReserve, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.JeSaisPasCeQueCest, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.Kayak, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.MelangeCarte, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.NouritureFourrure, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.Powo, 0);
     }
 
     public void achatCarte(Joueur joueur, int index) throws RessourceOutOfDisponibleException, JournalVideException{
@@ -101,6 +115,7 @@ public class Plateau {
             case JeSaisPasCeQueCest -> nombreIndient = 2;
             case Kayak, Cheval -> nombreIndient = 3;
             case Powo -> nombreIndient = 1000;
+            default -> nombreIndient = -1;
         }
         return nombreIndient;
     }
@@ -115,6 +130,10 @@ public class Plateau {
      */
     public boolean addOneIndientOnPossition(PositionEmplacementVillage positionEmplacementVillage) {
         return lastPlaceForIndienOnPosition(positionEmplacementVillage) > 0;
+    }
+
+    public void addIndien(PositionEmplacementVillage positionEmplacementVillage){
+        emplacementIndienOnVillage.put(positionEmplacementVillage,emplacementIndienOnVillage.get(positionEmplacementVillage) + 1);
     }
 
     public Map<PositionEmplacementVillage, Integer> getEmplacementIndienOnVillage() {
