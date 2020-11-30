@@ -1,7 +1,6 @@
 package lewisclark;
 
 import Error.*;
-
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
@@ -103,5 +102,31 @@ public class PlateauUnitTest {
         Assert.assertEquals(19,plateau.getNbressource(PieceEnum.FOURRURE));
         plateau.defausser(joueur,PieceEnum.FOURRURE);
         Assert.assertEquals(20, plateau.getNbressource(PieceEnum.FOURRURE));
+    }
+
+    @Test
+    public void testCountLastPlaceOnPosition(){
+        Plateau plateau = new Plateau();
+        Assert.assertEquals(plateau.lastPlaceForIndienOnPosition(PositionEmplacementVillage.DeffauseTroisCarte),1);
+
+        plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte);
+
+        Assert.assertEquals(plateau.lastPlaceForIndienOnPosition(PositionEmplacementVillage.DeffauseTroisCarte),0);
+    }
+
+    @Test
+    public void testPositionIndiens(){
+        Plateau plateau = new Plateau();
+        Assert.assertTrue(plateau.addOneIndientOnPossition(PositionEmplacementVillage.DeffauseTroisCarte));
+        plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte);
+        Assert.assertFalse(plateau.addOneIndientOnPossition(PositionEmplacementVillage.DeffauseTroisCarte));
+    }
+
+    @Test (expected = DejaAchatException.class)
+    public void testAchatCarte() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red",plateau);
+        plateau.achatCarte(joueur,1);
+        plateau.achatCarte(joueur,1);
     }
 }

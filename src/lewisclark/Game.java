@@ -60,6 +60,7 @@ public class Game {
     }
 
     public void nextTurn() {
+        players.get(curr_player_idx).setDejaAcheter(false);
         curr_player_idx += 1;
         curr_player_idx %= players.size();
         currentPlayer = players.get(curr_player_idx);

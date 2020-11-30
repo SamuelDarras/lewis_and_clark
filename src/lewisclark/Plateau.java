@@ -8,6 +8,7 @@ public class Plateau {
     public Map<PieceEnum, List<Ressource>> ressources = new HashMap<>();
     private final List<Card> carteAchat = new ArrayList<>();
     public BuyCardDeck deck;
+    private final Map<PositionEmplacementVillage, Integer>  emplacementIndienOnVillage;
 
     public Plateau() {
         ressources.put(PieceEnum.INDIEN    , new ArrayList<>());
@@ -33,11 +34,26 @@ public class Plateau {
         }
 
         deck = new BuyCardDeck();
-
+        this.emplacementIndienOnVillage = new HashMap<>();
+        initEmplacement();
         //carteAchat.add();
     }
 
-    public void achatCarte(Joueur joueur, int index) throws RessourceOutOfDisponibleException, JournalVideException{
+    private void initEmplacement(){
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.EquipementBois, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.Cheval, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.DeffauseTroisCarte, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.DoubleRessourceCondition, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.IndienReserve, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.JeSaisPasCeQueCest, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.Kayak, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.MelangeCarte, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.NouritureFourrure, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.Powo, 0);
+    }
+
+    public void achatCarte(Joueur joueur, int index) throws RessourceOutOfDisponibleException, JournalVideException, DejaAchatException {
+        if (joueur.isDejaAcheter()) throw new DejaAchatException();
         if (carteAchat.isEmpty()) { throw new JournalVideException(); }
         if ((index < 0) || (index >= carteAchat.size())) throw new IndexOutOfBoundsException();
         if ((joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE) <= index+1) || (joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT) <= carteAchat.get(index).getStrength())){
@@ -51,6 +67,7 @@ public class Plateau {
         }
         joueur.addCard(carteAchat.remove(index));
         ajouterCarteAchat(deck.cards.remove(0));
+        joueur.setDejaAcheter(true);
     }
 
     public void trierCarteAchat() {
@@ -64,7 +81,6 @@ public class Plateau {
     }
 
     /**
-     *
      * @param joueur
      * @param card
      * @param index premiere action = 1, seconde = 2 etc...
@@ -89,6 +105,40 @@ public class Plateau {
             throw new RessourceOutOfDisponibleException();
         }
         return tampon;
+    }
+
+    public int getNbIndienOnPosition(PositionEmplacementVillage positionEmplacementVillage){
+        int nombreIndient = 0;
+        switch (positionEmplacementVillage){
+            case MelangeCarte, IndienReserve, EquipementBois,
+                    NouritureFourrure, DeffauseTroisCarte,
+                    DoubleRessourceCondition -> nombreIndient = 1;
+            case JeSaisPasCeQueCest -> nombreIndient = 2;
+            case Kayak, Cheval -> nombreIndient = 3;
+            case Powo -> nombreIndient = 1000;
+            default -> nombreIndient = -1;
+        }
+        return nombreIndient;
+    }
+
+    public int lastPlaceForIndienOnPosition(PositionEmplacementVillage positionEmplacementVillage){
+        return getNbIndienOnPosition(positionEmplacementVillage) - emplacementIndienOnVillage.get(positionEmplacementVillage);
+    }
+
+    /**
+     * Regarde si on peut placer un indient (juste si son position est possible)
+     * @return true si le possitionement est possible
+     */
+    public boolean addOneIndientOnPossition(PositionEmplacementVillage positionEmplacementVillage) {
+        return lastPlaceForIndienOnPosition(positionEmplacementVillage) > 0;
+    }
+
+    public void addIndien(PositionEmplacementVillage positionEmplacementVillage){
+        emplacementIndienOnVillage.put(positionEmplacementVillage,emplacementIndienOnVillage.get(positionEmplacementVillage) + 1);
+    }
+
+    public Map<PositionEmplacementVillage, Integer> getEmplacementIndienOnVillage() {
+        return emplacementIndienOnVillage;
     }
 
     public void dropRessource(PieceEnum ressource){
