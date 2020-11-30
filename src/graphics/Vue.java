@@ -1,27 +1,24 @@
 package graphics;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
-import lewisclark.Card;
-import lewisclark.Joueur;
+import lewisclark.*;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import lewisclark.Game;
-import lewisclark.PieceEnum;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -118,6 +115,71 @@ public class Vue extends Application{
         /*
            ? affichage des informations pour le joueur actif
         */
+        HBox hbMiniPlateau = new HBox();
+        MiniPlateauExpedition currentMPE = game.currentPlayer.miniPlateau;
+        List<VBox> vbBateauRes = new ArrayList<>();
+        for (int i = 0 ; i < currentMPE.MAX_BATEAU_RES.length ; i++){
+            vbBateauRes.add(new VBox());
+            Label lBateau = new Label("bateau "+ i);
+            HBox hbEmplacementBateau = new HBox();
+            for (int j = 0 ; j < currentMPE.MAX_BATEAU_RES[i];j++){
+                FileInputStream fileRes;
+                if(currentMPE.bateauRes.get(i).size() > j){
+                    PieceEnum currentRes = currentMPE.bateauRes.get(i).get(j).type;
+                    fileRes = new FileInputStream("src/image/"+currentRes+".png");
+                }else
+                    fileRes = new FileInputStream("src/image/nothing.png");
+
+                Image iRes = new Image(fileRes,32,32,false,false);
+                ImageView ivRes = new ImageView(iRes);
+                ivRes.setId(i+"-"+j+"-Res");
+                ivRes.setOnDragDetected(event ->{
+                    ivRes.startFullDrag();
+                    event.consume();
+                });
+
+                ivRes.setOnMouseDragReleased(event->{
+                         ImageView source = null;
+                         ImageView target = null;
+                        try{
+                            source = (ImageView) event.getGestureSource();
+                            target = (ImageView) event.getTarget();
+                        }catch (Exception e ){
+                            event.consume();
+                        }
+                        if(source.getId().contains("Res") == target.getId().contains("Res")){
+                            String[] infoS = source.getId().split("-");
+                            String[] infoD = target.getId().split("-");
+                            HBox hbS = ((HBox)((VBox) hbMiniPlateau.getChildren().get(Integer.parseInt(infoS[0]))).getChildren().get(1));
+                            HBox hbD = ((HBox)((VBox) hbMiniPlateau.getChildren().get(Integer.parseInt(infoD[0]))).getChildren().get(1));
+                            hbD.getChildren().remove(target);
+                            hbS.getChildren().add(Integer.parseInt(infoS[1]),target);
+                            hbS.getChildren().remove(source);
+                            hbD.getChildren().add(Integer.parseInt(infoD[1]),source);
+
+                            String tmp = source.getId();
+                            source.setId(target.getId());
+                            target.setId(tmp);
+                        }
+
+                        event.consume();
+                });
+
+                hbEmplacementBateau.getChildren().add(ivRes);
+
+            }
+            vbBateauRes.get(i).getChildren().add(lBateau);
+            vbBateauRes.get(i).getChildren().add(hbEmplacementBateau);
+        }
+        hbMiniPlateau.getChildren().addAll(vbBateauRes);
+        hbMiniPlateau.setSpacing(20);
+        hbMiniPlateau.setAlignment(Pos.BOTTOM_CENTER);
+
+
+
+
+
+
 
         /*
           * inventaire
@@ -306,13 +368,34 @@ public class Vue extends Application{
         action.getChildren().addAll(nextTurn);
         action.setAlignment(Pos.BOTTOM_RIGHT);
 
+
+
+
+
         /*
             ! laisser action en dernier sinon les boutons ne marchent plus
          */
+        GridPane gpGame = new GridPane();
+        gpGame.setGridLinesVisible(true);
+        VBox vbplateau = new VBox();
+        vbplateau.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream("src/image/Plateau.png"),800,700,false,false),
+                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT)));
+        vbplateau.setMinSize(800,700);
+        vbplateau.getChildren().addAll(pileAchat);
+        gpGame.add(vbplateau,2,2);
+        gpGame.add(vbMiniPlateau,1,1);
+        gpGame.add(deck,1,2);
+        gpGame.add(inventairePlateau,3,1);
+        gpGame.add(test,3,2);
+        gpGame.add(action,3,3);
+        gpGame.add(hbMiniPlateau,2,3);
 
-        root.getChildren().addAll(plateauView, vbMiniPlateau, deck, inventairePlateau, pileAchat, test, action);
 
-        Scene scene = new Scene(root, 1500, 800);
+        root.getChildren().addAll(gpGame);
+
+
+        Scene scene = new Scene(root, 1500, 950);
 
         stage.setScene(scene);
 

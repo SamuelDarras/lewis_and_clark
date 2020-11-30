@@ -5,10 +5,10 @@ import java.util.List;
 import Error.*;
 
 public class MiniPlateauExpedition {
-    public static int[] MAX_BATEAU_RES={3,3,5};
-    public static int[] MAX_BATEAU_IND={1,100};
-    List<List<Ressource>> bateauRes;
-    List<List<Ressource>> bateauInd;
+    public int[] MAX_BATEAU_RES={3,3,5};
+    public int[] MAX_BATEAU_IND={1,5};
+    public List<List<Ressource>> bateauRes;
+    public List<List<Ressource>> bateauInd;
 
     public MiniPlateauExpedition(){
         bateauRes = new ArrayList<>();
@@ -18,7 +18,7 @@ public class MiniPlateauExpedition {
         bateauInd = new ArrayList<>();
         bateauInd.add(new ArrayList<>());
         bateauInd.add(new ArrayList<>());
-        bateauInd.add(new ArrayList<>());
+
     }
 
     public void addRessourceDansBateau(int numBateau,Ressource p) throws Exception{
@@ -138,4 +138,6 @@ public class MiniPlateauExpedition {
         }
         return String.valueOf(c);
     }
+
+
 }

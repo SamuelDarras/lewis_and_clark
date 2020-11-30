@@ -8,9 +8,10 @@ import Error.*;
 
 public class Ressource {
 
-    PieceEnum type;
+    public PieceEnum type;
 
     public Ressource(PieceEnum type) {
         this.type = type;
     }
+
 }
