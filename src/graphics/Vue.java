@@ -1,5 +1,6 @@
 package graphics;
 
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -20,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static javafx.application.Application.launch;
@@ -238,13 +240,7 @@ public class Vue extends Application{
         hbMiniPlateau.getChildren().addAll(hbBateauInd);
         hbMiniPlateau.setSpacing(20);
         hbMiniPlateau.setAlignment(Pos.BOTTOM_CENTER);
-
-
-
-
-
-
-
+        
         /*
           * inventaire
         */
@@ -335,12 +331,12 @@ public class Vue extends Application{
            * inventaire autres joueurs
         */
 
-        VBox test = new VBox();
+        VBox vbOther = new VBox();
 
-        Label inventaireOther = new Label("Inventaire des autres : ");
+        Label inventaireOther = new Label("Inventaire des autres joueurs: ");
         inventaireOther.setStyle("-fx-font: normal bold 20px 'serif'");
 
-        test.getChildren().add(inventaireOther);
+        vbOther.getChildren().add(inventaireOther);
 
         for (int i = 0; i < game.getNbJoueur(); i++){
             if (!game.players.get(i).getCouleur().equals(game.currentPlayer.getCouleur())){
@@ -352,11 +348,11 @@ public class Vue extends Application{
                                 " | Indien : " + game.players.get(i).miniPlateau.countNbRessource(PieceEnum.INDIEN) + "  "
 
                 );
-                test.getChildren().add(lab);
+                vbOther.getChildren().add(lab);
             }
         }
 
-        test.setAlignment(Pos.CENTER_RIGHT);
+        vbOther.setAlignment(Pos.CENTER_RIGHT);
 
         /*
            * carte pour achat
@@ -418,6 +414,9 @@ public class Vue extends Application{
            ? actions
          */
 
+        /*
+           * next turn
+        */
         Button nextTurn = new Button("next turn");
         nextTurn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             game.nextTurn();
@@ -428,20 +427,54 @@ public class Vue extends Application{
             }
         });
 
+        /*
+           * emplacements plateau
+        */
+
         VBox action = new VBox();
-        action.getChildren().addAll(nextTurn);
+        action.getChildren().add(nextTurn);
         action.setAlignment(Pos.BOTTOM_RIGHT);
 
+        Pane vbplateau = new Pane();
 
+        Button[] btActions = new Button[8];
+        int[][] positions = {
+                {190, 250},
+                {300, 260},
+                {175, 450},
+                {235, 630},
+                {360, 550},
+                {470, 540},
+                {530, 440},
+                {100, 300},
+        };
 
-
+        for (int i = 0; i < btActions.length; i++) {
+            btActions[i] = new Button();
+            btActions[i].setLayoutX(positions[i][0]);
+            btActions[i].setLayoutY(positions[i][1]);
+            vbplateau.getChildren().add(btActions[i]);
+        }
 
         /*
-            ! laisser action en dernier sinon les boutons ne marchent plus
+           * campement
+        */
+
+        Button campement = new Button("campement");
+        campement.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            /*
+                ! a implemeter
+            */
+        });
+
+        action.getChildren().add(campement);
+
+        /*
+            ? affichage
          */
         GridPane gpGame = new GridPane();
         gpGame.setGridLinesVisible(true);
-        VBox vbplateau = new VBox();
+
         vbplateau.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream("src/image/Plateau.png"),800,700,false,false),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT)));
@@ -451,7 +484,7 @@ public class Vue extends Application{
         gpGame.add(vbMiniPlateau,1,1);
         gpGame.add(deck,1,2);
         gpGame.add(inventairePlateau,3,1);
-        gpGame.add(test,3,2);
+        gpGame.add(vbOther,3,2);
         gpGame.add(action,3,3);
         gpGame.add(hbMiniPlateau,2,3);
 
