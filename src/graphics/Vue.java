@@ -176,13 +176,7 @@ public class Vue extends Application{
         hbMiniPlateau.getChildren().addAll(vbBateauRes);
         hbMiniPlateau.setSpacing(20);
         hbMiniPlateau.setAlignment(Pos.BOTTOM_CENTER);
-
-
-
-
-
-
-
+        
         /*
           * inventaire
         */
@@ -273,12 +267,12 @@ public class Vue extends Application{
            * inventaire autres joueurs
         */
 
-        VBox test = new VBox();
+        VBox vbOther = new VBox();
 
-        Label inventaireOther = new Label("Inventaire des autres : ");
+        Label inventaireOther = new Label("Inventaire des autres joueurs: ");
         inventaireOther.setStyle("-fx-font: normal bold 20px 'serif'");
 
-        test.getChildren().add(inventaireOther);
+        vbOther.getChildren().add(inventaireOther);
 
         for (int i = 0; i < game.getNbJoueur(); i++){
             if (!game.players.get(i).getCouleur().equals(game.currentPlayer.getCouleur())){
@@ -290,11 +284,11 @@ public class Vue extends Application{
                                 " | Indien : " + game.players.get(i).miniPlateau.countNbRessource(PieceEnum.INDIEN) + "  "
 
                 );
-                test.getChildren().add(lab);
+                vbOther.getChildren().add(lab);
             }
         }
 
-        test.setAlignment(Pos.CENTER_RIGHT);
+        vbOther.setAlignment(Pos.CENTER_RIGHT);
 
         /*
            * carte pour achat
@@ -356,6 +350,9 @@ public class Vue extends Application{
            ? actions
          */
 
+        /*
+           * next turn
+        */
         Button nextTurn = new Button("next turn");
         nextTurn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             game.nextTurn();
@@ -366,8 +363,12 @@ public class Vue extends Application{
             }
         });
 
+        /*
+           * emplacements plateau
+        */
+
         VBox action = new VBox();
-        action.getChildren().addAll(nextTurn);
+        action.getChildren().add(nextTurn);
         action.setAlignment(Pos.BOTTOM_RIGHT);
 
         Pane vbplateau = new Pane();
@@ -392,10 +393,24 @@ public class Vue extends Application{
         }
 
         /*
-            ! laisser action en dernier sinon les boutons ne marchent plus
+           * campement
+        */
+
+        Button campement = new Button("campement");
+        campement.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            /*
+                ! a implemeter
+            */
+        });
+
+        action.getChildren().add(campement);
+
+        /*
+            ? affichage
          */
         GridPane gpGame = new GridPane();
         gpGame.setGridLinesVisible(true);
+
         vbplateau.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream("src/image/Plateau.png"),800,700,false,false),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT)));
@@ -405,7 +420,7 @@ public class Vue extends Application{
         gpGame.add(vbMiniPlateau,1,1);
         gpGame.add(deck,1,2);
         gpGame.add(inventairePlateau,3,1);
-        gpGame.add(test,3,2);
+        gpGame.add(vbOther,3,2);
         gpGame.add(action,3,3);
         gpGame.add(hbMiniPlateau,2,3);
 
