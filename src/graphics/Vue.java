@@ -1,5 +1,6 @@
 package graphics;
 
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
@@ -20,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static javafx.application.Application.launch;
@@ -368,16 +370,32 @@ public class Vue extends Application{
         action.getChildren().addAll(nextTurn);
         action.setAlignment(Pos.BOTTOM_RIGHT);
 
+        Pane vbplateau = new Pane();
 
+        Button[] btActions = new Button[8];
+        int[][] positions = {
+                {190, 250},
+                {300, 260},
+                {175, 450},
+                {235, 630},
+                {360, 550},
+                {470, 540},
+                {530, 440},
+                {100, 300},
+        };
 
-
+        for (int i = 0; i < btActions.length; i++) {
+            btActions[i] = new Button();
+            btActions[i].setLayoutX(positions[i][0]);
+            btActions[i].setLayoutY(positions[i][1]);
+            vbplateau.getChildren().add(btActions[i]);
+        }
 
         /*
             ! laisser action en dernier sinon les boutons ne marchent plus
          */
         GridPane gpGame = new GridPane();
         gpGame.setGridLinesVisible(true);
-        VBox vbplateau = new VBox();
         vbplateau.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream("src/image/Plateau.png"),800,700,false,false),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT)));

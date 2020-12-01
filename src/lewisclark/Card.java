@@ -1,8 +1,5 @@
 package lewisclark;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -54,7 +51,6 @@ public class Card implements Comparable<Card>{
         return getCard(cardName, strength, actionDescription, badge, ressourcesPossede, ressourcesCoute);
     }
 
-    @NotNull
     private static Card getCard(String cardName, int strength, String actionDescription, PieceEnum badge, List<Ressource> ressourcesPossede, List<Ressource> ressourcesCoute) {
         List<List<Ressource>> listPossede = new ArrayList<>();
         List<List<Ressource>> listCoute = new ArrayList<>();
@@ -70,7 +66,7 @@ public class Card implements Comparable<Card>{
     }
 
     public Card(String cardName, int strength,String actionDescription,PieceEnum badge,
-                @Nullable List<List<Ressource>> possede, @Nullable List<List<Ressource>> coute){
+                List<List<Ressource>> possede, List<List<Ressource>> coute){
         this.cardName          = cardName;
         this.strength          = strength;
         this.actionDescription = actionDescription;
