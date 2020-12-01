@@ -39,18 +39,9 @@ public class MiniPlateauExpeditionUnitTest {
         Ressource r = new Ressource(PieceEnum.EQUIPEMENT);
         mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
         mpe.addRessourceDansBateau(1,r);
-        mpe.deplacerRessourceMiniPlateau(1,0,0);
-        Assert.assertEquals(r,mpe.bateauRes.get(0).get(1));
+        mpe.deplacerRessourceMiniPlateau(1,0,0,0);
+        Assert.assertEquals(r,mpe.bateauRes.get(0).get(0));
     }
-    @Test (expected = BateauFullException.class)
-    public void testFullBateauExceptionOnDeplacerRessource() throws Exception{
-        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
-        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
-        mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));
-        mpe.addRessourceDansBateau(1,new Ressource(PieceEnum.EQUIPEMENT));
-        mpe.deplacerRessourceMiniPlateau(1,0,0);
-    }
-    
     @Test
     public void testCountRessource() throws Exception {
         mpe.addRessourceDansBateau(0,new Ressource(PieceEnum.BOIS));

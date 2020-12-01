@@ -120,11 +120,11 @@ public class Vue extends Application{
         List<VBox> vbBateauRes = new ArrayList<>();
         for (int i = 0 ; i < currentMPE.MAX_BATEAU_RES.length ; i++){
             vbBateauRes.add(new VBox());
-            Label lBateau = new Label("bateau "+ i);
+            Label lBateau = new Label("bRes "+ i);
             HBox hbEmplacementBateau = new HBox();
             for (int j = 0 ; j < currentMPE.MAX_BATEAU_RES[i];j++){
                 FileInputStream fileRes;
-                if(currentMPE.bateauRes.get(i).size() > j){
+                if(currentMPE.bateauRes.get(i).get(j) != null){
                     PieceEnum currentRes = currentMPE.bateauRes.get(i).get(j).type;
                     fileRes = new FileInputStream("src/image/"+currentRes+".png");
                 }else
@@ -150,12 +150,14 @@ public class Vue extends Application{
                         if(source.getId().contains("Res") == target.getId().contains("Res")){
                             String[] infoS = source.getId().split("-");
                             String[] infoD = target.getId().split("-");
-                            HBox hbS = ((HBox)((VBox) hbMiniPlateau.getChildren().get(Integer.parseInt(infoS[0]))).getChildren().get(1));
-                            HBox hbD = ((HBox)((VBox) hbMiniPlateau.getChildren().get(Integer.parseInt(infoD[0]))).getChildren().get(1));
+                            System.out.println(hbMiniPlateau.getChildren());
+                            HBox hbS = ((HBox)((VBox) ((HBox)hbMiniPlateau.getChildren().get(0)).getChildren().get(Integer.parseInt(infoS[0]))).getChildren().get(1));
+                            HBox hbD = ((HBox)((VBox) ((HBox)hbMiniPlateau.getChildren().get(0)).getChildren().get(Integer.parseInt(infoD[0]))).getChildren().get(1));
                             hbD.getChildren().remove(target);
                             hbS.getChildren().add(Integer.parseInt(infoS[1]),target);
                             hbS.getChildren().remove(source);
                             hbD.getChildren().add(Integer.parseInt(infoD[1]),source);
+                            currentMPE.deplacerRessourceMiniPlateau(Integer.parseInt(infoS[0]),Integer.parseInt(infoD[0]),Integer.parseInt(infoS[1]),Integer.parseInt(infoD[1]));
 
                             String tmp = source.getId();
                             source.setId(target.getId());
@@ -171,7 +173,69 @@ public class Vue extends Application{
             vbBateauRes.get(i).getChildren().add(lBateau);
             vbBateauRes.get(i).getChildren().add(hbEmplacementBateau);
         }
-        hbMiniPlateau.getChildren().addAll(vbBateauRes);
+        HBox hbBateauRes = new HBox();
+        hbBateauRes.getChildren().addAll(vbBateauRes);
+        hbBateauRes.setSpacing(20);
+        hbMiniPlateau.getChildren().addAll(hbBateauRes);
+
+        List<VBox> vbBateauInd = new ArrayList<>();
+        for (int i = 0 ; i < currentMPE.MAX_BATEAU_IND.length ; i++){
+            vbBateauInd.add(new VBox());
+            Label lBateau = new Label("bInd "+ i);
+            HBox hbEmplacementBateau = new HBox();
+            for (int j = 0 ; j < currentMPE.MAX_BATEAU_IND[i];j++){
+                FileInputStream fileInd;
+                if(currentMPE.bateauInd.get(i).get(j) != null){
+                    fileInd = new FileInputStream("src/image/INDIEN.png");
+                }else
+                    fileInd = new FileInputStream("src/image/nothing.png");
+
+                Image iInd = new Image(fileInd,32,32,false,false);
+                ImageView ivInd = new ImageView(iInd);
+                ivInd.setId(i+"-"+j+"-Ind");
+                ivInd.setOnDragDetected(event ->{
+                    ivInd.startFullDrag();
+                    event.consume();
+                });
+
+                ivInd.setOnMouseDragReleased(event->{
+                    ImageView source = null;
+                    ImageView target = null;
+                    try{
+                        source = (ImageView) event.getGestureSource();
+                        target = (ImageView) event.getTarget();
+                    }catch (Exception e ){
+                        event.consume();
+                    }
+                    if(source.getId().contains("Ind") == target.getId().contains("Ind")){
+                        String[] infoS = source.getId().split("-");
+                        String[] infoD = target.getId().split("-");
+                        HBox hbS = ((HBox)((VBox) ((HBox)hbMiniPlateau.getChildren().get(1)).getChildren().get(Integer.parseInt(infoS[0]))).getChildren().get(1));
+                        HBox hbD = ((HBox)((VBox) ((HBox)hbMiniPlateau.getChildren().get(1)).getChildren().get(Integer.parseInt(infoD[0]))).getChildren().get(1));
+                        hbD.getChildren().remove(target);
+                        hbS.getChildren().add(Integer.parseInt(infoS[1]),target);
+                        hbS.getChildren().remove(source);
+                        hbD.getChildren().add(Integer.parseInt(infoD[1]),source);
+                        currentMPE.deplacerIndienMiniPlateau(Integer.parseInt(infoS[0]),Integer.parseInt(infoD[0]),Integer.parseInt(infoS[1]),Integer.parseInt(infoD[1]));
+
+                        String tmp = source.getId();
+                        source.setId(target.getId());
+                        target.setId(tmp);
+                    }
+
+                    event.consume();
+                });
+
+                hbEmplacementBateau.getChildren().add(ivInd);
+
+            }
+            vbBateauInd.get(i).getChildren().add(lBateau);
+            vbBateauInd.get(i).getChildren().add(hbEmplacementBateau);
+        }
+        HBox hbBateauInd = new HBox();
+        hbBateauInd.getChildren().addAll(vbBateauInd);
+        hbBateauInd.setSpacing(20);
+        hbMiniPlateau.getChildren().addAll(hbBateauInd);
         hbMiniPlateau.setSpacing(20);
         hbMiniPlateau.setAlignment(Pos.BOTTOM_CENTER);
 

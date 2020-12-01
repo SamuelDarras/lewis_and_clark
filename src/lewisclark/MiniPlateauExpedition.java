@@ -12,19 +12,31 @@ public class MiniPlateauExpedition {
 
     public MiniPlateauExpedition(){
         bateauRes = new ArrayList<>();
-        bateauRes.add(new ArrayList<>());
-        bateauRes.add(new ArrayList<>());
-        bateauRes.add(new ArrayList<>());
         bateauInd = new ArrayList<>();
-        bateauInd.add(new ArrayList<>());
-        bateauInd.add(new ArrayList<>());
+        initBateau();
 
+
+    }
+
+    private void initBateau() {
+        for (int i = 0 ; i < MAX_BATEAU_RES.length ; i++){
+            bateauRes.add(new ArrayList<>());
+            for (int j = 0 ; j < MAX_BATEAU_RES[i] ; j++)
+                bateauRes.get(i).add(null);
+        }
+        for (int i = 0 ; i < MAX_BATEAU_IND.length ; i++){
+            bateauInd.add(new ArrayList<>());
+            for (int j = 0 ; j < MAX_BATEAU_IND[i] ; j++)
+                bateauInd.get(i).add(null);
+        }
     }
 
     public void addRessourceDansBateau(int numBateau,Ressource p) throws Exception{
         if (p.type != PieceEnum.INDIEN){
-            if(bateauRes.get(numBateau).size()<MAX_BATEAU_RES[numBateau]){
-                bateauRes.get(numBateau).add(p);
+            if(!isFullBoat(bateauRes.get(numBateau))){
+                int idx = bateauRes.get(numBateau).indexOf(null);
+                bateauRes.get(numBateau).remove(idx);
+                bateauRes.get(numBateau).add(idx,p);
             }
             else
                 throw new BateauFullException();
@@ -35,8 +47,10 @@ public class MiniPlateauExpedition {
 
     public void addIndienDansBateau(int numBateau,Ressource p) throws Exception{
         if (p.type == PieceEnum.INDIEN){
-            if(bateauInd.get(numBateau).size()<MAX_BATEAU_IND[numBateau]){
-                bateauInd.get(numBateau).add(p);
+            if(!isFullBoat(bateauInd.get(numBateau))){
+                int idx = bateauInd.get(numBateau).indexOf(null);
+                bateauInd.get(numBateau).remove(idx);
+                bateauInd.get(numBateau).add(idx,p);
             }
             else
                 throw new BateauFullException();
@@ -45,22 +59,20 @@ public class MiniPlateauExpedition {
             throw new IncompatiblePieceException();
     }
 
-    public void deplacerRessourceMiniPlateau(int bateauS,int bateauD,int indexRes) throws Exception {
-        if(bateauRes.get(bateauD).size()<MAX_BATEAU_RES[bateauD]){
-            bateauRes.get(bateauD).add(bateauRes.get(bateauS).remove(indexRes));
-        }
-        else
-            throw new BateauFullException();
+    public void deplacerRessourceMiniPlateau(int bateauS,int bateauD,int indexResS,int indexResD) {
+        System.out.println(bateauRes.get(bateauS));
+        System.out.println(bateauRes.get(bateauD));
+        bateauRes.get(bateauS).add(indexResS,bateauRes.get(bateauD).remove(indexResD));
+        bateauRes.get(bateauD).add(indexResD,bateauRes.get(bateauS).remove(indexResS+1));
+        System.out.println(bateauRes.get(bateauS));
+        System.out.println(bateauRes.get(bateauD));
+
     }
 
-    public void deplacerIndienMiniPlateau(int bateauS,int bateauD,int indexRes) throws Exception {
-        if(bateauInd.get(bateauD).size()<MAX_BATEAU_IND[bateauD]){
-            bateauInd.get(bateauD).add(bateauInd.get(bateauS).remove(indexRes));
-        }
-        else
-            throw new BateauFullException();
+    public void deplacerIndienMiniPlateau(int bateauS,int bateauD,int indexIndS,int indexIndD) {
+        bateauInd.get(bateauS).add(indexIndS, bateauInd.get(bateauD).remove(indexIndD));
+        bateauInd.get(bateauD).add(indexIndD, bateauInd.get(bateauS).remove(indexIndS + 1));
     }
-
     /**
      * La methode retourne le nombre d'une ressource en particulier
      * @return number = le nombre de ressources
@@ -69,12 +81,13 @@ public class MiniPlateauExpedition {
         int number = 0;
         if (pieceEnum == PieceEnum.INDIEN) {
             for (List<Ressource> ressource : bateauInd)
+
                 for (Ressource piece : ressource)
-                    if (piece.type == pieceEnum) number++;
+                    if (piece != null && piece.type == pieceEnum) number++;
         }else {
             for (List<Ressource> ressource : bateauRes)
                 for (Ressource piece : ressource)
-                    if (piece.type == pieceEnum) number++;
+                    if (piece != null && piece.type == pieceEnum) number++;
         }
         return number;
     }
@@ -89,6 +102,7 @@ public class MiniPlateauExpedition {
             for (int j = 0; j < bateauRe.size(); j++)
                 if (bateauRe.get(j).type.equals(pieceEnum)) {
                     bateauRe.remove(j);
+                    bateauRe.add(j,null);
                     isOk = true;
                     break;
                 }
@@ -102,18 +116,19 @@ public class MiniPlateauExpedition {
      * @return -1 si il n'y a pas de possibiliter sinon le numéro du batteau
      */
     public int getValideBateau(){
-        for (int i = 0; i < this.bateauRes.size(); i++)
-            if(bateauRes.get(i).size()<MAX_BATEAU_RES[i])
+        for (int i = 0; i < bateauRes.size(); i++)
+            if(!isFullBoat(bateauRes.get(i)))
                 return i;
         return -1;
     }
 
     public boolean isEnoughPlace(int place){
         int count = 0;
-        for (int i = 0; i < this.bateauRes.size(); i++){
-            if(bateauRes.get(i).size()<MAX_BATEAU_RES[i]){
-                count += MAX_BATEAU_RES[i] - bateauRes.get(i).size();
-                if (count >= place)
+        for (int i = 0; i < bateauRes.size(); i++){
+            for (int j = 0 ; j < bateauRes.get(i).size() ; j++){
+                if(bateauRes.get(i).get(j) == null)
+                    count++;
+                if(count == place)
                     return true;
             }
         }
@@ -121,23 +136,21 @@ public class MiniPlateauExpedition {
     }
 
     public void addBasicRessource(Plateau plateau) throws Exception {
-        this.addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.FOURRURE));
-        this.addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.NOURRITURE));
-        this.addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.EQUIPEMENT));
-        this.addIndienDansBateau   (0, plateau.giveRessource(PieceEnum.INDIEN));
+        addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.FOURRURE));
+        addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.NOURRITURE));
+        addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.EQUIPEMENT));
+        addIndienDansBateau   (0, plateau.giveRessource(PieceEnum.INDIEN));
     }
 
-    public String getRessourceFourrure(){
-        int c = 0;
 
-        for (int i = 0; i < bateauRes.size()-1; i++){
-            for (int j = 0; j <= 2; j++){
-                if (bateauRes.get(0).get(0).equals(new Ressource(PieceEnum.FOURRURE)))
-                    c++;
-            }
+    private boolean isFullBoat(List<Ressource> bateau){
+        for (Ressource ressource : bateau) {
+            if (ressource == null)
+                return false;
         }
-        return String.valueOf(c);
+        return true;
     }
+
 
 
 }
