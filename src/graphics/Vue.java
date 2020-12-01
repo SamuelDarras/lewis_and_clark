@@ -149,10 +149,9 @@ public class Vue extends Application{
                         }catch (Exception e ){
                             event.consume();
                         }
-                        if(source.getId().contains("Res") == target.getId().contains("Res")){
+                        if(source.getId().contains("Res") == target.getId().contains("Res") && !source.getId().equals(target.getId())){
                             String[] infoS = source.getId().split("-");
                             String[] infoD = target.getId().split("-");
-                            System.out.println(hbMiniPlateau.getChildren());
                             HBox hbS = ((HBox)((VBox) ((HBox)hbMiniPlateau.getChildren().get(0)).getChildren().get(Integer.parseInt(infoS[0]))).getChildren().get(1));
                             HBox hbD = ((HBox)((VBox) ((HBox)hbMiniPlateau.getChildren().get(0)).getChildren().get(Integer.parseInt(infoD[0]))).getChildren().get(1));
                             hbD.getChildren().remove(target);

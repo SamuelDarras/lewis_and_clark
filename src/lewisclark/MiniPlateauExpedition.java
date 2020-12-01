@@ -60,18 +60,21 @@ public class MiniPlateauExpedition {
     }
 
     public void deplacerRessourceMiniPlateau(int bateauS,int bateauD,int indexResS,int indexResD) {
-        System.out.println(bateauRes.get(bateauS));
-        System.out.println(bateauRes.get(bateauD));
-        bateauRes.get(bateauS).add(indexResS,bateauRes.get(bateauD).remove(indexResD));
-        bateauRes.get(bateauD).add(indexResD,bateauRes.get(bateauS).remove(indexResS+1));
-        System.out.println(bateauRes.get(bateauS));
-        System.out.println(bateauRes.get(bateauD));
-
+        if (bateauD==bateauS)
+            bateauRes.get(bateauS).add(indexResD,bateauRes.get(bateauD).remove(indexResS));
+        else{
+            bateauRes.get(bateauS).add(indexResS,bateauRes.get(bateauD).remove(indexResD));
+            bateauRes.get(bateauD).add(indexResD,bateauRes.get(bateauS).remove(indexResS+1));
+        }
     }
 
     public void deplacerIndienMiniPlateau(int bateauS,int bateauD,int indexIndS,int indexIndD) {
-        bateauInd.get(bateauS).add(indexIndS, bateauInd.get(bateauD).remove(indexIndD));
-        bateauInd.get(bateauD).add(indexIndD, bateauInd.get(bateauS).remove(indexIndS + 1));
+        if (bateauD==bateauS)
+            bateauInd.get(bateauS).add(indexIndD,bateauInd.get(bateauD).remove(indexIndS));
+        else{
+            bateauInd.get(bateauS).add(indexIndS,bateauInd.get(bateauD).remove(indexIndD));
+            bateauInd.get(bateauD).add(indexIndD,bateauInd.get(bateauS).remove(indexIndS+1));
+        }
     }
     /**
      * La methode retourne le nombre d'une ressource en particulier
