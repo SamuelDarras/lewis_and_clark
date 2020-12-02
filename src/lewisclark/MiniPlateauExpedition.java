@@ -103,7 +103,7 @@ public class MiniPlateauExpedition {
         boolean isOk = false;
         for (List<Ressource> bateauRe : bateauRes) {
             for (int j = 0; j < bateauRe.size(); j++)
-                if (bateauRe.get(j).type.equals(pieceEnum)) {
+                if ((bateauRe.get(j) != null) && (bateauRe.get(j).type.equals(pieceEnum))) {
                     bateauRe.remove(j);
                     bateauRe.add(j,null);
                     isOk = true;

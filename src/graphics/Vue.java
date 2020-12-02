@@ -361,8 +361,18 @@ public class Vue extends Application{
         carte1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 game.plateau.achatCarte(game.getCurrentPlayer(), 0);
+                try {
+                    play(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             } catch (RessourceOutOfDisponibleException | JournalVideException | DejaAchatException e) {
-                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Echec achat carte");
+                alert.setHeaderText(null);
+                alert.setContentText("Pas assez de ressources : \n\n Coût fourrure: 1 , Coût Equipement : "+String.valueOf(game.plateau.getCarteAchat().get(0).getStrength())+"\n\n" +
+                                     "Votre fourrure : "+String.valueOf(game.getCurrentPlayer().miniPlateau.countNbRessource(PieceEnum.FOURRURE))+" , votre Equipement : "+String.valueOf(game.getCurrentPlayer().miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT)));
+                alert.showAndWait();
             }
         });
 
@@ -370,8 +380,18 @@ public class Vue extends Application{
         carte2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 game.plateau.achatCarte(game.getCurrentPlayer(), 1);
+                try {
+                    play(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             } catch (RessourceOutOfDisponibleException | JournalVideException | DejaAchatException e) {
-                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Echec achat carte");
+                alert.setHeaderText(null);
+                alert.setContentText("Pas assez de ressources : \n\n Coût fourrure: 2 , Coût Equipement : "+String.valueOf(game.plateau.getCarteAchat().get(0).getStrength())+"\n\n" +
+                        "Votre fourrure : "+String.valueOf(game.getCurrentPlayer().miniPlateau.countNbRessource(PieceEnum.FOURRURE))+" , votre Equipement : "+String.valueOf(game.getCurrentPlayer().miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT)));
+                alert.showAndWait();
             }
         });
 
@@ -379,8 +399,18 @@ public class Vue extends Application{
         carte3.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 game.plateau.achatCarte(game.getCurrentPlayer(), 2);
+                try {
+                    play(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             } catch (RessourceOutOfDisponibleException | JournalVideException | DejaAchatException e) {
-                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Echec achat carte");
+                alert.setHeaderText(null);
+                alert.setContentText("Pas assez de ressources : \n\n Coût fourrure: 3 , Coût Equipement : "+String.valueOf(game.plateau.getCarteAchat().get(0).getStrength())+"\n\n" +
+                        "Votre fourrure : "+String.valueOf(game.getCurrentPlayer().miniPlateau.countNbRessource(PieceEnum.FOURRURE))+" , votre Equipement : "+String.valueOf(game.getCurrentPlayer().miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT)));
+                alert.showAndWait();
             }
         });
 
@@ -388,8 +418,18 @@ public class Vue extends Application{
         carte4.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 game.plateau.achatCarte(game.getCurrentPlayer(), 3);
+                try {
+                    play(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             } catch (RessourceOutOfDisponibleException | JournalVideException | DejaAchatException e) {
-                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Echec achat carte");
+                alert.setHeaderText(null);
+                alert.setContentText("Pas assez de ressources : \n\n Coût fourrure: 4 , Coût Equipement : "+String.valueOf(game.plateau.getCarteAchat().get(0).getStrength())+"\n\n" +
+                        "Votre fourrure : "+String.valueOf(game.getCurrentPlayer().miniPlateau.countNbRessource(PieceEnum.FOURRURE))+" , votre Equipement : "+String.valueOf(game.getCurrentPlayer().miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT)));
+                alert.showAndWait();
             }
         });
 
@@ -397,8 +437,18 @@ public class Vue extends Application{
         carte5.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             try {
                 game.plateau.achatCarte(game.getCurrentPlayer(), 4);
+                try {
+                    play(stage);
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
             } catch (RessourceOutOfDisponibleException | JournalVideException | DejaAchatException e) {
-                e.printStackTrace();
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Echec achat carte");
+                alert.setHeaderText(null);
+                alert.setContentText("Pas assez de ressources : \n\n Coût fourrure: 5 , Coût Equipement : "+String.valueOf(game.plateau.getCarteAchat().get(0).getStrength())+"\n\n" +
+                        "Votre fourrure : "+String.valueOf(game.getCurrentPlayer().miniPlateau.countNbRessource(PieceEnum.FOURRURE))+" , votre Equipement : "+String.valueOf(game.getCurrentPlayer().miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT)));
+                alert.showAndWait();
             }
         });
 

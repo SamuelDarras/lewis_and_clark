@@ -56,7 +56,7 @@ public class Plateau {
         if (joueur.isDejaAcheter()) throw new DejaAchatException();
         if (carteAchat.isEmpty()) { throw new JournalVideException(); }
         if ((index < 0) || (index >= carteAchat.size())) throw new IndexOutOfBoundsException();
-        if ((joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE) <= index+1) || (joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT) <= carteAchat.get(index).getStrength())){
+        if ((joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE) < index+1) || (joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT) < carteAchat.get(index).getStrength())){
             throw new  RessourceOutOfDisponibleException();
         }
         for (int i = 0; i < index+1; i++) {
