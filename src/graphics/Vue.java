@@ -506,6 +506,22 @@ public class Vue extends Application{
         }
 
         /*
+           * emplacement indien
+        */
+        if (game.plateau.getNbressource(PieceEnum.INDIEN) != 0) {
+            FileInputStream indienFIS = new FileInputStream("src/image/INDIEN.png");
+            Image indienIMG = new Image(indienFIS, 28, 28, false, false);
+            ImageView indienIV = new ImageView(indienIMG);
+
+            indienIV.setX(330);
+            indienIV.setY(620);
+
+            vbplateau.getChildren().add(indienIV);
+        }
+
+
+
+        /*
            * campement
         */
 
