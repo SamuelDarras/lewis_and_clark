@@ -97,6 +97,14 @@ public class Plateau {
         this.dropRessource(pieceEnum);
     }
 
+    public void defausser(Joueur joueur, PieceEnum pieceEnum, int nb){
+
+        for (int i = 0; i < nb; i++) {
+            joueur.miniPlateau.deleteRessource(pieceEnum);
+            this.dropRessource(pieceEnum);
+        }
+    }
+
     public Ressource giveRessource(PieceEnum ressource) throws RessourceOutOfDisponibleException {
         Ressource tampon;
         try{
