@@ -100,8 +100,16 @@ public class MiniPlateauExpedition {
      * @param pieceEnum est la ressouce a delete
      */
     public void deleteRessource(PieceEnum pieceEnum){
+        if (pieceEnum != PieceEnum.INDIEN)
+            deletePiece(pieceEnum, bateauRes);
+        else
+            deletePiece(pieceEnum, bateauInd);
+
+    }
+
+    private void deletePiece(PieceEnum pieceEnum, List<List<Ressource>> bateau) {
         boolean isOk = false;
-        for (List<Ressource> bateauRe : bateauRes) {
+        for (List<Ressource> bateauRe : bateau) {
             for (int j = 0; j < bateauRe.size(); j++)
                 if ((bateauRe.get(j) != null) && (bateauRe.get(j).type.equals(pieceEnum))) {
                     bateauRe.remove(j);

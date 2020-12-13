@@ -141,7 +141,9 @@ public class Plateau {
         return lastPlaceForIndienOnPosition(positionEmplacementVillage) > 0;
     }
 
-    public void addIndien(PositionEmplacementVillage positionEmplacementVillage){
+    public void addIndien(PositionEmplacementVillage positionEmplacementVillage) throws EmplacementVillageFullException {
+        if (!addOneIndientOnPossition(positionEmplacementVillage))
+            throw new EmplacementVillageFullException();
         emplacementIndienOnVillage.put(positionEmplacementVillage,emplacementIndienOnVillage.get(positionEmplacementVillage) + 1);
     }
 

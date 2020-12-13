@@ -81,4 +81,13 @@ public class Joueur {
     public void setDejaAcheter(boolean dejaAcheter) {
         this.dejaAcheter = dejaAcheter;
     }
+
+    public void addIndienOnPositionIndien(PositionEmplacementVillage positionEmplacementVillage) throws EmplacementVillageFullException, notEnoughIndiansOnMiniPlateauException {
+        if (this.miniPlateau.countNbRessource(PieceEnum.INDIEN) > 0){
+            this.plateau.addIndien(positionEmplacementVillage);
+            this.miniPlateau.deleteRessource(PieceEnum.INDIEN);
+        }
+        else
+            throw new notEnoughIndiansOnMiniPlateauException();
+    }
 }

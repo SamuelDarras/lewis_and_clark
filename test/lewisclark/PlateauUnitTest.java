@@ -105,7 +105,7 @@ public class PlateauUnitTest {
     }
 
     @Test
-    public void testCountLastPlaceOnPosition(){
+    public void testCountLastPlaceOnPosition() throws EmplacementVillageFullException {
         Plateau plateau = new Plateau();
         Assert.assertEquals(plateau.lastPlaceForIndienOnPosition(PositionEmplacementVillage.DeffauseTroisCarte),1);
 
@@ -115,7 +115,16 @@ public class PlateauUnitTest {
     }
 
     @Test
-    public void testPositionIndiens(){
+    public void testAddIndienError() throws EmplacementVillageFullException {
+        Plateau plateau = new Plateau();
+
+        plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte);
+        ecouteur.expect(EmplacementVillageFullException.class);
+        plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte);
+    }
+
+    @Test
+    public void testPositionIndiens() throws EmplacementVillageFullException {
         Plateau plateau = new Plateau();
         Assert.assertTrue(plateau.addOneIndientOnPossition(PositionEmplacementVillage.DeffauseTroisCarte));
         plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte);

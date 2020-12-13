@@ -219,4 +219,12 @@ public class JoueurUnitTest {
         joueur.jouer(card);
         Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE), 1);
     }
+
+    @Test
+    public void testPlaceIndienOnPlateau() throws Exception {
+        Joueur joueur  = new Joueur("red", new Plateau());
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.INDIEN),1);
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Cheval);
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.INDIEN),0);
+    }
 }
