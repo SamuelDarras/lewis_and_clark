@@ -1,6 +1,7 @@
 package lewisclark;
 
 import java.util.*;
+import Error.*;
 
 public class Game {
     int nbJoueur;
@@ -64,6 +65,29 @@ public class Game {
         curr_player_idx += 1;
         curr_player_idx %= players.size();
         currentPlayer = players.get(curr_player_idx);
+    }
+
+    public void deplaceEclaireur(int count) throws NotPossibleToMoveException {
+        if (count != 0){
+            boolean isPositif = count > 0;
+            if (!isPositif && currentPlayer.getPositionEclaireurs() + count < 0) throw new NotPossibleToMoveException();
+            boolean isDeplaced;
+            currentPlayer.setPositionEclaireurs(currentPlayer.getPositionEclaireurs() + count);
+            do{
+                isDeplaced = false;
+                for (Joueur joueur : this.players){
+                    if (!joueur.equals(currentPlayer))
+                        if (joueur.getPositionEclaireurs() == currentPlayer.getPositionEclaireurs() && currentPlayer.getPositionEclaireurs() != 0){
+                            if (isPositif)
+                                currentPlayer.setPositionEclaireurs(currentPlayer.getPositionEclaireurs() + 1);
+                            else
+                                currentPlayer.setPositionEclaireurs(currentPlayer.getPositionEclaireurs() - 1);
+                            isDeplaced = true;
+                        }
+                }
+            }while (isDeplaced);
+
+        }
     }
 
     public Plateau getPlateau() {
