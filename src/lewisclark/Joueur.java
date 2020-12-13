@@ -11,6 +11,7 @@ public class Joueur {
     public List<Card> cards;
     private boolean dejaAcheter = false;
     Plateau plateau;
+    private int positionEclaireurs;
 
     public Joueur(String couleur, Plateau plateau) throws Exception {
         this.couleur     = couleur;
@@ -18,6 +19,7 @@ public class Joueur {
         this.miniPlateau = new MiniPlateauExpedition();
         this.cards       = new ArrayList<>();
         this.miniPlateau.addBasicRessource(this.plateau);
+        this.positionEclaireurs = 0;
     }
 
     public void addRessourceToMiniPlateauExpedition(int numBateau, Ressource p) throws Exception {
@@ -89,5 +91,13 @@ public class Joueur {
         }
         else
             throw new notEnoughIndiansOnMiniPlateauException();
+    }
+
+    public int getPositionEclaireurs() {
+        return positionEclaireurs;
+    }
+
+    public void setPositionEclaireurs(int positionEclaireurs) {
+        this.positionEclaireurs = positionEclaireurs;
     }
 }

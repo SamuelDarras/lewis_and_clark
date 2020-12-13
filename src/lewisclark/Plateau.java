@@ -194,4 +194,7 @@ public class Plateau {
 
     public void ajouterCarteAchat(Card carte){ carteAchat.add(carte); }
 
+    public EnvironnementEnum[] getCaseVictoire() {
+        return caseVictoire;
+    }
 }
