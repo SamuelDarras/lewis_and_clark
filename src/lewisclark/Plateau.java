@@ -9,6 +9,7 @@ public class Plateau {
     private final List<Card> carteAchat = new ArrayList<>();
     public BuyCardDeck deck;
     private final Map<PositionEmplacementVillage, Integer>  emplacementIndienOnVillage;
+    private final EnvironnementEnum[] caseVictoire = new EnvironnementEnum[40];
 
     public Plateau() {
         ressources.put(PieceEnum.INDIEN    , new ArrayList<>());
@@ -17,25 +18,26 @@ public class Plateau {
         ressources.put(PieceEnum.EQUIPEMENT, new ArrayList<>());
         ressources.put(PieceEnum.NOURRITURE, new ArrayList<>());
 
-        for (int i = 0; i < 18; i++) {
+        for (int i = 0; i < 18; i++)
             ressources.get(PieceEnum.INDIEN).add(new Ressource(PieceEnum.INDIEN));
-        }
-        for (int i = 0; i < 20; i++) {
+
+        for (int i = 0; i < 20; i++)
             ressources.get(PieceEnum.BOIS).add(new Ressource(PieceEnum.BOIS));
-        }
-        for (int i = 0; i < 20; i++) {
+
+        for (int i = 0; i < 20; i++)
             ressources.get(PieceEnum.FOURRURE).add(new Ressource(PieceEnum.FOURRURE));
-        }
-        for (int i = 0; i < 15; i++) {
+
+        for (int i = 0; i < 15; i++)
             ressources.get(PieceEnum.NOURRITURE).add(new Ressource(PieceEnum.NOURRITURE));
-        }
-        for (int i = 0; i < 15; i++) {
+
+        for (int i = 0; i < 15; i++)
             ressources.get(PieceEnum.EQUIPEMENT).add(new Ressource(PieceEnum.EQUIPEMENT));
-        }
+
 
         deck = new BuyCardDeck();
         this.emplacementIndienOnVillage = new HashMap<>();
         initEmplacement();
+        initCaseToWin();
         //carteAchat.add();
     }
 
@@ -50,6 +52,27 @@ public class Plateau {
         emplacementIndienOnVillage.put(PositionEmplacementVillage.MelangeCarte, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.NouritureFourrure, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.Powo, 0);
+    }
+
+    private void initCaseToWin(){
+        for (int i = 0; i < 17;i++)
+            this.caseVictoire[i] = EnvironnementEnum.riviere;
+        this.caseVictoire[17] = EnvironnementEnum.mixte;
+
+        for (int i = 18; i < 18+7; i++)
+            this.caseVictoire[i] = EnvironnementEnum.montagne;
+        this.caseVictoire[25] = EnvironnementEnum.mixte;
+
+        for (int i = 26; i < 26+5; i++)
+            this.caseVictoire[i] = EnvironnementEnum.riviere;
+
+        for (int i = 31; i < 31+3; i++)
+            this.caseVictoire[i] = EnvironnementEnum.montagne;
+
+        for (int i = 34; i < 34+4;i++)
+            this.caseVictoire[i] = EnvironnementEnum.riviere;
+
+        this.caseVictoire[39] = EnvironnementEnum.victoire;
     }
 
     public void achatCarte(Joueur joueur, int index) throws RessourceOutOfDisponibleException, JournalVideException, DejaAchatException {
