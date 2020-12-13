@@ -93,6 +93,10 @@ public class Joueur {
             throw new notEnoughIndiansOnMiniPlateauException();
     }
 
+    public boolean isWin(){
+        return this.positionEclaireurs >= 39;
+    }
+
     public int getPositionEclaireurs() {
         return positionEclaireurs;
     }
