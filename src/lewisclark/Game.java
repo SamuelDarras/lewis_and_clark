@@ -93,4 +93,11 @@ public class Game {
     public Plateau getPlateau() {
         return plateau;
     }
+
+    public void playCard(Joueur joueur, Card card) throws RessourceOutOfDisponibleException {
+        if (joueur.miniPlateau.countNbRessource(PieceEnum.INDIEN) < card.getStrength())
+            throw new RessourceOutOfDisponibleException();
+
+        joueur.plateau.defausser(joueur, PieceEnum.INDIEN, card.getStrength());
+    }
 }
