@@ -527,9 +527,7 @@ public class Vue extends Application{
 
         Button campement = new Button("campement");
         campement.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            /*
-                ! a implemeter
-            */
+            game.currentPlayer.setCampement();
         });
 
         action.getChildren().add(campement);

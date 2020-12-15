@@ -34,9 +34,9 @@ public class Joueur {
         return this.couleur;
     }
 
-    public void jouer(Card card) throws Exception {
+    public void jouer(Card card,int nbIndiens, Card cardAssocie) throws Exception {
         if (card.getNombreChoixPossible() == 1){
-            jouer(card, 1);
+            jouer(card, 1, nbIndiens, cardAssocie);
         }else throw new NotActionChooseException();
     }
 
@@ -44,15 +44,24 @@ public class Joueur {
      * Joue une carte
      * @param card la dite carte
      * @param index premiere action = 1, seconde = 2 etc...
+     * @param nbIndiens : indiens associé à la carte (0 à 3)
+     * @param cardAssocie : card qui est utilisé pour ça force.
      * @throws Exception Si il n'y a pas assez de ressource ou demande plus que normalement
      */
-    public void jouer(Card card, int index) throws Exception {
+    public void jouer(Card card, int index, int nbIndiens, Card cardAssocie ) throws Exception {
         if (index > card.getNombreChoixPossible() || index <= 0) throw new OutOfActionPossibleException();
         //Regarder si on peut supprimer les ressources
         index--;
         boolean boolCout = card.getCoute().get(index) != null && card.getCoute().get(index).get(0) != null;
         boolean boolGain = card.getPossede().get(index) != null && card.getPossede().get(index).get(0) != null;
-
+        //placement des indiens sur la carte.
+        cardAssocie.setUsed(true);
+        List<Ressource> indienAssocie = new ArrayList<>();
+        for (int i = 0 ; i < nbIndiens ; i++){
+            indienAssocie.add(miniPlateau.deleteRessource(PieceEnum.INDIEN));
+        }
+        card.placerIndiensSurCarte(indienAssocie,cardAssocie);
+        //
         if (boolCout)
             for (Ressource ressource : card.getCoute().get(index))
                 if (this.miniPlateau.countNbRessource(ressource.type) <= 0)
@@ -68,6 +77,24 @@ public class Joueur {
         if (boolGain)
             for (Ressource ressource : card.getPossede().get(index))
                 this.miniPlateau.addRessourceDansBateau(this.miniPlateau.getValideBateau(), ressource);
+    }
+    /**
+     * début manque pas mal de trucs a voir avec les autres taches
+     */
+    public void setCampement()  {
+        for(Card card : cards){
+            if(card.getUsed() && !card.isAssocied()){
+                for(Ressource indien : card.renouvellementCard()){
+                    try {
+                        miniPlateau.addIndienDansBateauxDispo(indien);
+                    } catch (BateauFullException e) {
+                        e.printStackTrace();
+                    }
+                }
+                card.removeIndiensAssocie();
+            }
+        }
+
     }
 
     public void print(){

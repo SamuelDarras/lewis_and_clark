@@ -58,6 +58,15 @@ public class MiniPlateauExpedition {
         else
             throw new IncompatiblePieceException();
     }
+    public void addIndienDansBateauxDispo(Ressource p ) throws BateauFullException {
+        for(List<Ressource> bateau : bateauInd){
+            if(!isFullBoat(bateau)){
+                bateau.set(bateau.indexOf(null),p);
+                return;
+            }
+        }
+        throw new BateauFullException();
+    }
 
     public void deplacerRessourceMiniPlateau(int bateauS,int bateauD,int indexResS,int indexResD) {
         if (bateauD==bateauS)
@@ -99,27 +108,28 @@ public class MiniPlateauExpedition {
      * Supprime une piece dans la reseve du joueur
      * @param pieceEnum est la ressouce a delete
      */
-    public void deleteRessource(PieceEnum pieceEnum){
+    public Ressource deleteRessource(PieceEnum pieceEnum){
         if (pieceEnum != PieceEnum.INDIEN)
-            deletePiece(pieceEnum, bateauRes);
-        else
-            deletePiece(pieceEnum, bateauInd);
+            return deletePiece(pieceEnum, bateauRes);
+        return deletePiece(pieceEnum, bateauInd);
 
     }
 
-    private void deletePiece(PieceEnum pieceEnum, List<List<Ressource>> bateau) {
+    private Ressource deletePiece(PieceEnum pieceEnum, List<List<Ressource>> bateau) {
         boolean isOk = false;
+        Ressource ressourceDefause = null;
         for (List<Ressource> bateauRe : bateau) {
             for (int j = 0; j < bateauRe.size(); j++)
                 if ((bateauRe.get(j) != null) && (bateauRe.get(j).type.equals(pieceEnum))) {
-                    bateauRe.remove(j);
-                    bateauRe.add(j,null);
+                    ressourceDefause = bateauRe.remove(j);
+                    bateauRe.add(j, null);
                     isOk = true;
                     break;
                 }
             if (isOk)
                 break;
         }
+        return ressourceDefause;
     }
 
     /**

@@ -7,12 +7,15 @@ import java.util.List;
 public class Card implements Comparable<Card>{
     private final String cardName;
     private final int strength;
-    private final boolean used;
+    private boolean used;
     private final String actionDescription;
     private final PieceEnum badge;
     private final List<List<Ressource>> possede;
     private final List<List<Ressource>> coute;
     private final int nombreChoixPossible;
+    private List<Ressource> indienAssocie;
+    private Card cardAssociePourIndiens;
+
 
     public Card(Card nouvelleCard) {
         this(nouvelleCard.cardName, nouvelleCard.strength,nouvelleCard.actionDescription, nouvelleCard.badge,
@@ -74,6 +77,8 @@ public class Card implements Comparable<Card>{
         this.used              = false;
         this.possede           = possede;
         this.coute             = coute;
+        cardAssociePourIndiens = null;
+        indienAssocie = null;
         if (coute == null || possede == null)
             this.nombreChoixPossible = 0;
         else{
@@ -100,6 +105,14 @@ public class Card implements Comparable<Card>{
     public Card(List<List<Ressource>> possede, List<List<Ressource>> coute) {
         this("defaultName",0,"defaulfActionDescription",null, possede, coute);
     }
+
+    public void placerIndiensSurCarte(List<Ressource> indiens, Card card){
+        indienAssocie          = indiens;
+        cardAssociePourIndiens = card;
+        used = true;
+    }
+
+
 
     public List<List<Ressource>> getPossede() {
         return possede;
@@ -133,10 +146,25 @@ public class Card implements Comparable<Card>{
     public String getCardName(){
         return this.cardName;
     }
+    public void setUsed(boolean bool){
+        used = bool;
+    }
+    public boolean getUsed(){return used;}
+    public boolean isAssocied(){return cardAssociePourIndiens==null && indienAssocie==null && used;}
+    public List<Ressource> renouvellementCard(){
+        used = false;
+        cardAssociePourIndiens.setUsed(false);
+        cardAssociePourIndiens = null;
+        return indienAssocie;
+    }
+    public void removeIndiensAssocie(){
+        indienAssocie = null;
+    }
 
     public int compareTo(Card c){
         if (this.getStrength() < c.getStrength()) return -1;
         if (this.getStrength() == c.getStrength()) return 0;
         else return 1;
     }
+
 }

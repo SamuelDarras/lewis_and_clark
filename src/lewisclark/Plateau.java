@@ -116,15 +116,15 @@ public class Plateau {
     }
 
     public void defausser(Joueur joueur, PieceEnum pieceEnum){
-        joueur.miniPlateau.deleteRessource(pieceEnum);
-        this.dropRessource(pieceEnum);
+        Ressource ressourceDefause = joueur.miniPlateau.deleteRessource(pieceEnum);
+        this.dropRessource(ressourceDefause);
     }
 
     public void defausser(Joueur joueur, PieceEnum pieceEnum, int nb){
 
         for (int i = 0; i < nb; i++) {
-            joueur.miniPlateau.deleteRessource(pieceEnum);
-            this.dropRessource(pieceEnum);
+            Ressource ressourceDefause = joueur.miniPlateau.deleteRessource(pieceEnum);
+            this.dropRessource(ressourceDefause);
         }
     }
 
@@ -174,9 +174,6 @@ public class Plateau {
         return emplacementIndienOnVillage;
     }
 
-    public void dropRessource(PieceEnum ressource){
-        ressources.get(ressource).add(new Ressource(ressource));
-    }
 
     public void dropRessource(Ressource ressource){
         ressources.get(ressource.type).add(ressource);

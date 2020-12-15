@@ -43,7 +43,7 @@ public class JoueurUnitTest {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());
         Card card = Card.nouvelleCard(new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE));
 
-        joueur.jouer(card);
+        joueur.jouer(card,1,null);
 
         Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
         Assert.assertEquals(0, joueur.miniPlateau.countNbRessource(PieceEnum.NOURRITURE));
@@ -56,9 +56,9 @@ public class JoueurUnitTest {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());
         Card card = Card.nouvelleCard(new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE));
 
-        joueur.jouer(card);
+        joueur.jouer(card,1,null);
         ecouteur.expect(RessourceOutOfDisponibleException.class);
-        joueur.jouer(card);
+        joueur.jouer(card,1,null);
     }
 
     @Test (expected = NotActionChooseException.class)
@@ -82,7 +82,7 @@ public class JoueurUnitTest {
 
         Card card = new Card(gainFinal, coutFinal);
 
-        joueur.jouer(card);
+        joueur.jouer(card,1,null);
     }
 
     @Test (expected = OutOfActionPossibleException.class)
@@ -106,7 +106,7 @@ public class JoueurUnitTest {
 
         Card card = new Card(gainFinal, coutFinal);
 
-        joueur.jouer(card,2);
+        joueur.jouer(card,2,1,null);
     }
 
     @Test (expected = OutOfActionPossibleException.class)
@@ -120,7 +120,7 @@ public class JoueurUnitTest {
         cout.add(new Ressource(PieceEnum.FOURRURE));
         Card card = Card.nouvelleCard(gain, cout);
 
-        joueur.jouer(card,3);
+        joueur.jouer(card,3,1,null);
     }
 
     @Test (expected = OutOfActionPossibleException.class)
@@ -134,7 +134,7 @@ public class JoueurUnitTest {
         cout.add(new Ressource(PieceEnum.FOURRURE));
         Card card = Card.nouvelleCard(gain, cout);
 
-        joueur.jouer(card,0);
+        joueur.jouer(card,0,1,null);
     }
 
     @Test
@@ -161,11 +161,11 @@ public class JoueurUnitTest {
 
         Card card = new Card(gainList, coutList);
 
-        joueur.jouer(card,1);
+        joueur.jouer(card,1,1,null);
         Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
         Assert.assertEquals(0, joueur.miniPlateau.countNbRessource(PieceEnum.NOURRITURE));
 
-        joueur.jouer(card,2);
+        joueur.jouer(card,2,1,null);
         Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
         Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.NOURRITURE));
     }
@@ -175,7 +175,7 @@ public class JoueurUnitTest {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());
         Card card = Card.nouvelleCard(new Ressource(PieceEnum.FOURRURE));
 
-        joueur.jouer(card);
+        joueur.jouer(card,1,null);
         Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
     }
 
@@ -190,7 +190,7 @@ public class JoueurUnitTest {
 
         Card card = Card.nouvelleCard(gain);
 
-        joueur.jouer(card);
+        joueur.jouer(card,1,null);
 
         Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE), 4);
     }
@@ -207,7 +207,7 @@ public class JoueurUnitTest {
 
         Card card = Card.nouvelleCard(gain);
 
-        joueur.jouer(card);
+        joueur.jouer(card,1,null);
         Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE), 4);
 
         cout.add(new Ressource(PieceEnum.FOURRURE));
@@ -216,7 +216,7 @@ public class JoueurUnitTest {
 
         card = Card.nouvelleCard(null, cout);
 
-        joueur.jouer(card);
+        joueur.jouer(card,1,null);
         Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE), 1);
     }
 
