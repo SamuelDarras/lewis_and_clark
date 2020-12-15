@@ -1,12 +1,10 @@
 package graphics;
 
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import lewisclark.*;
 
 import javafx.application.Application;
@@ -17,11 +15,10 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.Callable;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static javafx.application.Application.launch;
@@ -248,7 +245,7 @@ public class Vue extends Application{
         Label currPlayer = new Label(msg);
         currPlayer.setStyle("-fx-font: normal bold 50px 'serif'");
 
-        Label title = new Label("Inventaire : ");
+        /*Label title = new Label("Inventaire : ");
         title.setStyle("-fx-font: normal bold 20px 'serif'");
 
         String nbfourrure = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
@@ -261,13 +258,13 @@ public class Vue extends Application{
         Label nourriture = new Label("Nourriture : "+nbNourriture);
 
         String nbIndien = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN));
-        Label indien = new Label("Indien : "+nbIndien);
+        Label indien = new Label("Indien : "+nbIndien);*/
 
         VBox vbMiniPlateau = new VBox();
-        vbMiniPlateau.getChildren().addAll(title, fourrure, equipement,nourriture,indien);
+        /*vbMiniPlateau.getChildren().addAll(title, fourrure, equipement,nourriture,indien);
         vbMiniPlateau.setSpacing(10);
         vbMiniPlateau.setAlignment(Pos.CENTER_LEFT);
-        vbMiniPlateau.setPadding(new Insets(20));
+        vbMiniPlateau.setPadding(new Insets(20));*/
 
         /*
            * inventaire carte
@@ -280,8 +277,14 @@ public class Vue extends Application{
         deck.getChildren().addAll(currPlayer, card);
 
         for (Card c : game.currentPlayer.cards){
-            Label tmp = new Label(c.getCardName());
-            deck.getChildren().add(tmp);
+            Button cardPop = new Button(c.getCardName());
+
+            createPopUp(cardPop, c, stage);
+
+            if (c.getUsed()){
+                cardPop.setText(c.getCardName()+" : "+c.getNbIndienAssocie());
+            }
+            deck.getChildren().add(cardPop);
         }
 
         deck.setSpacing(10);
@@ -560,6 +563,77 @@ public class Vue extends Application{
         stage.setScene(scene);
 
         stage.show();
+    }
+
+    private Button createPopUp(Button cardPop, Card c, Stage stage) {
+        AtomicBoolean submit = new AtomicBoolean(false);
+
+        Button submitButton = new Button("Submit");
+        submitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            submit.set(true);
+        });
+
+        GridPane grid = new GridPane();
+        grid.setGridLinesVisible(false);
+        grid.setStyle(" -fx-background-color: white;");
+        grid.minHeight(20);
+        grid.minWidth(20);
+
+        Label name = new Label(c.getCardName());
+        name.setStyle("-fx-font: normal bold 12px 'serif'");
+
+        Label description = new Label(c.getActionDescription());
+
+        Label labNbIndien = new Label("Nombre d'indien a associer");
+        ComboBox<Integer> nbIndien = new ComboBox<>();
+        nbIndien.getItems().setAll(1,2,3);
+        nbIndien.setValue(1);
+
+        grid.add(name,1,0);
+        grid.add(description,1,1);
+        grid.add(labNbIndien,0,3);
+        grid.add(nbIndien,0,4);
+        grid.add(submitButton,3,5);
+
+        Popup pop = new Popup();
+        pop.getContent().addAll(grid);
+
+        cardPop.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (!pop.isShowing() && !submit.get())
+                pop.show(stage);
+            else
+                pop.hide();
+
+            if (submit.get()){
+                pop.hide();
+                if (nbIndien.getValue() > game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN))
+                    try {
+                        throw new RessourceOutOfDisponibleException();
+                    } catch (RessourceOutOfDisponibleException e) {
+                        e.printStackTrace();
+                    }
+                else{
+                    List<Ressource> src = new ArrayList<>();
+                    for (int i = 0; i < nbIndien.getValue(); i++)
+                        src.add(game.currentPlayer.miniPlateau.deleteRessource(PieceEnum.INDIEN));
+                        game.plateau.dropRessource(new Ressource(PieceEnum.INDIEN));
+
+                    c.placerIndiensSurCarte(src, c);
+
+                    try {
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+            }
+
+        });
+
+        return cardPop;
     }
 
     private void couleurJoueur(String text) throws Exception {
