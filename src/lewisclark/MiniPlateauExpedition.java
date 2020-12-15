@@ -33,13 +33,14 @@ public class MiniPlateauExpedition {
 
     public void addRessourceDansBateau(int numBateau,Ressource p) throws Exception{
         if (p.type != PieceEnum.INDIEN){
-            if(!isFullBoat(bateauRes.get(numBateau))){
+            if(isFullBoat(bateauRes.get(numBateau))){
                 int idx = bateauRes.get(numBateau).indexOf(null);
                 bateauRes.get(numBateau).remove(idx);
                 bateauRes.get(numBateau).add(idx,p);
             }
-            else
+            else {
                 throw new BateauFullException();
+            }
         }
         else
             throw new IncompatiblePieceException();
@@ -47,20 +48,21 @@ public class MiniPlateauExpedition {
 
     public void addIndienDansBateau(int numBateau,Ressource p) throws Exception{
         if (p.type == PieceEnum.INDIEN){
-            if(!isFullBoat(bateauInd.get(numBateau))){
+            if(isFullBoat(bateauInd.get(numBateau))){
                 int idx = bateauInd.get(numBateau).indexOf(null);
                 bateauInd.get(numBateau).remove(idx);
                 bateauInd.get(numBateau).add(idx,p);
             }
-            else
+            else {
                 throw new BateauFullException();
+            }
         }
         else
             throw new IncompatiblePieceException();
     }
     public void addIndienDansBateauxDispo(Ressource p ) throws BateauFullException {
         for(List<Ressource> bateau : bateauInd){
-            if(!isFullBoat(bateau)){
+            if(isFullBoat(bateau)){
                 bateau.set(bateau.indexOf(null),p);
                 return;
             }
@@ -69,7 +71,7 @@ public class MiniPlateauExpedition {
     }
 
     public void deplacerRessourceMiniPlateau(int bateauS,int bateauD,int indexResS,int indexResD) {
-        if (bateauD==bateauS)
+        if (bateauD == bateauS)
             bateauRes.get(bateauS).add(indexResD,bateauRes.get(bateauD).remove(indexResS));
         else{
             bateauRes.get(bateauS).add(indexResS,bateauRes.get(bateauD).remove(indexResD));
@@ -116,20 +118,16 @@ public class MiniPlateauExpedition {
     }
 
     private Ressource deletePiece(PieceEnum pieceEnum, List<List<Ressource>> bateau) {
-        boolean isOk = false;
-        Ressource ressourceDefause = null;
+        Ressource ressourceDefause;
         for (List<Ressource> bateauRe : bateau) {
             for (int j = 0; j < bateauRe.size(); j++)
-                if ((bateauRe.get(j) != null) && (bateauRe.get(j).type.equals(pieceEnum))) {
+                if (bateauRe.get(j) != null && bateauRe.get(j).type.equals(pieceEnum)) {
                     ressourceDefause = bateauRe.remove(j);
                     bateauRe.add(j, null);
-                    isOk = true;
-                    break;
+                    return ressourceDefause;
                 }
-            if (isOk)
-                break;
         }
-        return ressourceDefause;
+        return null;
     }
 
     /**
@@ -138,18 +136,18 @@ public class MiniPlateauExpedition {
      */
     public int getValideBateau(){
         for (int i = 0; i < bateauRes.size(); i++)
-            if(!isFullBoat(bateauRes.get(i)))
+            if(isFullBoat(bateauRes.get(i)))
                 return i;
         return -1;
     }
 
     public boolean isEnoughPlace(int place){
         int count = 0;
-        for (int i = 0; i < bateauRes.size(); i++){
-            for (int j = 0 ; j < bateauRes.get(i).size() ; j++){
-                if(bateauRes.get(i).get(j) == null)
+        for (List<Ressource> bateauRe : bateauRes) {
+            for (Ressource ressource : bateauRe) {
+                if (ressource == null)
                     count++;
-                if(count == place)
+                if (count == place)
                     return true;
             }
         }
@@ -167,9 +165,9 @@ public class MiniPlateauExpedition {
     private boolean isFullBoat(List<Ressource> bateau){
         for (Ressource ressource : bateau) {
             if (ressource == null)
-                return false;
+                return true;
         }
-        return true;
+        return false;
     }
 
 
