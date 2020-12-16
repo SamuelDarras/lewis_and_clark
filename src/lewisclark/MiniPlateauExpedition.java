@@ -46,6 +46,10 @@ public class MiniPlateauExpedition {
             throw new IncompatiblePieceException();
     }
 
+    public void addRessourceDansBateau(Ressource p) throws Exception{
+        addRessourceDansBateau(getValideBateau(), p);
+    }
+
     public void addIndienDansBateau(int numBateau,Ressource p) throws Exception{
         if (p.type == PieceEnum.INDIEN){
             if(!isFullBoat(bateauInd.get(numBateau))){

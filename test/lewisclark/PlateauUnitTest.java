@@ -201,4 +201,56 @@ public class PlateauUnitTest {
         Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.NOURRITURE),0);
         Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT),0);
     }
+
+    @Test (expected = OutOfRessourceInBateauxException.class)
+    public void testPyrogueNotPossedeRessource() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        List<PieceEnum> offre = new ArrayList<>();
+        offre.add(PieceEnum.BOIS);
+        offre.add(PieceEnum.BOIS);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Kayak, offre);
+    }
+
+    @Test (expected = OutOfRessourceNeed.class)
+    public void testPyrogueOutOfRessourcePropose() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        List<PieceEnum> offre = new ArrayList<>();
+        offre.add(PieceEnum.BOIS);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Kayak, offre);
+    }
+
+    @Test (expected = IncompatiblePieceException.class)
+    public void testPyrogueIncompatiblePiece() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        List<PieceEnum> offre = new ArrayList<>();
+        offre.add(PieceEnum.BOIS);
+        offre.add(PieceEnum.EQUIPEMENT);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Kayak, offre);
+    }
+
+    @Test
+    public void testPyrogue() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        joueur.miniPlateau.addRessourceDansBateau(new Ressource(PieceEnum.BOIS));
+        joueur.miniPlateau.addRessourceDansBateau(new Ressource(PieceEnum.BOIS));
+
+        List<PieceEnum> offre = new ArrayList<>();
+        offre.add(PieceEnum.BOIS);
+        offre.add(PieceEnum.BOIS);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Kayak, offre);
+
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.PYROGUE),1);
+    }
 }

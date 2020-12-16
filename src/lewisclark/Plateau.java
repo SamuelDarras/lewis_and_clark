@@ -168,15 +168,31 @@ public class Plateau {
         addIndien(positionEmplacementVillage,joueur, null);
     }
 
+    /**
+     * <div style="color:green">Test faits</div>
+     * @param positionEmplacementVillage
+     * @param joueur
+     * @param cout
+     * @throws Exception
+     */
     public void addIndien(PositionEmplacementVillage positionEmplacementVillage, Joueur joueur, List<PieceEnum> cout) throws Exception {
         if (!addOneIndientOnPossition(positionEmplacementVillage))
             throw new EmplacementVillageFullException();
         emplacementIndienOnVillage.put(positionEmplacementVillage,emplacementIndienOnVillage.get(positionEmplacementVillage) + 1);
         switch (positionEmplacementVillage){
             case Cheval -> trocCheval(cout, joueur);
+            case Kayak -> fabricationDePirogue(cout, joueur);
         }
     }
 
+    /**
+     * Prend 3 ressources differentes pour donner un cheval
+     * <div style="color:green">Test faits</div>
+     * Est utiliser dans add indient
+     * @param pieceEnums represente les ressources que le joueur est pres a défausser
+     * @param joueur le joueur avec ses ressources
+     * @throws Exception
+     */
     public void trocCheval(List<PieceEnum> pieceEnums, Joueur joueur) throws Exception {
         //Regarde si il a les ressources
         for (PieceEnum pieceEnum : pieceEnums)
@@ -191,9 +207,23 @@ public class Plateau {
         for (PieceEnum pieceEnum : pieceEnums)
             this.defausser(joueur, pieceEnum);
         joueur.miniPlateau.addRessourceDansBateau(joueur.miniPlateau.getValideBateau(),new Ressource(PieceEnum.CHEVAL));
+    }
 
+    /**
+     * Permet en echange de deux bois d'avoir un pyrogue
+     * <div style="color:green">Test faits</div>
+     * @param  pieceEnums Sont les pieces qu'il vas troquer
+     * @param  joueur est le joueur qui vas deffauser et recevoir la recompenses
+     * @throws Exception
+     */
+    public void fabricationDePirogue(List<PieceEnum> pieceEnums, Joueur joueur) throws Exception {
+        if (pieceEnums.size() != 2) throw new OutOfRessourceNeed();
+        if (!pieceEnums.get(0).equals(pieceEnums.get(1))) throw new IncompatiblePieceException();
+        if (joueur.miniPlateau.countNbRessource(PieceEnum.BOIS) < 2) throw new OutOfRessourceInBateauxException();
 
-
+        for (int i = 0; i < 2; i++)
+            this.defausser(joueur, PieceEnum.BOIS);
+        joueur.miniPlateau.addRessourceDansBateau(new Ressource(PieceEnum.PYROGUE));
     }
 
     public Map<PositionEmplacementVillage, Integer> getEmplacementIndienOnVillage() {
