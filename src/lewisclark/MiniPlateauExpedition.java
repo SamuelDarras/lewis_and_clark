@@ -38,8 +38,9 @@ public class MiniPlateauExpedition {
                 bateauRes.get(numBateau).remove(idx);
                 bateauRes.get(numBateau).add(idx,p);
             }
-            else
+            else {
                 throw new BateauFullException();
+            }
         }
         else
             throw new IncompatiblePieceException();
@@ -52,8 +53,9 @@ public class MiniPlateauExpedition {
                 bateauInd.get(numBateau).remove(idx);
                 bateauInd.get(numBateau).add(idx,p);
             }
-            else
+            else {
                 throw new BateauFullException();
+            }
         }
         else
             throw new IncompatiblePieceException();
@@ -69,7 +71,7 @@ public class MiniPlateauExpedition {
     }
 
     public void deplacerRessourceMiniPlateau(int bateauS,int bateauD,int indexResS,int indexResD) {
-        if (bateauD==bateauS)
+        if (bateauD == bateauS)
             bateauRes.get(bateauS).add(indexResD,bateauRes.get(bateauD).remove(indexResS));
         else{
             bateauRes.get(bateauS).add(indexResS,bateauRes.get(bateauD).remove(indexResD));
@@ -116,20 +118,16 @@ public class MiniPlateauExpedition {
     }
 
     private Ressource deletePiece(PieceEnum pieceEnum, List<List<Ressource>> bateau) {
-        boolean isOk = false;
-        Ressource ressourceDefause = null;
+        Ressource ressourceDefause;
         for (List<Ressource> bateauRe : bateau) {
             for (int j = 0; j < bateauRe.size(); j++)
-                if ((bateauRe.get(j) != null) && (bateauRe.get(j).type.equals(pieceEnum))) {
+                if (bateauRe.get(j) != null && bateauRe.get(j).type.equals(pieceEnum)) {
                     ressourceDefause = bateauRe.remove(j);
                     bateauRe.add(j, null);
-                    isOk = true;
-                    break;
+                    return ressourceDefause;
                 }
-            if (isOk)
-                break;
         }
-        return ressourceDefause;
+        return null;
     }
 
     /**
@@ -145,11 +143,11 @@ public class MiniPlateauExpedition {
 
     public boolean isEnoughPlace(int place){
         int count = 0;
-        for (int i = 0; i < bateauRes.size(); i++){
-            for (int j = 0 ; j < bateauRes.get(i).size() ; j++){
-                if(bateauRes.get(i).get(j) == null)
+        for (List<Ressource> bateauRe : bateauRes) {
+            for (Ressource ressource : bateauRe) {
+                if (ressource == null)
                     count++;
-                if(count == place)
+                if (count == place)
                     return true;
             }
         }

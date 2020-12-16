@@ -132,6 +132,10 @@ public class Card implements Comparable<Card>{
         return actionDescription;
     }
 
+    public int getNbIndienAssocie(){
+        return indienAssocie.size();
+    }
+
     @Override
     public String toString() {
         return "Card{" +
@@ -146,11 +150,15 @@ public class Card implements Comparable<Card>{
     public String getCardName(){
         return this.cardName;
     }
+
     public void setUsed(boolean bool){
         used = bool;
     }
+
     public boolean getUsed(){return used;}
+
     public boolean isAssocied(){return cardAssociePourIndiens==null && indienAssocie==null && used;}
+
     public List<Ressource> renouvellementCard(){
         used = false;
         if(cardAssociePourIndiens != null) {
