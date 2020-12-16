@@ -131,4 +131,13 @@ public class Joueur {
     public void setPositionEclaireurs(int positionEclaireurs) {
         this.positionEclaireurs = positionEclaireurs;
     }
+
+    public Card findCard(String name){
+
+        for (Card c : cards){
+            if (c.getCardName().equals(name))
+                return c;
+        }
+        return null;
+    }
 }

@@ -277,14 +277,20 @@ public class Vue extends Application{
         deck.getChildren().addAll(currPlayer, card);
 
         for (Card c : game.currentPlayer.cards){
-            Button cardPop = new Button(c.getCardName());
 
+            Button cardPop = new Button(c.getCardName());
             createPopUp(cardPop, c, stage);
 
             if (c.getUsed()){
-                cardPop.setText(c.getCardName()+" : "+c.getNbIndienAssocie());
+                cardPop.setText(c.getCardName()+" : used");
             }
-            deck.getChildren().add(cardPop);
+
+            if(c.isAssocied()){
+                cardPop = null;
+            }
+            else {
+                deck.getChildren().add(cardPop);
+            }
         }
 
         deck.setSpacing(10);
@@ -586,14 +592,36 @@ public class Vue extends Application{
 
         Label labNbIndien = new Label("Nombre d'indien a associer");
         ComboBox<Integer> nbIndien = new ComboBox<>();
-        nbIndien.getItems().setAll(1,2,3);
-        nbIndien.setValue(1);
+        nbIndien.getItems().setAll(0,1,2,3);
+        nbIndien.setValue(0);
+
+        Label labCardChoice = new Label("Associer une carte");
+        ComboBox<String> card = new ComboBox<>();
+
+        card.getItems().add("Pas de carte associe");
+        card.setValue("Pas de carte associe");
+        for (Card deck : game.currentPlayer.cards) {
+            if (!deck.getUsed() && deck != c) {
+                if (deck.getStrength() < (3 - nbIndien.getValue())) {
+                    String nom = deck.getCardName() + "-" + deck.getStrength();
+                    card.getItems().add(nom);
+                }
+            }
+        }
 
         grid.add(name,1,0);
         grid.add(description,1,1);
+
+        if (!c.getUsed()){
+
         grid.add(labNbIndien,0,3);
         grid.add(nbIndien,0,4);
+
+        grid.add(labCardChoice,2,3);
+        grid.add(card,2,4);
+
         grid.add(submitButton,3,5);
+        }
 
         Popup pop = new Popup();
         pop.getContent().addAll(grid);
@@ -604,32 +632,43 @@ public class Vue extends Application{
             else
                 pop.hide();
 
-            if (submit.get()){
-                pop.hide();
-                if (nbIndien.getValue() > game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN))
-                    try {
-                        throw new RessourceOutOfDisponibleException();
-                    } catch (RessourceOutOfDisponibleException e) {
-                        e.printStackTrace();
-                    }
-                else{
-                    List<Ressource> src = new ArrayList<>();
-                    for (int i = 0; i < nbIndien.getValue(); i++)
-                        src.add(game.currentPlayer.miniPlateau.deleteRessource(PieceEnum.INDIEN));
+                if (submit.get()) {
+                    pop.hide();
+                    if (nbIndien.getValue() > game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN))
+                        try {
+                            throw new RessourceOutOfDisponibleException();
+                        } catch (RessourceOutOfDisponibleException e) {
+                            e.printStackTrace();
+                        }
+                    else {
+                        int nb = nbIndien.getValue();
+                        String[] cardUsed = null;
+
+                        if (!card.getValue().equals("Pas de carte associe"))
+
+                            cardUsed = card.getValue().split("-");
+                        Card used = game.currentPlayer.findCard(cardUsed[0]);
+                        used.setUsed(true);
+
+                        nb += Integer.parseInt(cardUsed[1]);
+
+                        List<Ressource> src = new ArrayList<>();
+                        for (int i = 0; i < nb; i++)
+                            src.add(game.currentPlayer.miniPlateau.deleteRessource(PieceEnum.INDIEN));
                         game.plateau.dropRessource(new Ressource(PieceEnum.INDIEN));
 
-                    c.placerIndiensSurCarte(src, c);
+                        c.placerIndiensSurCarte(src, c);
 
-                    try {
-                        play(stage);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                        try {
+                            play(stage);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     }
 
+
                 }
-
-
-            }
 
         });
 
