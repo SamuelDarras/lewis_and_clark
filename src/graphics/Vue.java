@@ -644,13 +644,14 @@ public class Vue extends Application{
                         int nb = nbIndien.getValue();
                         String[] cardUsed = null;
 
-                        if (!card.getValue().equals("Pas de carte associe"))
+                        if (!card.getValue().equals("Pas de carte associe")) {
 
                             cardUsed = card.getValue().split("-");
-                        Card used = game.currentPlayer.findCard(cardUsed[0]);
-                        used.setUsed(true);
+                            Card used = game.currentPlayer.findCard(cardUsed[0]);
+                            used.setUsed(true);
 
-                        nb += Integer.parseInt(cardUsed[1]);
+                            nb += Integer.parseInt(cardUsed[1]);
+                        }
 
                         List<Ressource> src = new ArrayList<>();
                         for (int i = 0; i < nb; i++)
