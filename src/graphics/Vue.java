@@ -537,6 +537,11 @@ public class Vue extends Application{
         Button campement = new Button("campement");
         campement.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             game.currentPlayer.setCampement();
+            try {
+                play(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
 
         action.getChildren().add(campement);
