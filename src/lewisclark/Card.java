@@ -7,14 +7,14 @@ import java.util.List;
 public class Card implements Comparable<Card>{
     private final String cardName;
     private final int strength;
-    private boolean used;
+    public boolean used;
     private final String actionDescription;
     private final PieceEnum badge;
     private final List<List<Ressource>> possede;
     private final List<List<Ressource>> coute;
     private final int nombreChoixPossible;
-    private List<Ressource> indienAssocie;
-    private Card cardAssociePourIndiens;
+    public List<Ressource> indienAssocie;
+    public Card cardAssociePourIndiens;
 
 
     public Card(Card nouvelleCard) {
@@ -161,8 +161,10 @@ public class Card implements Comparable<Card>{
 
     public List<Ressource> renouvellementCard(){
         used = false;
-        cardAssociePourIndiens.setUsed(false);
-        cardAssociePourIndiens = null;
+        if(cardAssociePourIndiens != null) {
+            cardAssociePourIndiens.setUsed(false);
+            cardAssociePourIndiens = null;
+        }
         return indienAssocie;
     }
     public void removeIndiensAssocie(){
@@ -174,5 +176,6 @@ public class Card implements Comparable<Card>{
         if (this.getStrength() == c.getStrength()) return 0;
         else return 1;
     }
+
 
 }

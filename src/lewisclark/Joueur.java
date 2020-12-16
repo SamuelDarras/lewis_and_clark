@@ -55,7 +55,8 @@ public class Joueur {
         boolean boolCout = card.getCoute().get(index) != null && card.getCoute().get(index).get(0) != null;
         boolean boolGain = card.getPossede().get(index) != null && card.getPossede().get(index).get(0) != null;
         //placement des indiens sur la carte.
-        cardAssocie.setUsed(true);
+        if(cardAssocie != null)
+            cardAssocie.setUsed(true);
         List<Ressource> indienAssocie = new ArrayList<>();
         for (int i = 0 ; i < nbIndiens ; i++){
             indienAssocie.add(miniPlateau.deleteRessource(PieceEnum.INDIEN));
