@@ -6,6 +6,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PlateauUnitTest {
 
     @Test
@@ -105,29 +108,33 @@ public class PlateauUnitTest {
     }
 
     @Test
-    public void testCountLastPlaceOnPosition() throws EmplacementVillageFullException {
+    public void testCountLastPlaceOnPosition() throws Exception {
         Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
         Assert.assertEquals(plateau.lastPlaceForIndienOnPosition(PositionEmplacementVillage.DeffauseTroisCarte),1);
 
-        plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte);
+        plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte, joueur);
 
         Assert.assertEquals(plateau.lastPlaceForIndienOnPosition(PositionEmplacementVillage.DeffauseTroisCarte),0);
     }
 
     @Test
-    public void testAddIndienError() throws EmplacementVillageFullException {
+    public void testAddIndienError() throws Exception {
         Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
 
-        plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte);
+        plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte, joueur);
         ecouteur.expect(EmplacementVillageFullException.class);
-        plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte);
+        plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte, joueur);
     }
 
     @Test
-    public void testPositionIndiens() throws EmplacementVillageFullException {
+    public void testPositionIndiens() throws Exception {
         Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
         Assert.assertTrue(plateau.addOneIndientOnPossition(PositionEmplacementVillage.DeffauseTroisCarte));
-        plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte);
+        plateau.addIndien(PositionEmplacementVillage.DeffauseTroisCarte, joueur);
         Assert.assertFalse(plateau.addOneIndientOnPossition(PositionEmplacementVillage.DeffauseTroisCarte));
     }
 
@@ -137,5 +144,61 @@ public class PlateauUnitTest {
         Joueur joueur = new Joueur("red",plateau);
         plateau.achatCarte(joueur,1);
         plateau.achatCarte(joueur,1);
+    }
+
+    @Test (expected = OutOfRessourceInBateauxException.class)
+    public void testTrocChevalNotPossedeRessource() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        List<PieceEnum> offre = new ArrayList<>();
+        offre.add(PieceEnum.FOURRURE);
+        offre.add(PieceEnum.FOURRURE);
+        offre.add(PieceEnum.BOIS);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Cheval, offre);
+    }
+
+    @Test (expected = OutOfRessourceNeed.class)
+    public void testTrocChevalOutOfRessourcePropose() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        List<PieceEnum> offre = new ArrayList<>();
+        offre.add(PieceEnum.FOURRURE);
+        offre.add(PieceEnum.EQUIPEMENT);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Cheval, offre);
+    }
+
+    @Test (expected = IncompatiblePieceException.class)
+    public void testTrocChevalIncompatiblePiece() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        List<PieceEnum> offre = new ArrayList<>();
+        offre.add(PieceEnum.FOURRURE);
+        offre.add(PieceEnum.FOURRURE);
+        offre.add(PieceEnum.EQUIPEMENT);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Cheval, offre);
+    }
+
+    @Test
+    public void testTrocCheval() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        List<PieceEnum> offre = new ArrayList<>();
+        offre.add(PieceEnum.FOURRURE);
+        offre.add(PieceEnum.NOURRITURE);
+        offre.add(PieceEnum.EQUIPEMENT);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Cheval, offre);
+
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.CHEVAL),1);
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE),0);
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.NOURRITURE),0);
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT),0);
     }
 }

@@ -164,10 +164,36 @@ public class Plateau {
         return lastPlaceForIndienOnPosition(positionEmplacementVillage) > 0;
     }
 
-    public void addIndien(PositionEmplacementVillage positionEmplacementVillage) throws EmplacementVillageFullException {
+    public void addIndien(PositionEmplacementVillage positionEmplacementVillage, Joueur joueur) throws Exception {
+        addIndien(positionEmplacementVillage,joueur, null);
+    }
+
+    public void addIndien(PositionEmplacementVillage positionEmplacementVillage, Joueur joueur, List<PieceEnum> cout) throws Exception {
         if (!addOneIndientOnPossition(positionEmplacementVillage))
             throw new EmplacementVillageFullException();
         emplacementIndienOnVillage.put(positionEmplacementVillage,emplacementIndienOnVillage.get(positionEmplacementVillage) + 1);
+        switch (positionEmplacementVillage){
+            case Cheval -> trocCheval(cout, joueur);
+        }
+    }
+
+    public void trocCheval(List<PieceEnum> pieceEnums, Joueur joueur) throws Exception {
+        //Regarde si il a les ressources
+        for (PieceEnum pieceEnum : pieceEnums)
+            if (joueur.miniPlateau.countNbRessource(pieceEnum) < 1)
+                throw new OutOfRessourceInBateauxException();
+
+        if (pieceEnums.size() != 3)
+            throw new OutOfRessourceNeed();
+        if (pieceEnums.get(0).equals(pieceEnums.get(1)) || pieceEnums.get(0).equals(pieceEnums.get(2)) || pieceEnums.get(1).equals(pieceEnums.get(2)))
+            throw new IncompatiblePieceException();
+        //Ajout et suppression des ressources
+        for (PieceEnum pieceEnum : pieceEnums)
+            this.defausser(joueur, pieceEnum);
+        joueur.miniPlateau.addRessourceDansBateau(joueur.miniPlateau.getValideBateau(),new Ressource(PieceEnum.CHEVAL));
+
+
+
     }
 
     public Map<PositionEmplacementVillage, Integer> getEmplacementIndienOnVillage() {
