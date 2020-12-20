@@ -42,6 +42,7 @@ public class Plateau {
     }
 
     private void initEmplacement(){
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.FourrureBois, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.EquipementBois, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.Cheval, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.DeffauseTroisCarte, 0);
@@ -141,7 +142,7 @@ public class Plateau {
     public int getNbIndienOnPosition(PositionEmplacementVillage positionEmplacementVillage){
         int nombreIndient = 0;
         switch (positionEmplacementVillage){
-            case MelangeCarte, IndienReserve, EquipementBois,
+            case MelangeCarte, IndienReserve, EquipementBois, FourrureBois,
                     NouritureFourrure, DeffauseTroisCarte,
                     DoubleRessourceCondition -> nombreIndient = 1;
             case JeSaisPasCeQueCest -> nombreIndient = 2;
@@ -182,7 +183,30 @@ public class Plateau {
         switch (positionEmplacementVillage){
             case Cheval -> trocCheval(cout, joueur);
             case Kayak -> fabricationDePirogue(cout, joueur);
+            case FourrureBois -> throw new CarteNotCompatibleException();
         }
+    }
+
+    /**
+     * Action 1 = 1 ==> Fourrure
+     * Action 2 = 2 ==> Bois
+     * @param positionEmplacementVillage
+     * @param joueur
+     * @param nombre
+     * @throws Exception
+     */
+    public void addIndien(PositionEmplacementVillage positionEmplacementVillage, Joueur joueur, int nombre) throws Exception {
+        if (!addOneIndientOnPossition(positionEmplacementVillage))
+            throw new EmplacementVillageFullException();
+        if (positionEmplacementVillage != PositionEmplacementVillage.FourrureBois)
+            throw new CarteNotCompatibleException();
+        if (nombre == 1)
+            for (int i = 0; i < 2; i++){
+                joueur.miniPlateau.addRessourceDansBateau(giveRessource(PieceEnum.FOURRURE));
+            }
+        else if (nombre == 2)
+            for (int i = 0; i < 2; i++)
+                joueur.miniPlateau.addRessourceDansBateau(giveRessource(PieceEnum.BOIS));
     }
 
     /**
@@ -193,7 +217,7 @@ public class Plateau {
      * @param joueur le joueur avec ses ressources
      * @throws Exception
      */
-    public void trocCheval(List<PieceEnum> pieceEnums, Joueur joueur) throws Exception {
+    private void trocCheval(List<PieceEnum> pieceEnums, Joueur joueur) throws Exception {
         //Regarde si il a les ressources
         for (PieceEnum pieceEnum : pieceEnums)
             if (joueur.miniPlateau.countNbRessource(pieceEnum) < 1)
@@ -216,7 +240,7 @@ public class Plateau {
      * @param  joueur est le joueur qui vas deffauser et recevoir la recompenses
      * @throws Exception
      */
-    public void fabricationDePirogue(List<PieceEnum> pieceEnums, Joueur joueur) throws Exception {
+    private void fabricationDePirogue(List<PieceEnum> pieceEnums, Joueur joueur) throws Exception {
         if (pieceEnums.size() != 2) throw new OutOfRessourceNeed();
         if (!pieceEnums.get(0).equals(pieceEnums.get(1))) throw new IncompatiblePieceException();
         if (joueur.miniPlateau.countNbRessource(PieceEnum.BOIS) < 2) throw new OutOfRessourceInBateauxException();

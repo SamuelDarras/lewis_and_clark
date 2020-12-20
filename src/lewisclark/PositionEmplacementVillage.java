@@ -1,6 +1,7 @@
 package lewisclark;
 
 public enum PositionEmplacementVillage {
+    FourrureBois,
     EquipementBois,
     NouritureFourrure,
     Kayak,

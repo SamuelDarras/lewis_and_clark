@@ -253,4 +253,48 @@ public class PlateauUnitTest {
 
         Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.PYROGUE),1);
     }
+
+    @Test
+    public void testPositionVillageCadeauFourrure() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.FourrureBois,1);
+
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.BOIS), 0);
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE), 3);
+    }
+
+    @Test
+    public void testPositionVillageCadeauBois() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.FourrureBois,2);
+
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE), 1);
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.BOIS), 2);
+    }
+
+    @Test (expected = CarteNotCompatibleException.class)
+    public void testPositionVillageCadeauBoisErreurMauvaiseCarte() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Kayak,2);
+
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE), 1);
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.BOIS), 2);
+    }
+
+    @Test (expected = CarteNotCompatibleException.class)
+    public void testPositionVillageCadeauBoiss() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.FourrureBois);
+
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE), 1);
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.BOIS), 2);
+    }
 }

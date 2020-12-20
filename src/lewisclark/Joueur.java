@@ -125,6 +125,15 @@ public class Joueur {
             throw new notEnoughIndiansOnMiniPlateauException();
     }
 
+    public void addIndienOnPositionIndien(PositionEmplacementVillage positionEmplacementVillage, int choix) throws Exception {
+        if (this.miniPlateau.countNbRessource(PieceEnum.INDIEN) > 0){
+            this.plateau.addIndien(positionEmplacementVillage, this, choix);
+            this.miniPlateau.deleteRessource(PieceEnum.INDIEN);
+        }
+        else
+            throw new notEnoughIndiansOnMiniPlateauException();
+    }
+
     public boolean isWin(){
         return this.positionEclaireurs >= 39;
     }
