@@ -509,6 +509,7 @@ public class Vue extends Application{
 
         for (int i = 0; i < btActions.length; i++) {
             btActions[i] = new Button();
+            createPopUpPlateau(btActions[i],stage);
             btActions[i].setLayoutX(positions[i][0]);
             btActions[i].setLayoutY(positions[i][1]);
             vbplateau.getChildren().add(btActions[i]);
@@ -595,7 +596,7 @@ public class Vue extends Application{
 
         Label description = new Label(c.getActionDescription());
 
-        Label labNbIndien = new Label("Nombre d'indien a associer");
+        Label labNbIndien = new Label("Nombre d'indiens à associer");
         ComboBox<Integer> nbIndien = new ComboBox<>();
         nbIndien.getItems().setAll(0,1,2,3);
         nbIndien.setValue(0);
@@ -675,6 +676,82 @@ public class Vue extends Application{
 
 
                 }
+
+        });
+
+        return cardPop;
+    }
+
+    private Button createPopUpPlateau(Button cardPop, Stage stage) {
+        AtomicBoolean submit = new AtomicBoolean(false);
+
+        Button submitButton = new Button("Submit");
+        submitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            submit.set(true);
+        });
+
+        GridPane grid = new GridPane();
+        grid.setGridLinesVisible(false);
+        grid.setStyle(" -fx-background-color: white;");
+        grid.minHeight(20);
+        grid.minWidth(20);
+
+        Label name = new Label("test");
+        name.setStyle("-fx-font: normal bold 12px 'serif'");
+
+        Label description = new Label("ceci est un test");
+
+        Label labNbIndien = new Label("Nombre d'indiensà placer");
+        ComboBox<Integer> nbIndien = new ComboBox<>();
+        nbIndien.getItems().setAll(0,1,2,3);
+        nbIndien.setValue(0);
+
+
+        grid.add(name,1,0);
+        grid.add(description,1,1);
+
+        grid.add(labNbIndien,0,3);
+        grid.add(nbIndien,0,4);
+
+
+        grid.add(submitButton,3,5);
+
+
+        Popup pop = new Popup();
+        pop.getContent().addAll(grid);
+
+        cardPop.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            if (!pop.isShowing() && !submit.get())
+                pop.show(stage);
+            else
+                pop.hide();
+
+            if (submit.get()) {
+                pop.hide();
+                if (nbIndien.getValue() > game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN))
+                    try {
+                        throw new RessourceOutOfDisponibleException();
+                    } catch (RessourceOutOfDisponibleException e) {
+                        e.printStackTrace();
+                    }
+                else {
+                    int nb = nbIndien.getValue();
+
+                    List<Ressource> src = new ArrayList<>();
+                    for (int i = 0; i < nb; i++)
+                        src.add(game.currentPlayer.miniPlateau.deleteRessource(PieceEnum.INDIEN));
+                    game.plateau.dropRessource(new Ressource(PieceEnum.INDIEN));
+
+                    try {
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                }
+
+
+            }
 
         });
 
