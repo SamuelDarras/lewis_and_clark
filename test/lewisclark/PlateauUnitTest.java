@@ -293,4 +293,24 @@ public class PlateauUnitTest {
 
         joueur.addIndienOnPositionIndien(PositionEmplacementVillage.FourrureBois);
     }
+
+    @Test
+    public void testArtisant() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.EquipementBois);
+
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT), 2);
+        Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.BOIS), 1);
+    }
+
+    @Test (expected = BateauFullException.class)
+    public void testArtisantError() throws Exception {
+        Plateau plateau = new Plateau();
+        Joueur joueur = new Joueur("red", plateau);
+
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.EquipementBois);
+
+    }
 }

@@ -184,6 +184,7 @@ public class Plateau {
             case Cheval -> trocCheval(cout, joueur);
             case Kayak -> fabricationDePirogue(cout, joueur);
             case FourrureBois -> throw new CarteNotCompatibleException();
+            case EquipementBois -> artisanat(joueur);
         }
     }
 
@@ -232,6 +233,17 @@ public class Plateau {
         for (PieceEnum pieceEnum : pieceEnums)
             this.defausser(joueur, pieceEnum);
         joueur.miniPlateau.addRessourceDansBateau(joueur.miniPlateau.getValideBateau(),new Ressource(PieceEnum.CHEVAL));
+    }
+
+    /**
+     * <div style="color:orange">Test en cour</div>
+     * @param joueur
+     * @throws Exception
+     */
+    private void artisanat(Joueur joueur) throws Exception {
+        if (joueur.miniPlateau.isEnoughPlace(2)) throw new BateauFullException();
+        joueur.miniPlateau.addRessourceDansBateau(giveRessource(PieceEnum.EQUIPEMENT));
+        joueur.miniPlateau.addRessourceDansBateau(giveRessource(PieceEnum.BOIS));
     }
 
     /**

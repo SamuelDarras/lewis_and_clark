@@ -145,6 +145,11 @@ public class MiniPlateauExpedition {
         return -1;
     }
 
+    /**
+     * <div style="color:red">Test non fais</div>
+     * @param place
+     * @return
+     */
     public boolean isEnoughPlace(int place){
         int count = 0;
         for (List<Ressource> bateauRe : bateauRes) {
@@ -152,10 +157,10 @@ public class MiniPlateauExpedition {
                 if (ressource == null)
                     count++;
                 if (count == place)
-                    return true;
+                    return false;
             }
         }
-        return false;
+        return true;
     }
 
     public void addBasicRessource(Plateau plateau) throws Exception {

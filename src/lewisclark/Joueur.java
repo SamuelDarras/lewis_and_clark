@@ -69,7 +69,7 @@ public class Joueur {
                     throw new RessourceOutOfDisponibleException();
         //Regarder les batteaux si ils peuvent stocker des ressources et combien
         if (boolGain)
-            if (!this.miniPlateau.isEnoughPlace(card.getPossede().get(index).size()))
+            if (this.miniPlateau.isEnoughPlace(card.getPossede().get(index).size()))
                 throw new BateauFullException();
         //Traitement
         if (boolCout)
