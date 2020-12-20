@@ -190,6 +190,7 @@ public class Plateau {
     /**
      * Action 1 = 1 ==> Fourrure
      * Action 2 = 2 ==> Bois
+     * <div style="color:green">Test faits</div>
      * @param positionEmplacementVillage
      * @param joueur
      * @param nombre
