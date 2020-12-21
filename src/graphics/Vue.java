@@ -578,12 +578,8 @@ public class Vue extends Application{
     }
 
     private Button createPopUp(Button cardPop, Card c, Stage stage) {
-        AtomicBoolean submit = new AtomicBoolean(false);
 
         Button submitButton = new Button("Submit");
-        submitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            submit.set(true);
-        });
 
         GridPane grid = new GridPane();
         grid.setGridLinesVisible(false);
@@ -633,49 +629,47 @@ public class Vue extends Application{
         pop.getContent().addAll(grid);
 
         cardPop.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (!pop.isShowing() && !submit.get())
+            if (!pop.isShowing()) {
                 pop.show(stage);
+            }
             else
                 pop.hide();
+        });
 
-                if (submit.get()) {
-                    pop.hide();
-                    if (nbIndien.getValue() > game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN))
-                        try {
-                            throw new RessourceOutOfDisponibleException();
-                        } catch (RessourceOutOfDisponibleException e) {
-                            e.printStackTrace();
-                        }
-                    else {
-                        int nb = nbIndien.getValue();
-                        String[] cardUsed = null;
-
-                        if (!card.getValue().equals("Pas de carte associe")) {
-
-                            cardUsed = card.getValue().split("-");
-                            Card used = game.currentPlayer.findCard(cardUsed[0]);
-                            used.setUsed(true);
-
-                            nb += Integer.parseInt(cardUsed[1]);
-                        }
-
-                        List<Ressource> src = new ArrayList<>();
-                        for (int i = 0; i < nb; i++)
-                            src.add(game.currentPlayer.miniPlateau.deleteRessource(PieceEnum.INDIEN));
-                        game.plateau.dropRessource(new Ressource(PieceEnum.INDIEN));
-
-                        c.placerIndiensSurCarte(src, c);
-
-                        try {
-                            play(stage);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-
+        submitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            pop.hide();
+            if (nbIndien.getValue() > game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN))
+                try {
+                    throw new RessourceOutOfDisponibleException();
+                } catch (RessourceOutOfDisponibleException e) {
+                    e.printStackTrace();
                 }
+            else {
+                int nb = nbIndien.getValue();
+                String[] cardUsed = null;
+
+                if (!card.getValue().equals("Pas de carte associe")) {
+
+                    cardUsed = card.getValue().split("-");
+                    Card used = game.currentPlayer.findCard(cardUsed[0]);
+                    used.setUsed(true);
+
+                    nb += Integer.parseInt(cardUsed[1]);
+                }
+
+                List<Ressource> src = new ArrayList<>();
+                for (int i = 0; i < nb; i++)
+                    src.add(game.currentPlayer.miniPlateau.deleteRessource(PieceEnum.INDIEN));
+                game.plateau.dropRessource(new Ressource(PieceEnum.INDIEN));
+
+                c.placerIndiensSurCarte(src, c);
+
+                try {
+                    play(stage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 
         });
 
