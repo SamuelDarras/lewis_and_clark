@@ -463,10 +463,7 @@ public class Vue extends Application{
 
         VBox pileAchat = new VBox();
         pileAchat.getChildren().addAll(carte5,carte4,carte3,carte2,carte1);
-
-        pileAchat.setAlignment(Pos.CENTER);
-        pileAchat.setPadding(new Insets(130,0,0,650));
-        pileAchat.setSpacing(85);
+        pileAchat.setAlignment(Pos.CENTER_RIGHT);
 
         /*
            ? actions
@@ -488,6 +485,9 @@ public class Vue extends Application{
         /*
            * emplacements plateau
         */
+        GridPane gridButton = new GridPane();
+        gridButton.setGridLinesVisible(true);
+        gridButton.setMaxSize(200,200);
 
         VBox action = new VBox();
         action.getChildren().add(nextTurn);
@@ -508,12 +508,41 @@ public class Vue extends Application{
         };
 
         for (int i = 0; i < btActions.length; i++) {
-            btActions[i] = new Button();
+            btActions[i] = new Button(String.valueOf(i));
             createPopUpPlateau(btActions[i],stage);
-            btActions[i].setLayoutX(positions[i][0]);
-            btActions[i].setLayoutY(positions[i][1]);
-            vbplateau.getChildren().add(btActions[i]);
         }
+
+        Label tmp[] = new Label[8];
+        for (int i = 0; i < btActions.length; i++) {
+            tmp[i] = new Label(String.valueOf(i));
+            tmp[i].setStyle(" -fx-background-color: white;");
+            tmp[i].setLayoutX(positions[i][0]);
+            tmp[i].setLayoutY(positions[i][1]);
+            vbplateau.getChildren().add(tmp[i]);
+        }
+
+        final int numCols = 8 ;
+        final int numRows = 8 ;
+        for (int i = 0; i < numCols; i++) {
+            ColumnConstraints colConst = new ColumnConstraints();
+            colConst.setPercentWidth(100.0 / numCols);
+            gridButton.getColumnConstraints().add(colConst);
+        }
+        for (int i = 0; i < numRows; i++) {
+            RowConstraints rowConst = new RowConstraints();
+            rowConst.setPercentHeight(100.0 / numRows);
+            gridButton.getRowConstraints().add(rowConst);
+        }
+        btActions[0].setAlignment(Pos.CENTER);
+
+        gridButton.add(btActions[0],1,0);
+        gridButton.add(btActions[1],3,1);
+        gridButton.add(btActions[7],0,2);
+        gridButton.add(btActions[2],1,4);
+        gridButton.add(btActions[4],7,4);
+        gridButton.add(btActions[6],4,5);
+        gridButton.add(btActions[5],6,5);
+        gridButton.add(btActions[3],2,7);
 
         /*
            * emplacement indien
@@ -557,14 +586,14 @@ public class Vue extends Application{
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
                 BackgroundSize.DEFAULT)));
         vbplateau.setMinSize(800,700);
-        vbplateau.getChildren().addAll(pileAchat);
-        gpGame.add(vbplateau,2,2);
-        gpGame.add(vbMiniPlateau,1,1);
-        gpGame.add(deck,1,2);
-        gpGame.add(inventairePlateau,3,1);
-        gpGame.add(vbOther,3,2);
-        gpGame.add(action,3,3);
-        gpGame.add(hbMiniPlateau,2,3);
+        gpGame.add(gridButton,1,0);
+        gpGame.add(vbplateau,1,1,2,1);
+        gpGame.add(pileAchat,2,1);
+        gpGame.add(deck,0,1);
+        gpGame.add(inventairePlateau,3,0);
+        gpGame.add(vbOther,3,1);
+        gpGame.add(action,3,2);
+        gpGame.add(hbMiniPlateau,1,2);
 
 
         root.getChildren().addAll(gpGame);
@@ -658,9 +687,10 @@ public class Vue extends Application{
                 }
 
                 List<Ressource> src = new ArrayList<>();
-                for (int i = 0; i < nb; i++)
+                for (int i = 0; i < nb; i++){
                     src.add(game.currentPlayer.miniPlateau.deleteRessource(PieceEnum.INDIEN));
-                game.plateau.dropRessource(new Ressource(PieceEnum.INDIEN));
+                    game.plateau.dropRessource(new Ressource(PieceEnum.INDIEN));
+                }
 
                 c.placerIndiensSurCarte(src, c);
 
@@ -677,12 +707,9 @@ public class Vue extends Application{
     }
 
     private Button createPopUpPlateau(Button cardPop, Stage stage) {
-        AtomicBoolean submit = new AtomicBoolean(false);
 
         Button submitButton = new Button("Submit");
-        submitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            submit.set(true);
-        });
+
 
         GridPane grid = new GridPane();
         grid.setGridLinesVisible(false);
@@ -715,38 +742,34 @@ public class Vue extends Application{
         pop.getContent().addAll(grid);
 
         cardPop.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            if (!pop.isShowing() && !submit.get())
+            if (!pop.isShowing())
                 pop.show(stage);
             else
                 pop.hide();
+        });
 
-            if (submit.get()) {
-                pop.hide();
-                if (nbIndien.getValue() > game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN))
-                    try {
-                        throw new RessourceOutOfDisponibleException();
-                    } catch (RessourceOutOfDisponibleException e) {
-                        e.printStackTrace();
-                    }
-                else {
-                    int nb = nbIndien.getValue();
-
-                    List<Ressource> src = new ArrayList<>();
-                    for (int i = 0; i < nb; i++)
-                        src.add(game.currentPlayer.miniPlateau.deleteRessource(PieceEnum.INDIEN));
-                    game.plateau.dropRessource(new Ressource(PieceEnum.INDIEN));
-
-                    try {
-                        play(stage);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-
+        submitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            pop.hide();
+            if (nbIndien.getValue() > game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN))
+                try {
+                    throw new RessourceOutOfDisponibleException();
+                } catch (RessourceOutOfDisponibleException e) {
+                    e.printStackTrace();
                 }
+            else {
+                int nb = nbIndien.getValue();
 
-
+                List<Ressource> src = new ArrayList<>();
+                for (int i = 0; i < nb; i++) {
+                    src.add(game.currentPlayer.miniPlateau.deleteRessource(PieceEnum.INDIEN));
+                    game.plateau.dropRessource(new Ressource(PieceEnum.INDIEN));
+                }
+                try {
+                    play(stage);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-
         });
 
         return cardPop;
