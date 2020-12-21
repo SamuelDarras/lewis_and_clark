@@ -45,12 +45,12 @@ public class Plateau {
         emplacementIndienOnVillage.put(PositionEmplacementVillage.FourrureBois, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.EquipementBois, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.Cheval, 0);
-        emplacementIndienOnVillage.put(PositionEmplacementVillage.DeffauseTroisCarte, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.DefauseTroisCarteAndshuffle, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.DoubleRessourceCondition, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.IndienReserve, 0);
-        emplacementIndienOnVillage.put(PositionEmplacementVillage.JeSaisPasCeQueCest, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.BoisBateau, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.Kayak, 0);
-        emplacementIndienOnVillage.put(PositionEmplacementVillage.MelangeCarte, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.ActiverCarte, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.NouritureFourrure, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.Powo, 0);
     }
@@ -142,10 +142,10 @@ public class Plateau {
     public int getNbIndienOnPosition(PositionEmplacementVillage positionEmplacementVillage){
         int nombreIndient = 0;
         switch (positionEmplacementVillage){
-            case MelangeCarte, IndienReserve, EquipementBois, FourrureBois,
-                    NouritureFourrure, DeffauseTroisCarte,
+            case ActiverCarte, IndienReserve, EquipementBois, FourrureBois,
+                    NouritureFourrure, DefauseTroisCarteAndshuffle,
                     DoubleRessourceCondition -> nombreIndient = 1;
-            case JeSaisPasCeQueCest -> nombreIndient = 2;
+            case BoisBateau -> nombreIndient = 2;
             case Kayak, Cheval -> nombreIndient = 3;
             case Powo -> nombreIndient = 1000;
             default -> nombreIndient = -1;
@@ -158,7 +158,7 @@ public class Plateau {
     }
 
     /**
-     * Regarde si on peut placer un indient (juste si son position est possible)
+     * Regarde si on peut placer un indient (juste si sa position est possible)
      * @return true si le possitionement est possible
      */
     public boolean addOneIndientOnPossition(PositionEmplacementVillage positionEmplacementVillage) {

@@ -1,15 +1,23 @@
 package lewisclark;
 
 public enum PositionEmplacementVillage {
-    FourrureBois,
-    EquipementBois,
-    NouritureFourrure,
-    Kayak,
-    Cheval,
-    MelangeCarte,
-    JeSaisPasCeQueCest,
+    EquipementBois, //0
+    FourrureBois, //1
+    Kayak, //2
+    Cheval, //3
+    ActiverCarte, // 4
+    BoisBateau, //5
+    DefauseTroisCarteAndshuffle, //6
+    NouritureFourrure, //7
     IndienReserve,
-    DeffauseTroisCarte,
-    DoubleRessourceCondition,
-    Powo
+    DoubleRessourceCondition, //?
+    Powo; //centre
+
+    /*public String[] values(){
+        String allValue[] = {"EquipementBois", "FourrureBois", "Kayak", "Cheval", "ActiverCarte",
+        "BoisBateau", "DefauseTroisCarteAndshuffle", "NouritureFourrure", "IndienReserve",
+        "DoubleRessourceCondition", "Powo"};
+
+        return allValue;
+    }*/
 }

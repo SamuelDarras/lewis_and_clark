@@ -509,9 +509,12 @@ public class Vue extends Application{
                 {100, 300},
         };
 
+        PositionEmplacementVillage pos[] = PositionEmplacementVillage.values();
+
         for (int i = 0; i < btActions.length; i++) {
             btActions[i] = new Button(String.valueOf(i));
-            createPopUpPlateau(btActions[i],stage);
+            btActions[i].setId(pos[i].name());
+            villageIndien(btActions[i],stage);
         }
 
         Label tmp[] = new Label[8];
@@ -542,8 +545,8 @@ public class Vue extends Application{
         gridButton.add(btActions[7],0,2);
         gridButton.add(btActions[2],1,4);
         gridButton.add(btActions[4],7,4);
-        gridButton.add(btActions[6],4,5);
-        gridButton.add(btActions[5],6,5);
+        gridButton.add(btActions[6],6,5);
+        gridButton.add(btActions[5],4,5);
         gridButton.add(btActions[3],2,7);
 
         /*
@@ -559,8 +562,6 @@ public class Vue extends Application{
 
             vbplateau.getChildren().add(indienIV);
         }
-
-
 
         /*
            * campement
@@ -708,10 +709,11 @@ public class Vue extends Application{
         return cardPop;
     }
 
-    private Button createPopUpPlateau(Button cardPop, Stage stage) {
+    private Button villageIndien(Button emplacement, Stage stage) {
+
+        PositionEmplacementVillage pos = PositionEmplacementVillage.valueOf(emplacement.getId());
 
         Button submitButton = new Button("Submit");
-
 
         GridPane grid = new GridPane();
         grid.setGridLinesVisible(false);
@@ -719,31 +721,29 @@ public class Vue extends Application{
         grid.minHeight(20);
         grid.minWidth(20);
 
-        Label name = new Label("test");
+        Label name = new Label(emplacement.getId());
         name.setStyle("-fx-font: normal bold 12px 'serif'");
 
-        Label description = new Label("ceci est un test");
+        int nbMax = game.plateau.lastPlaceForIndienOnPosition(pos);
 
-        Label labNbIndien = new Label("Nombre d'indiensà placer");
+        Label labNbIndien = new Label("Nombre d'indiens à associer");
         ComboBox<Integer> nbIndien = new ComboBox<>();
-        nbIndien.getItems().setAll(0,1,2,3);
+        for (int i = 0; i < nbMax; i++)
+            nbIndien.getItems().add(i+1);
         nbIndien.setValue(0);
 
 
         grid.add(name,1,0);
-        grid.add(description,1,1);
 
         grid.add(labNbIndien,0,3);
         grid.add(nbIndien,0,4);
 
-
         grid.add(submitButton,3,5);
-
 
         Popup pop = new Popup();
         pop.getContent().addAll(grid);
 
-        cardPop.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+        emplacement.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             if (!pop.isShowing())
                 pop.show(stage);
             else
@@ -759,12 +759,10 @@ public class Vue extends Application{
                     e.printStackTrace();
                 }
             else {
-                int nb = nbIndien.getValue();
-
-                List<Ressource> src = new ArrayList<>();
-                for (int i = 0; i < nb; i++) {
-                    src.add(game.currentPlayer.miniPlateau.deleteRessource(PieceEnum.INDIEN));
-                    game.plateau.dropRessource(new Ressource(PieceEnum.INDIEN));
+                try {
+                    game.plateau.addIndien(pos, game.currentPlayer);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
                 try {
                     play(stage);
@@ -774,7 +772,7 @@ public class Vue extends Application{
             }
         });
 
-        return cardPop;
+        return emplacement;
     }
 
     private void couleurJoueur(String text) throws Exception {
