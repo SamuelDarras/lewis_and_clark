@@ -463,7 +463,9 @@ public class Vue extends Application{
 
         VBox pileAchat = new VBox();
         pileAchat.getChildren().addAll(carte5,carte4,carte3,carte2,carte1);
-        pileAchat.setAlignment(Pos.CENTER_RIGHT);
+        pileAchat.setAlignment(Pos.CENTER);
+        pileAchat.setPadding(new Insets(120,0,0,0));
+        pileAchat.setSpacing(80);
 
         /*
            ? actions
