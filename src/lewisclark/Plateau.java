@@ -185,7 +185,19 @@ public class Plateau {
             case Kayak -> fabricationDePirogue(cout, joueur);
             case FourrureBois -> throw new CarteNotCompatibleException();
             case EquipementBois -> artisanat(joueur);
+            case NouritureFourrure -> chasse(joueur);
         }
+    }
+
+    /**
+     * <div style="color:green">Test faits</div>
+     * @param joueur
+     * @throws Exception
+     */
+    private void chasse(Joueur joueur) throws Exception {
+        if (!joueur.miniPlateau.isEnoughPlace(2)) throw new BateauFullException();
+        joueur.miniPlateau.addRessourceDansBateau(new Ressource(PieceEnum.NOURRITURE));
+        joueur.miniPlateau.addRessourceDansBateau(new Ressource(PieceEnum.FOURRURE));
     }
 
     /**
@@ -236,12 +248,12 @@ public class Plateau {
     }
 
     /**
-     * <div style="color:orange">Test en cour</div>
+     * <div style="color:green">Test faits</div>
      * @param joueur
      * @throws Exception
      */
     private void artisanat(Joueur joueur) throws Exception {
-        if (joueur.miniPlateau.isEnoughPlace(2)) throw new BateauFullException();
+        if (!joueur.miniPlateau.isEnoughPlace(2)) throw new BateauFullException();
         joueur.miniPlateau.addRessourceDansBateau(giveRessource(PieceEnum.EQUIPEMENT));
         joueur.miniPlateau.addRessourceDansBateau(giveRessource(PieceEnum.BOIS));
     }

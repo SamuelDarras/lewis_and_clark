@@ -75,5 +75,22 @@ public class MiniPlateauExpeditionUnitTest {
     public void testFindBateau0() {
         Assert.assertEquals(0,mpe.getValideBateau());
     }
+    
+    @Test
+    public void testIsEnoughPlace(){
+        Assert.assertTrue(mpe.isEnoughPlace(-2));
+        Assert.assertTrue(mpe.isEnoughPlace(2));
+        Assert.assertTrue(mpe.isEnoughPlace(11));
+        Assert.assertFalse(mpe.isEnoughPlace(12));
+    }
+
+    @Test
+    public void testIsEnoughPlaceIfAddRessources() throws Exception {
+        mpe.addRessourceDansBateau(new Ressource(PieceEnum.FOURRURE));
+        Assert.assertTrue(mpe.isEnoughPlace(-2));
+        Assert.assertTrue(mpe.isEnoughPlace(2));
+        Assert.assertTrue(mpe.isEnoughPlace(10));
+        Assert.assertFalse(mpe.isEnoughPlace(11));
+    }
 }
 

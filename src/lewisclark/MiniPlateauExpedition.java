@@ -14,8 +14,6 @@ public class MiniPlateauExpedition {
         bateauRes = new ArrayList<>();
         bateauInd = new ArrayList<>();
         initBateau();
-
-
     }
 
     private void initBateau() {
@@ -146,9 +144,9 @@ public class MiniPlateauExpedition {
     }
 
     /**
-     * <div style="color:red">Test non fais</div>
-     * @param place
-     * @return
+     * <div style="color:green">Test faits</div>
+     * @param place (Place peut etre négatif mais ca renveras true)
+     * @return true si on peu mettre des ressources sinon false;
      */
     public boolean isEnoughPlace(int place){
         int count = 0;
@@ -156,11 +154,11 @@ public class MiniPlateauExpedition {
             for (Ressource ressource : bateauRe) {
                 if (ressource == null)
                     count++;
-                if (count == place)
-                    return false;
+                if (count >= place)
+                    return true;
             }
         }
-        return true;
+        return false;
     }
 
     public void addBasicRessource(Plateau plateau) throws Exception {
