@@ -717,8 +717,10 @@ public class Vue extends Application{
     }
 
     public void chefExpedition(Stage stage){
-        System.out.println(game.currentPlayer.getPositionEclaireurs());
-        EnvironnementEnum prochaineCase = game.plateau.getOneCaseVictoire(game.currentPlayer.getPositionEclaireurs()+1);
+        EnvironnementEnum[] prochaineCase = new EnvironnementEnum[4];
+
+        for (int i=0; i<4; i++)
+            prochaineCase[i] = game.plateau.getOneCaseVictoire(game.currentPlayer.getPositionEclaireurs()+1);
 
         GridPane grid = new GridPane();
         grid.setStyle(" -fx-background-color: white;");
@@ -726,8 +728,9 @@ public class Vue extends Application{
         grid.minWidth(20);
         Popup pop = new Popup();
 
+        int offset = 0;
 
-        switch (prochaineCase){
+        switch (prochaineCase[0]){
             case riviere:
                 grid.getChildren().clear();
                 Button nourriture = new Button("1 nourriture = + 2 cases");
@@ -741,7 +744,7 @@ public class Vue extends Application{
 
                 nourriture.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                     try {
-                        game.chefExpedition(PieceEnum.NOURRITURE);
+                        offset(PieceEnum.NOURRITURE, prochaineCase);
                         pop.hide();
                         System.out.println(game.currentPlayer.getPositionEclaireurs());
                         play(stage);
@@ -752,7 +755,7 @@ public class Vue extends Application{
 
                 pyrogue.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                     try {
-                        game.chefExpedition(PieceEnum.PYROGUE);
+                        offset(PieceEnum.PYROGUE, prochaineCase);
                         pop.hide();
                         play(stage);
                     } catch (Exception e) {
@@ -772,7 +775,7 @@ public class Vue extends Application{
 
                 cheval.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                     try {
-                        game.chefExpedition(PieceEnum.CHEVAL);
+                        offset(PieceEnum.CHEVAL, prochaineCase);
                         pop.hide();
                         play(stage);
                     } catch (Exception e) {
@@ -796,7 +799,7 @@ public class Vue extends Application{
 
                 nourriture2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                     try {
-                        game.chefExpedition(PieceEnum.NOURRITURE);
+                        offset(PieceEnum.NOURRITURE, prochaineCase);
                         pop.hide();
                         play(stage);
                     } catch (Exception e) {
@@ -806,7 +809,7 @@ public class Vue extends Application{
 
                 pyrogue2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                     try {
-                        game.chefExpedition(PieceEnum.PYROGUE);
+                        offset(PieceEnum.PYROGUE, prochaineCase);
                         pop.hide();
                         play(stage);
                     } catch (Exception e) {
@@ -816,13 +819,41 @@ public class Vue extends Application{
 
                 cheval2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
                     try {
-                        game.chefExpedition(PieceEnum.CHEVAL);
+                        offset(PieceEnum.CHEVAL, prochaineCase);
                         pop.hide();
                         play(stage);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
+                break;
+        }
+    }
+
+    private void offset(PieceEnum src, EnvironnementEnum[] cases) throws Exception {
+        int offset = 0;
+        switch (src){
+            case NOURRITURE:
+                if (cases[1] != EnvironnementEnum.riviere && cases[1] != EnvironnementEnum.mixte)
+                    offset = 1;
+
+                game.chefExpedition(src, offset);
+                break;
+            case PYROGUE:
+                if (cases[3] != EnvironnementEnum.riviere && cases[3] != EnvironnementEnum.mixte)
+                    offset = 1;
+                if (cases[2] != EnvironnementEnum.riviere && cases[2] != EnvironnementEnum.mixte)
+                    offset = 2;
+                if (cases[1] != EnvironnementEnum.riviere && cases[1] != EnvironnementEnum.mixte)
+                    offset = 3;
+
+                game.chefExpedition(src, offset);
+                break;
+            case CHEVAL:
+                if (cases[1] != EnvironnementEnum.montagne && cases[1] != EnvironnementEnum.mixte)
+                    offset = 1;
+
+                game.chefExpedition(src,offset);
                 break;
         }
     }
