@@ -697,6 +697,13 @@ public class Vue extends Application{
 
                 c.placerIndiensSurCarte(src, c);
 
+                switch (c.getType()){
+                    case "Chef d'expédition":
+                        chefExpedition(stage); break;
+                    default: break;
+
+                }
+
                 try {
                     play(stage);
                 } catch (Exception e) {
@@ -707,6 +714,117 @@ public class Vue extends Application{
         });
 
         return cardPop;
+    }
+
+    public void chefExpedition(Stage stage){
+        System.out.println(game.currentPlayer.getPositionEclaireurs());
+        EnvironnementEnum prochaineCase = game.plateau.getOneCaseVictoire(game.currentPlayer.getPositionEclaireurs()+1);
+
+        GridPane grid = new GridPane();
+        grid.setStyle(" -fx-background-color: white;");
+        grid.minHeight(20);
+        grid.minWidth(20);
+        Popup pop = new Popup();
+
+
+        switch (prochaineCase){
+            case riviere:
+                grid.getChildren().clear();
+                Button nourriture = new Button("1 nourriture = + 2 cases");
+                Button pyrogue = new Button("1 pyrogue = + 4 cases");
+
+                grid.add(nourriture,0, 0);
+                grid.add(pyrogue, 0, 1);
+
+                pop.getContent().add(grid);
+                pop.show(stage);
+
+                nourriture.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    try {
+                        game.chefExpedition(PieceEnum.NOURRITURE);
+                        pop.hide();
+                        System.out.println(game.currentPlayer.getPositionEclaireurs());
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                pyrogue.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    try {
+                        game.chefExpedition(PieceEnum.PYROGUE);
+                        pop.hide();
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                break;
+
+            case montagne:
+                grid.getChildren().clear();
+                Button cheval = new Button("1 cheval = + 2 cases");
+
+                grid.add(cheval,0, 0);
+
+                pop.getContent().add(grid);
+                pop.show(stage);
+
+                cheval.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    try {
+                        game.chefExpedition(PieceEnum.CHEVAL);
+                        pop.hide();
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                break;
+
+            case mixte:
+                grid.getChildren().clear();
+                Button nourriture2 = new Button("1 nourriture = + 2 cases");
+                Button pyrogue2 = new Button("1 pyrogue = + 4 cases");
+                Button cheval2 = new Button("1 cheval = + 2 cases");
+
+                grid.add(nourriture2,0, 0);
+                grid.add(pyrogue2, 0, 1);
+                grid.add(cheval2,0, 2);
+
+                pop.getContent().add(grid);
+                pop.show(stage);
+
+                nourriture2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    try {
+                        game.chefExpedition(PieceEnum.NOURRITURE);
+                        pop.hide();
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                pyrogue2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    try {
+                        game.chefExpedition(PieceEnum.PYROGUE);
+                        pop.hide();
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                cheval2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    try {
+                        game.chefExpedition(PieceEnum.CHEVAL);
+                        pop.hide();
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                break;
+        }
     }
 
     private Button villageIndien(Button emplacement, Stage stage) {
@@ -761,6 +879,7 @@ public class Vue extends Application{
             else {
                 try {
                     game.plateau.addIndien(pos, game.currentPlayer);
+                    game.plateau.defausser(game.currentPlayer, PieceEnum.INDIEN);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

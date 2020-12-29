@@ -94,8 +94,21 @@ public class Game {
         return plateau;
     }
 
-
     public void playCard(Joueur joueur, Card cardJoue,int nbIndiens,Card cardAssocie ) throws RessourceOutOfDisponibleException {
 
+    }
+
+    public void chefExpedition(PieceEnum ressource) throws OutOfRessourceInBateauxException {
+        if (currentPlayer.miniPlateau.countNbRessource(ressource) < 1)
+            throw new OutOfRessourceInBateauxException();
+
+        plateau.defausser(currentPlayer, ressource);
+        System.out.println(currentPlayer.getPositionEclaireurs()+2);
+
+        switch (ressource){
+            case NOURRITURE: currentPlayer.setPositionEclaireurs(currentPlayer.getPositionEclaireurs()+2); break;
+            case PYROGUE: currentPlayer.setPositionEclaireurs(currentPlayer.getPositionEclaireurs()+4); break;
+            case CHEVAL: currentPlayer.setPositionEclaireurs(currentPlayer.getPositionEclaireurs()+2); break;
+        }
     }
 }

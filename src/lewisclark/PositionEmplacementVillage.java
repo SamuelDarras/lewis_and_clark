@@ -13,11 +13,4 @@ public enum PositionEmplacementVillage {
     DoubleRessourceCondition, //?
     Powo; //centre
 
-    /*public String[] values(){
-        String allValue[] = {"EquipementBois", "FourrureBois", "Kayak", "Cheval", "ActiverCarte",
-        "BoisBateau", "DefauseTroisCarteAndshuffle", "NouritureFourrure", "IndienReserve",
-        "DoubleRessourceCondition", "Powo"};
-
-        return allValue;
-    }*/
 }

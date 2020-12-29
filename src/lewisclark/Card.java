@@ -13,6 +13,7 @@ public class Card implements Comparable<Card>{
     private final List<List<Ressource>> possede;
     private final List<List<Ressource>> coute;
     private final int nombreChoixPossible;
+    private String type;
     public List<Ressource> indienAssocie;
     public Card cardAssociePourIndiens;
 
@@ -20,6 +21,17 @@ public class Card implements Comparable<Card>{
     public Card(Card nouvelleCard) {
         this(nouvelleCard.cardName, nouvelleCard.strength,nouvelleCard.actionDescription, nouvelleCard.badge,
                 nouvelleCard.possede, nouvelleCard.coute);
+    }
+
+    public Card(String cardName, int strength, String actionDescription, PieceEnum badge, String type) {
+        this.cardName = cardName;
+        this.strength = strength;
+        this.actionDescription = actionDescription;
+        this.badge = badge;
+        this.type = type;
+        possede = null;
+        coute = null;
+        nombreChoixPossible = 0;
     }
 
     public static Card nouvelleCard(){
@@ -112,8 +124,6 @@ public class Card implements Comparable<Card>{
         used = true;
     }
 
-
-
     public List<List<Ressource>> getPossede() {
         return possede;
     }
@@ -177,5 +187,8 @@ public class Card implements Comparable<Card>{
         else return 1;
     }
 
+    public String getType() {
+        return type;
+    }
 
 }

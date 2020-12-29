@@ -38,7 +38,6 @@ public class Plateau {
         this.emplacementIndienOnVillage = new HashMap<>();
         initEmplacement();
         initCaseToWin();
-        //carteAchat.add();
     }
 
     private void initEmplacement(){
@@ -299,4 +298,6 @@ public class Plateau {
     public EnvironnementEnum[] getCaseVictoire() {
         return caseVictoire;
     }
+
+    public EnvironnementEnum getOneCaseVictoire(int pos){ return caseVictoire[pos];}
 }
