@@ -111,4 +111,32 @@ public class Game {
             case CHEVAL: currentPlayer.setPositionEclaireurs(currentPlayer.getPositionEclaireurs()+2-offset); break;
         }
     }
+
+    public void bucheron() throws Exception {
+        if (plateau.getNbressource(PieceEnum.BOIS) >= 1)
+            currentPlayer.miniPlateau.addRessourceDansBateau(currentPlayer.miniPlateau.getValideBateau(), plateau.giveRessource(PieceEnum.BOIS));
+        else
+            throw new RessourceOutOfDisponibleException();
+    }
+
+    public void chaseur() throws Exception {
+        if (plateau.getNbressource(PieceEnum.NOURRITURE) >= 1)
+            currentPlayer.miniPlateau.addRessourceDansBateau(currentPlayer.miniPlateau.getValideBateau(), plateau.giveRessource(PieceEnum.NOURRITURE));
+        else
+            throw new RessourceOutOfDisponibleException();
+    }
+
+    public void forgeron() throws Exception {
+        if (plateau.getNbressource(PieceEnum.EQUIPEMENT) >= 1)
+            currentPlayer.miniPlateau.addRessourceDansBateau(currentPlayer.miniPlateau.getValideBateau(), plateau.giveRessource(PieceEnum.EQUIPEMENT));
+        else
+            throw new RessourceOutOfDisponibleException();
+    }
+
+    public void trapeur() throws Exception {
+        if (plateau.getNbressource(PieceEnum.FOURRURE) >= 1)
+            currentPlayer.miniPlateau.addRessourceDansBateau(currentPlayer.miniPlateau.getValideBateau(), plateau.giveRessource(PieceEnum.FOURRURE));
+        else
+            throw new RessourceOutOfDisponibleException();
+    }
 }
