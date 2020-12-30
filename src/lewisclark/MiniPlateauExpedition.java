@@ -166,6 +166,7 @@ public class MiniPlateauExpedition {
         addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.NOURRITURE));
         addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.EQUIPEMENT));
         addIndienDansBateau   (0, plateau.giveRessource(PieceEnum.INDIEN));
+        addIndienDansBateau   (1, plateau.giveRessource(PieceEnum.INDIEN));
     }
 
 

@@ -103,7 +103,6 @@ public class Game {
             throw new OutOfRessourceInBateauxException();
 
         plateau.defausser(currentPlayer, ressource);
-        System.out.println(currentPlayer.getPositionEclaireurs()+2);
 
         switch (ressource){
             case NOURRITURE: currentPlayer.setPositionEclaireurs(currentPlayer.getPositionEclaireurs()+2-offset); break;
