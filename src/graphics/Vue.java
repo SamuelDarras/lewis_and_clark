@@ -714,7 +714,7 @@ public class Vue extends Application{
         stage.show();
     }
 
-    private Button createPopUp(Button cardPop, Card c, Stage stage) {
+    private Button createPopUp(Button cardPop, Card c, Stage stage){
 
         Button submitButton = new Button("Submit");
 
@@ -775,22 +775,34 @@ public class Vue extends Application{
 
         submitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             pop.hide();
+
+            int nb = nbIndien.getValue();
+            String[] cardUsed = null;
+
+            if (!card.getValue().equals("Pas de carte associe")) {
+                cardUsed = card.getValue().split("-");
+                nb += Integer.parseInt(cardUsed[1]);
+            }
+
             if (nbIndien.getValue() > game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN))
                 try {
                     throw new RessourceOutOfDisponibleException();
                 } catch (RessourceOutOfDisponibleException e) {
-                    e.printStackTrace();
+                    e.getMessage();
                 }
+
+            if (nb > 3){
+                try {
+                    throw new ForceSupATroisException();
+                } catch (ForceSupATroisException e) {
+                    e.getMessage();
+                }
+            }
+
             else {
-                int nb = nbIndien.getValue();
-                String[] cardUsed = null;
-
                 if (!card.getValue().equals("Pas de carte associe")) {
-
-                    cardUsed = card.getValue().split("-");
                     Card used = game.currentPlayer.findCard(cardUsed[0]);
                     used.setUsed(true);
-
                     nb += Integer.parseInt(cardUsed[1]);
                 }
 
@@ -801,12 +813,38 @@ public class Vue extends Application{
                 }
 
                 c.placerIndiensSurCarte(src, c);
-
                 switch (c.getType()){
                     case "Chef d'expédition":
                         chefExpedition(stage); break;
+                    case "Bûcherons":
+                        try {
+                            game.bucheron();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "chasseur":
+                        try {
+                            game.chaseur();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "Forgeron":
+                        try {
+                            game.forgeron();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
+                    case "Trappeur":
+                        try {
+                            game.trapeur();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        break;
                     default: break;
-
                 }
 
                 try {
@@ -833,16 +871,19 @@ public class Vue extends Application{
         grid.minWidth(20);
         Popup pop = new Popup();
 
-        int offset = 0;
+        Label lab = new Label("Choissisez une action");
+        lab.setStyle("-fx-font: normal bold 15px 'serif'");
+
+        grid.add(lab,0,0);
+
 
         switch (prochaineCase[0]){
             case riviere:
-                grid.getChildren().clear();
                 Button nourriture = new Button("1 nourriture = + 2 cases");
                 Button pyrogue = new Button("1 pyrogue = + 4 cases");
 
-                grid.add(nourriture,0, 0);
-                grid.add(pyrogue, 0, 1);
+                grid.add(nourriture,0, 1);
+                grid.add(pyrogue, 0, 2);
 
                 pop.getContent().add(grid);
                 pop.show(stage);
@@ -851,7 +892,6 @@ public class Vue extends Application{
                     try {
                         offset(PieceEnum.NOURRITURE, prochaineCase);
                         pop.hide();
-                        System.out.println(game.currentPlayer.getPositionEclaireurs());
                         play(stage);
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -870,7 +910,6 @@ public class Vue extends Application{
                 break;
 
             case montagne:
-                grid.getChildren().clear();
                 Button cheval = new Button("1 cheval = + 2 cases");
 
                 grid.add(cheval,0, 0);
@@ -1014,12 +1053,18 @@ public class Vue extends Application{
                 }
             else {
                 try {
-                    game.plateau.addIndien(pos, game.currentPlayer);
-                    game.plateau.defausser(game.currentPlayer, PieceEnum.INDIEN);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                try {
+                    if (pos == PositionEmplacementVillage.Cheval || pos == PositionEmplacementVillage.FourrureBois) {
+                        choixEffet(pos, stage);
+                    }
+                    if (pos == PositionEmplacementVillage.Kayak)
+                        for (int i=0; i< nbIndien.getValue(); i++){
+                            game.plateau.addIndien(pos, game.currentPlayer);
+                            game.plateau.defausser(game.currentPlayer, PieceEnum.INDIEN);
+                        }
+                    else {
+                        game.plateau.addIndien(pos, game.currentPlayer);
+                        game.plateau.defausser(game.currentPlayer, PieceEnum.INDIEN);
+                    }
                     play(stage);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -1028,6 +1073,64 @@ public class Vue extends Application{
         });
 
         return emplacement;
+    }
+
+    private void choixEffet(PositionEmplacementVillage pos, Stage stage){
+
+        GridPane grid = new GridPane();
+        grid.setStyle(" -fx-background-color: white;");
+        grid.minHeight(20);
+        grid.minWidth(20);
+        Popup pop = new Popup();
+
+        switch (pos){
+            case Cheval:
+
+                break;
+
+            case FourrureBois:
+                game.plateau.addIndien(pos);
+                grid.getChildren().clear();
+
+                Button bois = new Button("obtenir 2 bois");
+                Button fourrures = new Button("obtenir 2 fourrures");
+
+                grid.add(bois, 0 ,0);
+                grid.add(fourrures,0,1);
+
+                pop.getContent().add(grid);
+                pop.show(stage);
+
+                bois.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    try {
+                        game.plateau.cadeau(PieceEnum.BOIS, game.currentPlayer);
+                        game.currentPlayer.miniPlateau.deleteRessource(PieceEnum.INDIEN);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    pop.hide();
+                    try {
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+                fourrures.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    try {
+                        game.plateau.cadeau(PieceEnum.FOURRURE, game.currentPlayer);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    pop.hide();
+                    try {
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+                break;
+        }
     }
 
     private void couleurJoueur(String text) throws Exception {

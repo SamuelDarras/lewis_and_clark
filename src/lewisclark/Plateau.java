@@ -17,6 +17,8 @@ public class Plateau {
         ressources.put(PieceEnum.FOURRURE  , new ArrayList<>());
         ressources.put(PieceEnum.EQUIPEMENT, new ArrayList<>());
         ressources.put(PieceEnum.NOURRITURE, new ArrayList<>());
+        ressources.put(PieceEnum.PYROGUE, new ArrayList<>());
+        ressources.put(PieceEnum.CHEVAL, new ArrayList<>());
 
         for (int i = 0; i < 18; i++)
             ressources.get(PieceEnum.INDIEN).add(new Ressource(PieceEnum.INDIEN));
@@ -33,6 +35,11 @@ public class Plateau {
         for (int i = 0; i < 15; i++)
             ressources.get(PieceEnum.EQUIPEMENT).add(new Ressource(PieceEnum.EQUIPEMENT));
 
+        for (int i=0; i<15; i++)
+            ressources.get(PieceEnum.PYROGUE).add(new Ressource(PieceEnum.PYROGUE));
+
+        for (int i=0; i<15; i++)
+            ressources.get(PieceEnum.CHEVAL).add(new Ressource(PieceEnum.CHEVAL));
 
         deck = new BuyCardDeck();
         this.emplacementIndienOnVillage = new HashMap<>();
@@ -157,7 +164,7 @@ public class Plateau {
     }
 
     /**
-     * Regarde si on peut placer un indient (juste si sa position est possible)
+     * Regarde si on peut placer un indien (juste si sa position est possible)
      * @return true si le possitionement est possible
      */
     public boolean addOneIndientOnPossition(PositionEmplacementVillage positionEmplacementVillage) {
@@ -181,11 +188,15 @@ public class Plateau {
         emplacementIndienOnVillage.put(positionEmplacementVillage,emplacementIndienOnVillage.get(positionEmplacementVillage) + 1);
         switch (positionEmplacementVillage){
             case Cheval -> trocCheval(cout, joueur);
-            case Kayak -> fabricationDePirogue(cout, joueur);
+            case Kayak -> fabricationDePirogue(joueur);
             case FourrureBois -> throw new CarteNotCompatibleException();
             case EquipementBois -> artisanat(joueur);
             case NouritureFourrure -> chasse(joueur);
         }
+    }
+
+    public void addIndien(PositionEmplacementVillage pos){
+        emplacementIndienOnVillage.put(pos,emplacementIndienOnVillage.get(pos) + 1);
     }
 
     /**
@@ -260,18 +271,24 @@ public class Plateau {
     /**
      * Permet en echange de deux bois d'avoir un pyrogue
      * <div style="color:green">Test faits</div>
-     * @param  pieceEnums Sont les pieces qu'il vas troquer
      * @param  joueur est le joueur qui vas deffauser et recevoir la recompenses
      * @throws Exception
      */
-    private void fabricationDePirogue(List<PieceEnum> pieceEnums, Joueur joueur) throws Exception {
-        if (pieceEnums.size() != 2) throw new OutOfRessourceNeed();
-        if (!pieceEnums.get(0).equals(pieceEnums.get(1))) throw new IncompatiblePieceException();
+    private void fabricationDePirogue(Joueur joueur) throws Exception {
         if (joueur.miniPlateau.countNbRessource(PieceEnum.BOIS) < 2) throw new OutOfRessourceInBateauxException();
 
         for (int i = 0; i < 2; i++)
             this.defausser(joueur, PieceEnum.BOIS);
         joueur.miniPlateau.addRessourceDansBateau(new Ressource(PieceEnum.PYROGUE));
+    }
+
+    public void cadeau(PieceEnum src, Joueur joueur) throws Exception{
+        if (getNbressource(src) < 2) throw new RessourceOutOfDisponibleException();
+
+        for (int i=0; i<2; i++){
+
+            joueur.miniPlateau.addRessourceDansBateau(giveRessource(src));
+        }
     }
 
     public Map<PositionEmplacementVillage, Integer> getEmplacementIndienOnVillage() {
@@ -300,4 +317,5 @@ public class Plateau {
     }
 
     public EnvironnementEnum getOneCaseVictoire(int pos){ return caseVictoire[pos];}
+
 }

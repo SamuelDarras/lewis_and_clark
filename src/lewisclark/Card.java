@@ -20,7 +20,7 @@ public class Card implements Comparable<Card>{
 
     public Card(Card nouvelleCard) {
         this(nouvelleCard.cardName, nouvelleCard.strength,nouvelleCard.actionDescription, nouvelleCard.badge,
-                nouvelleCard.possede, nouvelleCard.coute);
+                nouvelleCard.possede, nouvelleCard.coute, nouvelleCard.type);
     }
 
     public Card(String cardName, int strength, String actionDescription, PieceEnum badge, String type) {
@@ -66,6 +66,13 @@ public class Card implements Comparable<Card>{
         return getCard(cardName, strength, actionDescription, badge, ressourcesPossede, ressourcesCoute);
     }
 
+    public static Card nouvelleCard(String cardName, int strength,String actionDescription,PieceEnum badge, Ressource[] possede, Ressource[] coute, String type){
+        List<Ressource> ressourcesCoute = new ArrayList<>(Arrays.asList(coute));
+        List<Ressource> ressourcesPossede = new ArrayList<>(Arrays.asList(possede));
+
+        return getCard(cardName, strength, actionDescription, badge, ressourcesPossede, ressourcesCoute, type);
+    }
+
     private static Card getCard(String cardName, int strength, String actionDescription, PieceEnum badge, List<Ressource> ressourcesPossede, List<Ressource> ressourcesCoute) {
         List<List<Ressource>> listPossede = new ArrayList<>();
         List<List<Ressource>> listCoute = new ArrayList<>();
@@ -74,6 +81,16 @@ public class Card implements Comparable<Card>{
         listCoute.add(ressourcesCoute);
 
         return new Card(cardName, strength, actionDescription, badge, listPossede, listCoute);
+    }
+
+    private static Card getCard(String cardName, int strength, String actionDescription, PieceEnum badge, List<Ressource> ressourcesPossede, List<Ressource> ressourcesCoute, String type) {
+        List<List<Ressource>> listPossede = new ArrayList<>();
+        List<List<Ressource>> listCoute = new ArrayList<>();
+
+        listPossede.add(ressourcesPossede);
+        listCoute.add(ressourcesCoute);
+
+        return new Card(cardName, strength, actionDescription, badge, listPossede, listCoute, type);
     }
 
     public Card(String cardName,String actionDescription,int strength,PieceEnum badge){
@@ -99,6 +116,30 @@ public class Card implements Comparable<Card>{
             else
                 this.nombreChoixPossible = possede.size();
         }
+    }
+
+    public Card(String cardName, int strength,String actionDescription,PieceEnum badge,
+                List<List<Ressource>> possede, List<List<Ressource>> coute, String type){
+
+        this.type = type;
+        this.cardName          = cardName;
+        this.strength          = strength;
+        this.actionDescription = actionDescription;
+        this.badge             = badge;
+        this.used              = false;
+        this.possede           = possede;
+        this.coute             = coute;
+        cardAssociePourIndiens = null;
+        indienAssocie = null;
+        if (coute == null || possede == null)
+            this.nombreChoixPossible = 0;
+        else{
+            if (coute.size() != possede.size())
+                this.nombreChoixPossible = -1;
+            else
+                this.nombreChoixPossible = possede.size();
+        }
+
     }
 
     public Card(String cardName, int indianCost, String actionDescription, PieceEnum badge) {
