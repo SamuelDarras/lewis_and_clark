@@ -20,7 +20,6 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static javafx.application.Application.launch;
@@ -32,6 +31,7 @@ public class Vue extends Application{
 
     ImageView[] ivEclaireurs;
     ImageView[] ivCampements;
+    boolean campementConfirm = false;
     int[][] positionsEclaireurs = {
             {580, 335},
             {554, 326},
@@ -554,7 +554,10 @@ public class Vue extends Application{
            * next turn
         */
         Button nextTurn = new Button("next turn");
+        if(campementConfirm)
+            nextTurn.setDisable(true);
         nextTurn.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+
             game.nextTurn();
             try {
                 play(stage);
@@ -639,6 +642,7 @@ public class Vue extends Application{
         }
         for (ImageView ivCampement : ivCampements){
             setPosition("campement",ivCampement.getId(), game.getPlayerByColor(ivCampement.getId()).positionCampement);
+            vbplateau.getChildren().add(ivCampement);
         }
         /*
             * aide pour les coord (a commenter)
@@ -671,10 +675,23 @@ public class Vue extends Application{
         /*
            * campement
         */
+        Button campement;
+        if(!campementConfirm)
+             campement = new Button("campement");
+        else
+            campement = new Button("Valider l'organisation");
 
-        Button campement = new Button("campement");
         campement.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
-            game.currentPlayer.setCampement();
+            if(!campementConfirm){
+                game.currentPlayer.setCampementPreOrganisation();
+                campementConfirm = true;
+            }
+            else{
+                //game.currentPlayer.setCampementPostOrganisation();
+                campement.setText("campement");
+                campementConfirm = false;
+
+            }
             try {
                 play(stage);
             } catch (Exception e) {

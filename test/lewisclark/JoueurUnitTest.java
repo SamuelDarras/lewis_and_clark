@@ -43,7 +43,7 @@ public class JoueurUnitTest {
         Joueur joueur = new Joueur("Rouge", game.getPlateau());
         Card card = Card.nouvelleCard(new Ressource(PieceEnum.FOURRURE), new Ressource(PieceEnum.NOURRITURE));
 
-        joueur.jouer(card,1,null);
+        joueur.jouer(card,1 ,1,null);
 
         Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
         Assert.assertEquals(0, joueur.miniPlateau.countNbRessource(PieceEnum.NOURRITURE));

@@ -51,7 +51,7 @@ public class Joueur {
      * @throws Exception Si il n'y a pas assez de ressource ou demande plus que normalement
      */
     public void jouer(Card card, int index, int nbIndiens, Card cardAssocie ) throws Exception {
-        if (index > card.getNombreChoixPossible() || index < 0) throw new OutOfActionPossibleException();
+        if (index > card.getNombreChoixPossible() || index <= 0) throw new OutOfActionPossibleException();
         //Regarder si on peut supprimer les ressources
         index--;
         boolean boolCout = card.getCoute().get(index) != null && card.getCoute().get(index).get(0) != null;
@@ -84,7 +84,7 @@ public class Joueur {
     /**
      * début manque pas mal de trucs a voir avec les autres taches
      */
-    public void setCampement()  {
+    public void setCampementPreOrganisation()  {
         for(Card card : cards){
             if(card.getUsed() && !card.isAssocied()){
                 for(Ressource indien : card.renouvellementCard()){
@@ -97,7 +97,7 @@ public class Joueur {
                 card.removeIndiensAssocie();
             }
         }
-
+        positionCampement = positionEclaireurs;
     }
 
     public void print(){
