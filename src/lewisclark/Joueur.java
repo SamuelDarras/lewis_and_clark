@@ -11,7 +11,8 @@ public class Joueur {
     public List<Card> cards;
     private boolean dejaAcheter = false;
     Plateau plateau;
-    private int positionEclaireurs;
+    public int positionEclaireurs;
+    public int positionCampement;
 
     public Joueur(String couleur, Plateau plateau) throws Exception {
         this.couleur     = couleur;
@@ -20,6 +21,7 @@ public class Joueur {
         this.cards       = new ArrayList<>();
         this.miniPlateau.addBasicRessource(this.plateau);
         this.positionEclaireurs = 0;
+        positionCampement = 0;
     }
 
     public void addRessourceToMiniPlateauExpedition(int numBateau, Ressource p) throws Exception {
@@ -49,7 +51,7 @@ public class Joueur {
      * @throws Exception Si il n'y a pas assez de ressource ou demande plus que normalement
      */
     public void jouer(Card card, int index, int nbIndiens, Card cardAssocie ) throws Exception {
-        if (index > card.getNombreChoixPossible() || index <= 0) throw new OutOfActionPossibleException();
+        if (index > card.getNombreChoixPossible() || index < 0) throw new OutOfActionPossibleException();
         //Regarder si on peut supprimer les ressources
         index--;
         boolean boolCout = card.getCoute().get(index) != null && card.getCoute().get(index).get(0) != null;
@@ -69,7 +71,7 @@ public class Joueur {
                     throw new RessourceOutOfDisponibleException();
         //Regarder les batteaux si ils peuvent stocker des ressources et combien
         if (boolGain)
-            if (this.miniPlateau.isEnoughPlace(card.getPossede().get(index).size()))
+            if (!this.miniPlateau.isEnoughPlace(card.getPossede().get(index).size()))
                 throw new BateauFullException();
         //Traitement
         if (boolCout)

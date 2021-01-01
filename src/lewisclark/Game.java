@@ -111,4 +111,13 @@ public class Game {
             case CHEVAL: currentPlayer.setPositionEclaireurs(currentPlayer.getPositionEclaireurs()+2-offset); break;
         }
     }
+
+    public Joueur getPlayerByColor(String color){
+        for(Joueur j : players){
+            if (j.couleur.equals(color))
+                return j;
+        }
+        return null;
+    }
+
 }

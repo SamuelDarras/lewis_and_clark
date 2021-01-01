@@ -9,7 +9,7 @@ public class Plateau {
     private final List<Card> carteAchat = new ArrayList<>();
     public BuyCardDeck deck;
     private final Map<PositionEmplacementVillage, Integer>  emplacementIndienOnVillage;
-    private final EnvironnementEnum[] caseVictoire = new EnvironnementEnum[40];
+    private final EnvironnementEnum[] caseVictoire = new EnvironnementEnum[50];
 
     public Plateau() {
         ressources.put(PieceEnum.INDIEN    , new ArrayList<>());
@@ -71,8 +71,8 @@ public class Plateau {
 
         for (int i = 34; i < 34+4;i++)
             this.caseVictoire[i] = EnvironnementEnum.riviere;
-
-        this.caseVictoire[39] = EnvironnementEnum.victoire;
+        for (int i = 39 ; i < 49 ; i++)
+            this.caseVictoire[i] = EnvironnementEnum.victoire;
     }
 
     public void achatCarte(Joueur joueur, int index) throws RessourceOutOfDisponibleException, JournalVideException, DejaAchatException {

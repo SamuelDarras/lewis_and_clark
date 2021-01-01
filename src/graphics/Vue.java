@@ -1,5 +1,6 @@
 package graphics;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,6 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,6 +29,61 @@ import Error.*;
 public class Vue extends Application{
 
     private Game game;
+
+    ImageView[] ivEclaireurs;
+    ImageView[] ivCampements;
+    int[][] positionsEclaireurs = {
+            {580, 335},
+            {554, 326},
+            {530, 327},
+            {508, 318},
+            {488, 307},
+            {467, 307},
+            {456, 286},
+            {452, 259},
+            {434, 241},
+            {419, 214},
+            {403, 203},
+            {395, 178},
+            {382, 152},
+            {384, 127},
+            {385, 102},
+            {374, 82},
+            {359, 63},
+            {338, 54},
+            {317, 53},
+            {299, 58},
+            {279, 60},
+            {262, 52},
+            {247, 48},
+            {232, 55},
+            {235, 78},
+            {237, 99},
+            {234, 125},
+            {224, 148},
+            {199, 153},
+            {175, 133},
+            {179, 110},
+            {184, 74},
+            {169, 49},
+            {152, 53},
+            {135, 45},
+            {112, 58},
+            {93, 71},
+            {73, 58},
+            {61, 43},
+            {32, 39},
+            {17, 61},
+            {11, 91},
+            {11, 118},
+            {11, 150},
+            {11, 178},
+            {11, 201},
+            {11, 230},
+            {11, 255},
+            {11, 281},
+            {11, 308},
+    };
 
     public void start(Stage primaryStage) {
 
@@ -97,6 +154,7 @@ public class Vue extends Application{
             count.getAndIncrement();
             if(count.get()==game.getNbJoueur()){
                 try {
+                    setEclaireurs();
                     game.start();
                     play(stage);
                 } catch (Exception e) {
@@ -107,6 +165,27 @@ public class Vue extends Application{
         });
 
     }
+    private void setEclaireurs() throws FileNotFoundException {
+        /*
+         * emplacement eclaireur init
+         */
+        ivEclaireurs = new ImageView[game.getNbJoueur()];
+        ivCampements = new ImageView[game.getNbJoueur()];
+        for (int i = 0 ; i < game.getNbJoueur();i++){
+            String couleurCur = game.players.get(i).getCouleur();
+
+            FileInputStream fileEcl = new FileInputStream("src/image/eclaireur_"+couleurCur+".png");
+            FileInputStream fileCamp = new FileInputStream("src/image/campement_"+couleurCur+".png");
+            Image iEcl = new Image(fileEcl,15,26,false,false);
+            Image iCamp = new Image(fileCamp, 15, 26, false, false);
+            ivEclaireurs[i] = new ImageView(iEcl);
+            ivCampements[i] = new ImageView(iCamp);
+            ivEclaireurs[i].setId(couleurCur);
+            ivCampements[i].setId(couleurCur);
+
+        }
+    }
+
     private void play(Stage stage) throws Exception {
 
         StackPane root = new StackPane();
@@ -550,6 +629,32 @@ public class Vue extends Application{
         gridButton.add(btActions[3],2,7);
 
         /*
+            * emplacement éclaireurs et campement
+         */
+
+
+        for (ImageView ivEclaireur : ivEclaireurs) {
+            setPosition("eclaireur",ivEclaireur.getId(), game.getPlayerByColor(ivEclaireur.getId()).positionEclaireurs);
+            vbplateau.getChildren().add(ivEclaireur);
+        }
+        for (ImageView ivCampement : ivCampements){
+            setPosition("campement",ivCampement.getId(), game.getPlayerByColor(ivCampement.getId()).positionCampement);
+        }
+        /*
+            * aide pour les coord (a commenter)
+         */
+        Label coord = new Label();
+        vbplateau.setOnMouseMoved(new EventHandler<MouseEvent>() {
+            @Override public void handle(MouseEvent event) {
+                String msg =
+                                "(x: "       + event.getX()      + ", y: "       + event.getY()       + ") -- " +
+                                "(sceneX: "  + event.getSceneX() + ", sceneY: "  + event.getSceneY()  + ") -- " +
+                                "(screenX: " + event.getScreenX()+ ", screenY: " + event.getScreenY() + ")";
+                coord.setText(msg);
+            }
+        });
+        vbplateau.getChildren().add(coord);
+        /*
            * emplacement indien
         */
         if (game.plateau.getNbressource(PieceEnum.INDIEN) != 0) {
@@ -930,6 +1035,28 @@ public class Vue extends Application{
         this.game.addPlayer(joueur);
     }
 
+    private void setPosition(String type, String couleur, int position){
+        if(type.equals("eclaireur")){
+            for(int i = 0 ; i < ivEclaireurs.length ; i++){
+                if(ivEclaireurs[i].getId().equals(couleur)){
+                    ivEclaireurs[i].setLayoutX(positionsEclaireurs[position][0]);
+                    ivEclaireurs[i].setLayoutY(positionsEclaireurs[position][1]);
+                }
+            }
+        }
+        if(type.equals("campement")){
+            if(position != 0){
+                for(int i = 0 ; i < ivCampements.length ; i++){
+                    if(ivCampements[i].getId().equals(couleur)){
+                        ivCampements[i].setLayoutX(positionsEclaireurs[position][0]);
+                        ivCampements[i].setLayoutY(positionsEclaireurs[position][1]);
+                    }
+                }
+            }
+        }
+
+
+    }
 
     public static void main(String[] args) {
         launch(Vue.class, args);
