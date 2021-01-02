@@ -92,5 +92,17 @@ public class MiniPlateauExpeditionUnitTest {
         Assert.assertTrue(mpe.isEnoughPlace(10));
         Assert.assertFalse(mpe.isEnoughPlace(11));
     }
+
+    @Test
+    public void testCalcRetardBateaux() throws Exception {
+        for(int i = 0 ; i < 6 ; i++){
+            mpe.addRessourceDansBateau(new Ressource(PieceEnum.FOURRURE));
+        }
+
+        mpe.addIndienDansBateauxDispo(new Ressource(PieceEnum.INDIEN));
+        mpe.addIndienDansBateauxDispo(new Ressource(PieceEnum.INDIEN));
+
+        Assert.assertEquals(4,mpe.calcRetardBateaux());
+    }
 }
 

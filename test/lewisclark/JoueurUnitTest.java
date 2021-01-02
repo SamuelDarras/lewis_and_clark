@@ -227,4 +227,35 @@ public class JoueurUnitTest {
         joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Cheval);
         Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.INDIEN),0);
     }
+
+    @Test
+    public void testCalcRetardCards() throws Exception {
+        Joueur joueur  = new Joueur("red", new Plateau());
+        Card card1 = Card.nouvelleCard();
+        Card card2 = Card.nouvelleCard();
+        Card card3 = Card.nouvelleCard();
+        card3.used = true;
+
+        joueur.addCard(card1);
+        joueur.addCard(card2);
+        joueur.addCard(card3);
+        Assert.assertEquals(2,joueur.calcRetardCards());
+    }
+    @Test
+    public void testSetCamptementPreOrganisation() throws Exception {
+        Joueur joueur  = new Joueur("red", new Plateau()); //par défaut 2 indiens dans le miniplateau
+        Card card1 = Card.nouvelleCard();
+        joueur.addCard(card1);
+        joueur.jouer(card1,1,null); // miniplateau avec 1 indien
+        joueur.setCampementPreOrganisation();          //retour de l'indien utiliser sur le miniplateau
+        Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.INDIEN));
+    }
+    @Test
+    public void testSetCampementPostOrganisation() throws Exception {
+        Joueur joueur  = new Joueur("red", new Plateau());
+        joueur.retardCard = 1; // une seule carte n'a pas été joué
+        joueur.positionEclaireurs = 2; // l'éclaireur est à la deuxième case du plateau
+        joueur.setCampementPostOrganisation();
+        Assert.assertEquals(1,joueur.positionCampement);
+    }
 }

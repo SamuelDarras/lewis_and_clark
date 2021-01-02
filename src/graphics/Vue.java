@@ -687,7 +687,7 @@ public class Vue extends Application{
                 campementConfirm = true;
             }
             else{
-                //game.currentPlayer.setCampementPostOrganisation();
+                game.currentPlayer.setCampementPostOrganisation();
                 campement.setText("campement");
                 campementConfirm = false;
 
@@ -793,26 +793,38 @@ public class Vue extends Application{
         submitButton.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
             pop.hide();
 
-            int nb = nbIndien.getValue();
+            int nbInd = nbIndien.getValue();
+            int nbCard = 0;
             String[] cardUsed = null;
 
             if (!card.getValue().equals("Pas de carte associe")) {
                 cardUsed = card.getValue().split("-");
-                nb += Integer.parseInt(cardUsed[1]);
+                nbCard += Integer.parseInt(cardUsed[1]);
             }
 
-            if (nbIndien.getValue() > game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN))
+            if (nbInd > game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN))
                 try {
                     throw new RessourceOutOfDisponibleException();
                 } catch (RessourceOutOfDisponibleException e) {
-                    e.getMessage();
+                    e.printStackTrace();
+                    return;
                 }
 
-            if (nb > 3){
+
+            if ((nbCard+nbInd) > 3){
                 try {
                     throw new ForceSupATroisException();
                 } catch (ForceSupATroisException e) {
-                    e.getMessage();
+                    e.printStackTrace();
+                    return;
+                }
+            }
+            if((nbCard+nbInd) <= 0){
+                try {
+                    throw new ForceInfOuEgaleATroisException();
+                } catch (ForceInfOuEgaleATroisException e ){
+                    e.printStackTrace();
+                    return;
                 }
             }
 
@@ -820,11 +832,9 @@ public class Vue extends Application{
                 if (!card.getValue().equals("Pas de carte associe")) {
                     Card used = game.currentPlayer.findCard(cardUsed[0]);
                     used.setUsed(true);
-                    nb += Integer.parseInt(cardUsed[1]);
                 }
-
                 List<Ressource> src = new ArrayList<>();
-                for (int i = 0; i < nb; i++){
+                for (int i = 0; i < nbInd; i++){
                     src.add(game.currentPlayer.miniPlateau.deleteRessource(PieceEnum.INDIEN));
                     game.plateau.dropRessource(new Ressource(PieceEnum.INDIEN));
                 }

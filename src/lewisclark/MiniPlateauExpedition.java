@@ -7,6 +7,8 @@ import Error.*;
 public class MiniPlateauExpedition {
     public int[] MAX_BATEAU_RES={3,3,5};
     public int[] MAX_BATEAU_IND={1,5};
+    public boolean[] retardRes = {false, true, true};
+    public boolean[] retardInd = {false, true};
     public List<List<Ressource>> bateauRes;
     public List<List<Ressource>> bateauInd;
 
@@ -166,7 +168,6 @@ public class MiniPlateauExpedition {
         addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.NOURRITURE));
         addRessourceDansBateau(0, plateau.giveRessource(PieceEnum.EQUIPEMENT));
         addIndienDansBateau   (0, plateau.giveRessource(PieceEnum.INDIEN));
-        addIndienDansBateau   (1, plateau.giveRessource(PieceEnum.INDIEN));
     }
 
 
@@ -176,6 +177,26 @@ public class MiniPlateauExpedition {
                 return false;
         }
         return true;
+    }
+    /**
+     *   <div style="color:green">Test faits</div>
+     *   calcule le retard due aux bateaux lors d'un campement et le retourne
+     */
+    public int calcRetardBateaux(){
+        int retard = 0;
+        for (int i = 0 ; i < MAX_BATEAU_RES.length ; i++){
+            for(int j = 0 ; j < bateauRes.get(i).size() ; j++){
+                if(retardRes[i] && bateauRes.get(i).get(j) != null)
+                    retard++;
+            }
+        }
+        for (int i = 0 ; i < MAX_BATEAU_IND.length ; i++){
+            for(int j = 0 ; j < bateauInd.get(i).size() ; j++){
+                if(retardInd[i] && bateauInd.get(i).get(j) != null)
+                    retard++;
+            }
+        }
+        return  retard;
     }
 
 

@@ -10,6 +10,7 @@ public class Joueur {
     public MiniPlateauExpedition miniPlateau;
     public List<Card> cards;
     private boolean dejaAcheter = false;
+    int retardCard;
     Plateau plateau;
     public int positionEclaireurs;
     public int positionCampement;
@@ -22,6 +23,7 @@ public class Joueur {
         this.miniPlateau.addBasicRessource(this.plateau);
         this.positionEclaireurs = 0;
         positionCampement = 0;
+        retardCard = 0;
     }
 
     public void addRessourceToMiniPlateauExpedition(int numBateau, Ressource p) throws Exception {
@@ -60,6 +62,7 @@ public class Joueur {
         if(cardAssocie != null)
             cardAssocie.setUsed(true);
         List<Ressource> indienAssocie = new ArrayList<>();
+        System.out.println(nbIndiens);
         for (int i = 0 ; i < nbIndiens ; i++){
             indienAssocie.add(miniPlateau.deleteRessource(PieceEnum.INDIEN));
         }
@@ -82,9 +85,10 @@ public class Joueur {
                 this.miniPlateau.addRessourceDansBateau(this.miniPlateau.getValideBateau(), ressource);
     }
     /**
-     * début manque pas mal de trucs a voir avec les autres taches
+     *
      */
     public void setCampementPreOrganisation()  {
+        retardCard = calcRetardCards();
         for(Card card : cards){
             if(card.getUsed() && !card.isAssocied()){
                 for(Ressource indien : card.renouvellementCard()){
@@ -96,8 +100,14 @@ public class Joueur {
                 }
                 card.removeIndiensAssocie();
             }
+            else
+                card.renouvellementCard();
         }
-        positionCampement = positionEclaireurs;
+    }
+    public void setCampementPostOrganisation(){
+        int retard = retardCard + miniPlateau.calcRetardBateaux();
+        if(positionEclaireurs-retard > positionCampement )
+            positionCampement = positionEclaireurs-retard;
     }
 
     public void print(){
@@ -155,5 +165,19 @@ public class Joueur {
                 return c;
         }
         return null;
+    }
+
+    /**
+     * <div style="color:green">Test faits</div>
+     * @return le retard
+     */
+    public int calcRetardCards(){
+        int retard = 0;
+        for (Card card : cards){
+            if(!card.used){
+                retard++;
+            }
+        }
+        return retard;
     }
 }
