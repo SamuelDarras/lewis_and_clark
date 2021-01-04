@@ -840,38 +840,42 @@ public class Vue extends Application{
                 }
 
                 c.placerIndiensSurCarte(src, c);
-                switch (c.getType()){
-                    case "Chef d'expédition":
-                        chefExpedition(stage); break;
-                    case "Bûcherons":
-                        try {
-                            game.bucheron();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case "chasseur":
-                        try {
-                            game.chaseur();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case "Forgeron":
-                        try {
-                            game.forgeron();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    case "Trappeur":
-                        try {
-                            game.trapeur();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                        break;
-                    default: break;
+                for (int i = 0; i < c.indienAssocie.size()+c.getStrength(); i++) {
+                    switch (c.getType()) {
+                        case "Chef d'expédition":
+                            chefExpedition(stage);
+                            break;
+                        case "Bûcherons":
+                            try {
+                                game.bucheron();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        case "chasseur":
+                            try {
+                                game.chaseur();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        case "Forgeron":
+                            try {
+                                game.forgeron();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        case "Trappeur":
+                            try {
+                                game.trapeur();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            break;
+                        default:
+                            break;
+                    }
                 }
 
                 try {
