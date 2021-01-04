@@ -182,7 +182,6 @@ public class Vue extends Application{
             ivCampements[i] = new ImageView(iCamp);
             ivEclaireurs[i].setId(couleurCur);
             ivCampements[i].setId(couleurCur);
-
         }
     }
 
@@ -370,6 +369,9 @@ public class Vue extends Application{
             else {
                 deck.getChildren().add(cardPop);
             }
+            if(campementConfirm){
+                cardPop.setDisable(true);
+            }
         }
 
         deck.setSpacing(10);
@@ -541,6 +543,13 @@ public class Vue extends Application{
         });
 
         VBox pileAchat = new VBox();
+        if(campementConfirm){
+            carte1.setDisable(true);
+            carte2.setDisable(true);
+            carte3.setDisable(true);
+            carte4.setDisable(true);
+            carte5.setDisable(true);
+        }
         pileAchat.getChildren().addAll(carte5,carte4,carte3,carte2,carte1);
         pileAchat.setAlignment(Pos.CENTER);
         pileAchat.setPadding(new Insets(120,0,0,0));
@@ -597,6 +606,9 @@ public class Vue extends Application{
             btActions[i] = new Button(String.valueOf(i));
             btActions[i].setId(pos[i].name());
             villageIndien(btActions[i],stage);
+            if(campementConfirm){
+                btActions[i].setDisable(true);
+            }
         }
 
         Label tmp[] = new Label[8];
@@ -641,8 +653,11 @@ public class Vue extends Application{
             vbplateau.getChildren().add(ivEclaireur);
         }
         for (ImageView ivCampement : ivCampements){
-            setPosition("campement",ivCampement.getId(), game.getPlayerByColor(ivCampement.getId()).positionCampement);
-            vbplateau.getChildren().add(ivCampement);
+            if(game.getPlayerByColor(ivCampement.getId()).positionCampement != 0){
+                setPosition("campement",ivCampement.getId(), game.getPlayerByColor(ivCampement.getId()).positionCampement);
+                vbplateau.getChildren().add(ivCampement);
+            }
+
         }
         /*
             * aide pour les coord (a commenter)
@@ -1179,14 +1194,12 @@ public class Vue extends Application{
             }
         }
         if(type.equals("campement")){
-            if(position != 0){
                 for(int i = 0 ; i < ivCampements.length ; i++){
                     if(ivCampements[i].getId().equals(couleur)){
                         ivCampements[i].setLayoutX(positionsEclaireurs[position][0]);
                         ivCampements[i].setLayoutY(positionsEclaireurs[position][1]);
                     }
                 }
-            }
         }
 
 
