@@ -9,6 +9,7 @@ import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PlateauUnitTest {
 
@@ -268,5 +269,44 @@ public class PlateauUnitTest {
         for (int i = 0; i < 8; i++)
             joueur.miniPlateau.addRessourceDansBateau(new Ressource(PieceEnum.FOURRURE));
         joueur.addIndienOnPositionIndien(PositionEmplacementVillage.NouritureFourrure);
+    }
+
+    @Test
+    public void testGetNombreIndienOnPosition(){
+        Assert.assertEquals(1, plateau.getNombreIndienOnPosition(PositionEmplacementVillage.IndienReserve));
+        Assert.assertEquals(0, plateau.getNombreIndienOnPosition(PositionEmplacementVillage.Kayak));
+    }
+
+    @Test
+    public void testCadeau() throws Exception {
+        plateau.cadeau(PieceEnum.BOIS, joueur);
+        Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.BOIS));
+    }
+
+    @Test
+    public void testCadeauException() throws Exception {
+        Game game = new Game(new Random());
+        Plateau plateau = new Plateau();
+        List<Joueur> joueurs = new ArrayList<>();
+
+        Joueur joueur1 = new Joueur("red", plateau);
+        Joueur joueur2 = new Joueur("bleu", plateau);
+        Joueur joueur3 = new Joueur("violet", plateau);
+        Joueur joueur4 = new Joueur("jaune", plateau);
+        joueurs.add(joueur1);
+        joueurs.add(joueur2);
+        joueurs.add(joueur3);
+        joueurs.add(joueur4);
+
+        game.players = joueurs;
+        game.currentPlayer = joueur1;
+        for (int i = 0 ; i < joueurs.size() ; i++){
+            for (int j = 0 ; j < 5 ;j++){
+                game.currentPlayer = joueurs.get(i);
+                game.giveRes(PieceEnum.BOIS);
+            }
+        }
+        ecouteur.expect(RessourceOutOfDisponibleException.class);
+        game.giveRes(PieceEnum.BOIS);
     }
 }

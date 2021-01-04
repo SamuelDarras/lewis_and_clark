@@ -84,6 +84,7 @@ public class Vue extends Application{
             {11, 281},
             {11, 308},
     };
+    int indienOnPosPowWow = 0;
 
     public void start(Stage primaryStage) {
 
@@ -322,27 +323,6 @@ public class Vue extends Application{
 
         Label currPlayer = new Label(msg);
         currPlayer.setStyle("-fx-font: normal bold 50px 'serif'");
-
-        /*Label title = new Label("Inventaire : ");
-        title.setStyle("-fx-font: normal bold 20px 'serif'");
-
-        String nbfourrure = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.FOURRURE));
-        Label fourrure = new Label("Fourrure : "+nbfourrure);
-
-        String nbEquipement = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT));
-        Label equipement = new Label("Equipement : "+nbEquipement);
-
-        String nbNourriture = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.NOURRITURE));
-        Label nourriture = new Label("Nourriture : "+nbNourriture);
-
-        String nbIndien = String.valueOf(game.currentPlayer.miniPlateau.countNbRessource(PieceEnum.INDIEN));
-        Label indien = new Label("Indien : "+nbIndien);*/
-
-        VBox vbMiniPlateau = new VBox();
-        /*vbMiniPlateau.getChildren().addAll(title, fourrure, equipement,nourriture,indien);
-        vbMiniPlateau.setSpacing(10);
-        vbMiniPlateau.setAlignment(Pos.CENTER_LEFT);
-        vbMiniPlateau.setPadding(new Insets(20));*/
 
         /*
            * inventaire carte
@@ -727,6 +707,8 @@ public class Vue extends Application{
                 BackgroundSize.DEFAULT)));
         vbplateau.setMinSize(800,700);
         gpGame.add(gridButton,1,0);
+        Label label = new Label("Indien dans le pow_wow : "+ String.valueOf(indienOnPosPowWow));
+        gpGame.add(label,2,0);
         gpGame.add(vbplateau,1,1,2,1);
         gpGame.add(pileAchat,2,1);
         gpGame.add(deck,0,1);
@@ -855,38 +837,41 @@ public class Vue extends Application{
                 }
 
                 c.placerIndiensSurCarte(src, c);
-                for (int i = 0; i < c.indienAssocie.size()+c.getStrength(); i++) {
+                for (int i = 0; i < nbCard+nbInd; i++) {
                     switch (c.getType()) {
                         case "Chef d'expédition":
                             chefExpedition(stage);
                             break;
                         case "Bûcherons":
                             try {
-                                game.bucheron();
+                                game.giveRes(PieceEnum.BOIS);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             break;
                         case "chasseur":
                             try {
-                                game.chaseur();
+                                game.giveRes(PieceEnum.NOURRITURE);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             break;
                         case "Forgeron":
                             try {
-                                game.forgeron();
+                                game.giveRes(PieceEnum.EQUIPEMENT);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                             break;
                         case "Trappeur":
                             try {
-                                game.trapeur();
+                                game.giveRes(PieceEnum.FOURRURE);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+                            break;
+                        case "Interprète":
+                            interprete(stage);
                             break;
                         default:
                             break;
@@ -903,6 +888,62 @@ public class Vue extends Application{
         });
 
         return cardPop;
+    }
+
+    private void interprete(Stage stage) {
+        this.indienOnPosPowWow += game.powWow();
+
+        GridPane grid = new GridPane();
+        grid.setStyle(" -fx-background-color: white;");
+        grid.minHeight(20);
+        grid.minWidth(20);
+        Popup pop = new Popup();
+
+        Label lab = new Label("choisissez nombre d'indien à récupérer");
+        lab.setStyle("-fx-font: normal bold 15px 'serif'");
+
+        Button ret = new Button("retour");
+
+        grid.add(ret,0,4);
+
+        ret.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            try {
+                pop.hide();
+                play(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
+        grid.add(lab,0,0);
+
+
+        ComboBox<Integer> nbIndien = new ComboBox<>();
+        nbIndien.getItems().add(0);
+        for (int i = 0; i < indienOnPosPowWow; i++)
+            nbIndien.getItems().add(i+1);
+        nbIndien.setValue(0);
+
+        Button submit = new Button("Submit");
+
+        grid.add(nbIndien,0,2);
+        grid.add(submit,0,3);
+
+        pop.getContent().add(grid);
+        pop.show(stage);
+
+        submit.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            pop.hide();
+            try {
+                for (int i=0; i<nbIndien.getValue(); i++) {
+                    game.currentPlayer.miniPlateau.addIndienDansBateau(game.currentPlayer.miniPlateau.getValideBateauIndien(), new Ressource(PieceEnum.INDIEN));
+                }
+                indienOnPosPowWow -= nbIndien.getValue();
+                play(stage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void chefExpedition(Stage stage){
@@ -927,9 +968,20 @@ public class Vue extends Application{
             case riviere:
                 Button nourriture = new Button("1 nourriture = + 2 cases");
                 Button pyrogue = new Button("1 pyrogue = + 4 cases");
+                Button ret = new Button("retour");
 
                 grid.add(nourriture,0, 1);
                 grid.add(pyrogue, 0, 2);
+                grid.add(ret,0,3);
+
+                ret.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    try {
+                        pop.hide();
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
 
                 pop.getContent().add(grid);
                 pop.show(stage);
@@ -957,6 +1009,18 @@ public class Vue extends Application{
 
             case montagne:
                 Button cheval = new Button("1 cheval = + 2 cases");
+                Button ret1 = new Button("retour");
+
+                grid.add(ret1,0,3);
+
+                ret1.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    try {
+                        pop.hide();
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
 
                 grid.add(cheval,0, 0);
 
@@ -979,6 +1043,19 @@ public class Vue extends Application{
                 Button nourriture2 = new Button("1 nourriture = + 2 cases");
                 Button pyrogue2 = new Button("1 pyrogue = + 4 cases");
                 Button cheval2 = new Button("1 cheval = + 2 cases");
+
+                Button ret2 = new Button("retour");
+
+                grid.add(ret2,0,3);
+
+                ret2.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+                    try {
+                        pop.hide();
+                        play(stage);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
 
                 grid.add(nourriture2,0, 0);
                 grid.add(pyrogue2, 0, 1);
