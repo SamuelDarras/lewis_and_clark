@@ -83,7 +83,7 @@ public class Plateau {
     }
 
     public void achatCarte(Joueur joueur, int index) throws RessourceOutOfDisponibleException, JournalVideException, DejaAchatException {
-        if (joueur.isDejaAcheter()) throw new DejaAchatException();
+        if (joueur.isDejaAcheter()) { throw new DejaAchatException(); }
         if (carteAchat.isEmpty()) { throw new JournalVideException(); }
         if ((index < 0) || (index >= carteAchat.size())) throw new IndexOutOfBoundsException();
         if ((joueur.miniPlateau.countNbRessource(PieceEnum.FOURRURE) < index+1) || (joueur.miniPlateau.countNbRessource(PieceEnum.EQUIPEMENT) < carteAchat.get(index).getStrength())){

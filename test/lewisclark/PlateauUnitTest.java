@@ -9,6 +9,7 @@ import org.junit.rules.ExpectedException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class PlateauUnitTest {
 
@@ -116,13 +117,20 @@ public class PlateauUnitTest {
 
     @Test (expected = DejaAchatException.class)
     public void testAchatCarte() throws Exception {
-        plateau.achatCarte(joueur,1);
-        plateau.achatCarte(joueur,1);
+        Game game = new Game(new Random());
+        List<Joueur> joueurs = new ArrayList<>();
+        joueurs.add(joueur);
+        game.players = joueurs;
+        Plateau plateau = new Plateau();
+        game.plateau = plateau;
+        game.start();
+        plateau.achatCarte(joueur,0);
+        plateau.achatCarte(joueur,0);
     }
 
     @Test (expected = OutOfRessourceInBateauxException.class)
     public void testTrocChevalNotPossedeRessource() throws Exception {
-        Plateau plateau = new Plateau();
+
         Joueur joueur = new Joueur("red", plateau);
 
         List<PieceEnum> offre = new ArrayList<>();
@@ -179,22 +187,6 @@ public class PlateauUnitTest {
         joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Kayak, offre);
     }
 
-    @Test (expected = OutOfRessourceNeed.class)
-    public void testPyrogueOutOfRessourcePropose() throws Exception {
-        List<PieceEnum> offre = new ArrayList<>();
-        offre.add(PieceEnum.BOIS);
-
-        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Kayak, offre);
-    }
-
-    @Test (expected = IncompatiblePieceException.class)
-    public void testPyrogueIncompatiblePiece() throws Exception {
-        List<PieceEnum> offre = new ArrayList<>();
-        offre.add(PieceEnum.BOIS);
-        offre.add(PieceEnum.EQUIPEMENT);
-
-        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Kayak, offre);
-    }
 
     @Test
     public void testPyrogue() throws Exception {

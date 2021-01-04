@@ -378,16 +378,9 @@ public class Vue extends Application{
         deck.setAlignment(Pos.TOP_LEFT);
         deck.setPadding(new Insets(20));
 
-        /*
-           ? Plateau
-         */
-
-        FileInputStream filePlateau = new FileInputStream("src/image/Plateau.png");
-        Image plateau = new Image(filePlateau,800,700,false,false);
-        ImageView plateauView = new ImageView(plateau);
 
         /*
-           * inventaire plateau
+          * inventaire plateau
          */
 
         Label srcPlateau = new Label("Inventaire plateau :");
@@ -638,9 +631,9 @@ public class Vue extends Application{
         gridButton.add(btActions[1],3,1);
         gridButton.add(btActions[7],0,2);
         gridButton.add(btActions[2],1,4);
-        gridButton.add(btActions[4],7,4);
-        gridButton.add(btActions[6],6,5);
-        gridButton.add(btActions[5],4,5);
+        gridButton.add(btActions[6],7,4);
+        gridButton.add(btActions[5],6,5);
+        gridButton.add(btActions[4],4,5);
         gridButton.add(btActions[3],2,7);
 
         /*
@@ -662,17 +655,17 @@ public class Vue extends Application{
         /*
             * aide pour les coord (a commenter)
          */
-        Label coord = new Label();
-        vbplateau.setOnMouseMoved(new EventHandler<MouseEvent>() {
-            @Override public void handle(MouseEvent event) {
-                String msg =
-                                "(x: "       + event.getX()      + ", y: "       + event.getY()       + ") -- " +
-                                "(sceneX: "  + event.getSceneX() + ", sceneY: "  + event.getSceneY()  + ") -- " +
-                                "(screenX: " + event.getScreenX()+ ", screenY: " + event.getScreenY() + ")";
-                coord.setText(msg);
-            }
-        });
-        vbplateau.getChildren().add(coord);
+        //Label coord = new Label();
+        //vbplateau.setOnMouseMoved(new EventHandler<MouseEvent>() {
+        //    @Override public void handle(MouseEvent event) {
+        //        String msg =
+        //                        "(x: "       + event.getX()      + ", y: "       + event.getY()       + ") -- " +
+        //                        "(sceneX: "  + event.getSceneX() + ", sceneY: "  + event.getSceneY()  + ") -- " +
+        //                        "(screenX: " + event.getScreenX()+ ", screenY: " + event.getScreenY() + ")";
+        //        coord.setText(msg);
+        //    }
+        //});
+        //vbplateau.getChildren().add(coord);
         /*
            * emplacement indien
         */
@@ -720,7 +713,7 @@ public class Vue extends Application{
             ? affichage
          */
         GridPane gpGame = new GridPane();
-        gpGame.setGridLinesVisible(true);
+        //gpGame.setGridLinesVisible(true);
 
         vbplateau.setBackground(new Background(new BackgroundImage(new Image(new FileInputStream("src/image/Plateau.png"),800,700,false,false),
                 BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,

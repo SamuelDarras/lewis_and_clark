@@ -224,7 +224,7 @@ public class JoueurUnitTest {
     public void testPlaceIndienOnPlateau() throws Exception {
         Joueur joueur  = new Joueur("red", new Plateau());
         Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.INDIEN),1);
-        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.Cheval);
+        joueur.addIndienOnPositionIndien(PositionEmplacementVillage.EquipementBois);
         Assert.assertEquals(joueur.miniPlateau.countNbRessource(PieceEnum.INDIEN),0);
     }
 
@@ -248,7 +248,7 @@ public class JoueurUnitTest {
         joueur.addCard(card1);
         joueur.jouer(card1,1,null); // miniplateau avec 1 indien
         joueur.setCampementPreOrganisation();          //retour de l'indien utiliser sur le miniplateau
-        Assert.assertEquals(2, joueur.miniPlateau.countNbRessource(PieceEnum.INDIEN));
+        Assert.assertEquals(1, joueur.miniPlateau.countNbRessource(PieceEnum.INDIEN));
     }
     @Test
     public void testSetCampementPostOrganisation() throws Exception {

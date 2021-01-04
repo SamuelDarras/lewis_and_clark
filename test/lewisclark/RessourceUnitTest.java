@@ -18,9 +18,6 @@ public class RessourceUnitTest {
         Plateau plateau = new Plateau();
         Joueur joueur = new Joueur("rouge", plateau);
 
-        for (var e : joueur.miniPlateau.bateauRes.get(0)) {
-            System.out.println(e.type);
-        }
         Assert.assertEquals(FOURRURE, joueur.miniPlateau.bateauRes.get(0).get(0).type);
         Assert.assertEquals(NOURRITURE, joueur.miniPlateau.bateauRes.get(0).get(1).type);
         Assert.assertEquals(EQUIPEMENT, joueur.miniPlateau.bateauRes.get(0).get(2).type);
