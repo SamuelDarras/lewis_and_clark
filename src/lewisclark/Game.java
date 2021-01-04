@@ -121,31 +121,23 @@ public class Game {
     }
 
 
-    public void bucheron() throws Exception {
-        if (plateau.getNbressource(PieceEnum.BOIS) >= 1)
-            currentPlayer.miniPlateau.addRessourceDansBateau(currentPlayer.miniPlateau.getValideBateau(), plateau.giveRessource(PieceEnum.BOIS));
+    public void giveRes(PieceEnum pe) throws Exception {
+        if (plateau.getNbressource(pe) >= 1)
+            currentPlayer.miniPlateau.addRessourceDansBateau(currentPlayer.miniPlateau.getValideBateau(), plateau.giveRessource(pe));
         else
             throw new RessourceOutOfDisponibleException();
     }
 
-    public void chaseur() throws Exception {
-        if (plateau.getNbressource(PieceEnum.NOURRITURE) >= 1)
-            currentPlayer.miniPlateau.addRessourceDansBateau(currentPlayer.miniPlateau.getValideBateau(), plateau.giveRessource(PieceEnum.NOURRITURE));
-        else
-            throw new RessourceOutOfDisponibleException();
-    }
 
-    public void forgeron() throws Exception {
-        if (plateau.getNbressource(PieceEnum.EQUIPEMENT) >= 1)
-            currentPlayer.miniPlateau.addRessourceDansBateau(currentPlayer.miniPlateau.getValideBateau(), plateau.giveRessource(PieceEnum.EQUIPEMENT));
-        else
-            throw new RessourceOutOfDisponibleException();
-    }
+    public int powWow() {
+        String[] name = {"EquipementBois", "FourrureBois", "Kayak", "Cheval", "ActiverCarte", "BoisBateau", "DefauseTroisCarteAndshuffle", "NouritureFourrure", "IndienReserve"};
+        int nb = 0;
 
-    public void trapeur() throws Exception {
-        if (plateau.getNbressource(PieceEnum.FOURRURE) >= 1)
-            currentPlayer.miniPlateau.addRessourceDansBateau(currentPlayer.miniPlateau.getValideBateau(), plateau.giveRessource(PieceEnum.FOURRURE));
-        else
-            throw new RessourceOutOfDisponibleException();
+        for (int i=0; i<9; i++){
+            nb += plateau.getNombreIndienOnPosition(PositionEmplacementVillage.valueOf(name[i]));
+            plateau.deleteIndienOnPos(PositionEmplacementVillage.valueOf(name[i]));
+        }
+
+        return nb;
     }
 }

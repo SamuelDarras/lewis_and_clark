@@ -2,7 +2,9 @@ package lewisclark;
 
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.mockito.Mockito;
 
 import java.util.ArrayList;
@@ -194,5 +196,57 @@ public class GameUnitTest {
         game.deplaceEclaireur(-1);
 
         Assert.assertEquals(joueur1.getPositionEclaireurs(), 0);
+    }
+
+    @Test
+    public void testGiveRes() throws Exception {
+        Game game = new Game(new Random());
+        Plateau plateau = new Plateau();
+        List<Joueur> joueurs = new ArrayList<>();
+
+        Joueur joueur1 = new Joueur("red", plateau);
+        joueurs.add(joueur1);
+
+        game.players = joueurs;
+        game.currentPlayer = joueur1;
+
+        game.giveRes(PieceEnum.BOIS);
+        Assert.assertEquals(1, joueur1.miniPlateau.countNbRessource(PieceEnum.BOIS));
+    }
+
+   @Rule
+    public ExpectedException ecouteur = org.junit.rules.ExpectedException.none();
+    @Test
+    public void testGiveResException() throws Exception {
+        Game game = new Game(new Random());
+        Plateau plateau = new Plateau();
+        List<Joueur> joueurs = new ArrayList<>();
+
+        Joueur joueur1 = new Joueur("red", plateau);
+        Joueur joueur2 = new Joueur("bleu", plateau);
+        Joueur joueur3 = new Joueur("violet", plateau);
+        Joueur joueur4 = new Joueur("jaune", plateau);
+        joueurs.add(joueur1);
+        joueurs.add(joueur2);
+        joueurs.add(joueur3);
+        joueurs.add(joueur4);
+
+        game.players = joueurs;
+        game.currentPlayer = joueur1;
+        for (int i = 0 ; i < joueurs.size() ; i++){
+            for (int j = 0 ; j < 5 ;j++){
+                game.currentPlayer = joueurs.get(i);
+                game.giveRes(PieceEnum.BOIS);
+            }
+        }
+        ecouteur.expect(RessourceOutOfDisponibleException.class);
+        game.giveRes(PieceEnum.BOIS);
+    }
+
+    @Test
+    public void testPowWow() throws Exception {
+        Game game = new Game(new Random());
+
+        Assert.assertEquals(1, game.powWow()); //toujours 1 indien sur le plateau
     }
 }

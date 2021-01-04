@@ -53,7 +53,7 @@ public class Plateau {
         emplacementIndienOnVillage.put(PositionEmplacementVillage.Cheval, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.DefauseTroisCarteAndshuffle, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.DoubleRessourceCondition, 0);
-        emplacementIndienOnVillage.put(PositionEmplacementVillage.IndienReserve, 0);
+        emplacementIndienOnVillage.put(PositionEmplacementVillage.IndienReserve, 1);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.BoisBateau, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.Kayak, 0);
         emplacementIndienOnVillage.put(PositionEmplacementVillage.ActiverCarte, 0);
@@ -127,14 +127,6 @@ public class Plateau {
         this.dropRessource(ressourceDefause);
     }
 
-    public void defausser(Joueur joueur, PieceEnum pieceEnum, int nb){
-
-        for (int i = 0; i < nb; i++) {
-            Ressource ressourceDefause = joueur.miniPlateau.deleteRessource(pieceEnum);
-            this.dropRessource(ressourceDefause);
-        }
-    }
-
     public Ressource giveRessource(PieceEnum ressource) throws RessourceOutOfDisponibleException {
         Ressource tampon;
         try{
@@ -157,6 +149,10 @@ public class Plateau {
             default -> nombreIndient = -1;
         }
         return nombreIndient;
+    }
+
+    public int getNombreIndienOnPosition(PositionEmplacementVillage pos){
+        return emplacementIndienOnVillage.get(pos);
     }
 
     public int lastPlaceForIndienOnPosition(PositionEmplacementVillage positionEmplacementVillage){
@@ -200,17 +196,6 @@ public class Plateau {
     }
 
     /**
-     * <div style="color:green">Test faits</div>
-     * @param joueur
-     * @throws Exception
-     */
-    private void chasse(Joueur joueur) throws Exception {
-        if (!joueur.miniPlateau.isEnoughPlace(2)) throw new BateauFullException();
-        joueur.miniPlateau.addRessourceDansBateau(new Ressource(PieceEnum.NOURRITURE));
-        joueur.miniPlateau.addRessourceDansBateau(new Ressource(PieceEnum.FOURRURE));
-    }
-
-    /**
      * Action 1 = 1 ==> Fourrure
      * Action 2 = 2 ==> Bois
      * <div style="color:green">Test faits</div>
@@ -231,6 +216,21 @@ public class Plateau {
         else if (nombre == 2)
             for (int i = 0; i < 2; i++)
                 joueur.miniPlateau.addRessourceDansBateau(giveRessource(PieceEnum.BOIS));
+    }
+
+    public void deleteIndienOnPos(PositionEmplacementVillage pos){
+        emplacementIndienOnVillage.put(pos, 0);
+    }
+
+    /**
+     * <div style="color:green">Test faits</div>
+     * @param joueur
+     * @throws Exception
+     */
+    private void chasse(Joueur joueur) throws Exception {
+        if (!joueur.miniPlateau.isEnoughPlace(2)) throw new BateauFullException();
+        joueur.miniPlateau.addRessourceDansBateau(new Ressource(PieceEnum.NOURRITURE));
+        joueur.miniPlateau.addRessourceDansBateau(new Ressource(PieceEnum.FOURRURE));
     }
 
     /**
@@ -286,7 +286,6 @@ public class Plateau {
         if (getNbressource(src) < 2) throw new RessourceOutOfDisponibleException();
 
         for (int i=0; i<2; i++){
-
             joueur.miniPlateau.addRessourceDansBateau(giveRessource(src));
         }
     }

@@ -145,6 +145,13 @@ public class MiniPlateauExpedition {
         return -1;
     }
 
+    public int getValideBateauIndien(){
+        for (int i = 0; i < bateauInd.size(); i++)
+            if(!isFullBoat(bateauInd.get(i)))
+                return i;
+        return -1;
+    }
+
     /**
      * <div style="color:green">Test faits</div>
      * @param place (Place peut etre négatif mais ca renveras true)
